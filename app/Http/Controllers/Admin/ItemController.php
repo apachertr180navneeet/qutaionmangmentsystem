@@ -51,7 +51,16 @@ class ItemController extends Controller
                 'type' => 'nullable|string|max:50',
                 'hsn_code' => 'nullable|string|max:50',
                 'is_active' => 'required|boolean',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
+            
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $filename = time() . '_' . $image->getClientOriginalName();
+                $image->move(public_path('uploads/items'), $filename);
+                $data['image'] = asset('uploads/items/' . $filename);
+            }
+            
             $data['created_by'] = auth()->id();
             Item::create($data);
             return redirect()->route('admin.items.index')->with('success', 'Item created successfully.');
@@ -94,7 +103,16 @@ class ItemController extends Controller
                 'type' => 'nullable|string|max:50',
                 'hsn_code' => 'nullable|string|max:50',
                 'is_active' => 'required|boolean',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
+            
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $filename = time() . '_' . $image->getClientOriginalName();
+                $image->move(public_path('uploads/items'), $filename);
+                $data['image'] = asset('uploads/items/' . $filename);
+            }
+            
             $item->update($data);
             return redirect()->route('admin.items.index')->with('success', 'Item updated successfully.');
         } catch (Exception $e) {

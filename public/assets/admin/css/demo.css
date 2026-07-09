@@ -110,19 +110,19 @@
 * Dashboard Animations & Active Effects
 ******************************************************************************/
 
-.card {
+.hover-card {
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out !important;
 }
 
-.card:hover {
+.hover-card:hover {
   transform: translateY(-5px) !important;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15) !important;
   z-index: 1;
 }
 
 /* Avatar Pulse on Hover */
-.card:hover .avatar-initial i,
-.card:hover > .card-body > i {
+.hover-card:hover .avatar-initial i,
+.hover-card:hover > .card-body > i {
   animation: pulseIcon 1s infinite;
 }
 
@@ -165,4 +165,95 @@
   background-color: rgba(105, 108, 255, 0.05);
   transform: translateX(5px);
 }
+
+/* Premium Form Redesign */
+.form-control, .form-select, .select2-container--bootstrap-5 .select2-selection {
+  border: 1px solid #e0e5ed !important;
+  border-radius: 0.5rem !important;
+  background-color: #f8fafc !important;
+  transition: all 0.2s ease-in-out !important;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.02) !important;
+}
+
+.form-control:focus, .form-select:focus, .select2-container--bootstrap-5.select2-container--focus .select2-selection {
+  background-color: #ffffff !important;
+  border-color: #696cff !important;
+  box-shadow: 0 0 0 0.25rem rgba(105, 108, 255, 0.15) !important;
+}
+
+.card-header {
+  background: linear-gradient(to right, #f8fafc, #ffffff);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Premium Buttons */
+.btn-primary {
+  background: linear-gradient(135deg, #696cff 0%, #5b5ee6 100%) !important;
+  border: none !important;
+  box-shadow: 0 4px 10px rgba(105, 108, 255, 0.3) !important;
+  transition: all 0.25s ease !important;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 15px rgba(105, 108, 255, 0.4) !important;
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, #8592a3 0%, #768393 100%) !important;
+  border: none !important;
+  box-shadow: 0 4px 10px rgba(133, 146, 163, 0.3) !important;
+  transition: all 0.25s ease !important;
+  color: #fff !important;
+}
+
+.btn-secondary:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 15px rgba(133, 146, 163, 0.4) !important;
+  color: #fff !important;
+}
+
+/* Enhanced Table */
+.table-bordered {
+  border: 1px solid #ebedf2 !important;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.table-light th {
+  background-color: #f8fafc !important;
+  color: #566a7f !important;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  border-bottom: 2px solid #ebedf2 !important;
+}
+
+/* Add Item Button styling specifically */
+#addItemBtn {
+  background: linear-gradient(135deg, #71dd37 0%, #60c52f 100%) !important;
+  box-shadow: 0 4px 10px rgba(113, 221, 55, 0.3) !important;
+  color: #fff !important;
+}
+#addItemBtn:hover {
+  box-shadow: 0 6px 15px rgba(113, 221, 55, 0.4) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Form Entrance Animation */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.form-animated .card {
+  opacity: 0;
+  animation: fadeSlideUp 0.5s ease-out forwards;
+}
+
+.form-animated .card:nth-child(1) { animation-delay: 0.1s; }
+.form-animated .card:nth-child(2) { animation-delay: 0.2s; }
+.form-animated .card:nth-child(3) { animation-delay: 0.3s; }
 

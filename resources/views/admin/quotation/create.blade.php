@@ -17,7 +17,7 @@
         <span class="text-primary fw-light">Create Quotation</span>
     </h5>
 
-    <form action="{{ route('admin.quotations.store') }}" method="POST" id="quotationForm">
+    <form action="{{ route('admin.quotations.store') }}" method="POST" id="quotationForm" class="form-animated">
         @csrf
         <div class="card mb-3">
             <div class="card-header"><strong>Quotation Details</strong></div>

@@ -26,6 +26,7 @@
                     <thead class="table-light">
                         <tr>
                             <th>#</th>
+                            <th>Image</th>
                             <th>Name</th>
                             <th>SKU</th>
                             <th>Unit</th>
@@ -41,6 +42,13 @@
                         @forelse($items as $key => $item)
                         <tr>
                             <td>{{ $items->firstItem() + $key }}</td>
+                            <td>
+                                @if($item->image)
+                                    <img src="{{ $item->image }}" alt="{{ $item->name }}" class="img-thumbnail" style="width: 40px; height: 40px; object-fit: cover;">
+                                @else
+                                    <span class="text-muted">-</span>
+                                @endif
+                            </td>
                             <td>{{ $item->name }}</td>
                             <td>{{ $item->sku }}</td>
                             <td>{{ $item->unit }}</td>
@@ -65,7 +73,7 @@
                             </td>
                         </tr>
                         @empty
-                        <tr><td colspan="10" class="text-center text-muted py-3">No items found.</td></tr>
+                        <tr><td colspan="11" class="text-center text-muted py-3">No items found.</td></tr>
                         @endforelse
                     </tbody>
                 </table>

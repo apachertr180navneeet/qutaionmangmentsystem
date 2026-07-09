@@ -12,6 +12,13 @@
     <div class="card">
         <div class="card-body">
             <div class="row g-3">
+                <div class="col-md-12 mb-3">
+                    @if($item->image)
+                        <img src="{{ $item->image }}" alt="Item Image" class="img-thumbnail" style="max-height: 200px;">
+                    @else
+                        <div class="text-muted p-4 border rounded text-center bg-light" style="max-width: 200px;">No Image Available</div>
+                    @endif
+                </div>
                 <div class="col-md-6">
                     <p><span class="detail-label">Name:</span><br>{{ $item->name }}</p>
                 </div>

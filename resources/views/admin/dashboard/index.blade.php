@@ -25,7 +25,7 @@
         <div class="col-lg-4 col-md-4 order-1">
             <div class="row">
                 <div class="col-lg-6 col-md-12 col-6 mb-4">
-                    <div class="card">
+                    <div class="card hover-card">
                         <div class="card-body text-center">
                             <i class='bx bx-user bx-md text-primary mb-3'></i>
                             <span class="fw-semibold d-block mb-1">Total Customers</span>
@@ -34,7 +34,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-12 col-6 mb-4">
-                    <div class="card">
+                    <div class="card hover-card">
                         <div class="card-body text-center">
                             <i class='bx bx-box bx-md text-success mb-3'></i>
                             <span class="fw-semibold d-block mb-1">Total Items</span>
@@ -48,7 +48,7 @@
 
     <div class="row g-3 mb-4">
         <div class="col-md-3 col-sm-6">
-            <div class="card">
+            <div class="card hover-card">
                 <div class="card-body d-flex align-items-center">
                     <div class="avatar flex-shrink-0 me-3">
                         <span class="avatar-initial rounded bg-label-primary"><i class="bx bx-file bx-lg"></i></span>
@@ -61,7 +61,7 @@
             </div>
         </div>
         <div class="col-md-3 col-sm-6">
-            <div class="card">
+            <div class="card hover-card">
                 <div class="card-body d-flex align-items-center">
                     <div class="avatar flex-shrink-0 me-3">
                         <span class="avatar-initial rounded bg-label-secondary"><i class="bx bx-edit bx-lg"></i></span>
@@ -74,7 +74,7 @@
             </div>
         </div>
         <div class="col-md-3 col-sm-6">
-            <div class="card">
+            <div class="card hover-card">
                 <div class="card-body d-flex align-items-center">
                     <div class="avatar flex-shrink-0 me-3">
                         <span class="avatar-initial rounded bg-label-primary"><i class="bx bx-send bx-lg"></i></span>
@@ -87,7 +87,7 @@
             </div>
         </div>
         <div class="col-md-3 col-sm-6">
-            <div class="card">
+            <div class="card hover-card">
                 <div class="card-body d-flex align-items-center">
                     <div class="avatar flex-shrink-0 me-3">
                         <span class="avatar-initial rounded bg-label-success"><i class="bx bx-check-circle bx-lg"></i></span>
@@ -100,7 +100,7 @@
             </div>
         </div>
         <div class="col-md-3 col-sm-6">
-            <div class="card">
+            <div class="card hover-card">
                 <div class="card-body d-flex align-items-center">
                     <div class="avatar flex-shrink-0 me-3">
                         <span class="avatar-initial rounded bg-label-warning"><i class="bx bx-time bx-lg"></i></span>
@@ -113,7 +113,7 @@
             </div>
         </div>
         <div class="col-md-3 col-sm-6">
-            <div class="card">
+            <div class="card hover-card">
                 <div class="card-body d-flex align-items-center">
                     <div class="avatar flex-shrink-0 me-3">
                         <span class="avatar-initial rounded bg-label-danger"><i class="bx bx-x-circle bx-lg"></i></span>

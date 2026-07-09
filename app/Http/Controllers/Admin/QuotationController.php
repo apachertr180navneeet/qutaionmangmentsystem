@@ -47,7 +47,21 @@ class QuotationController extends Controller
         try {
             $customers = Customer::where('status', true)->orderBy('company_name')->get();
             $items = Item::where('is_active', true)->orderBy('name')->get();
-            return view('admin.quotation.create', compact('customers', 'items'));
+
+            $year = now()->format('Y');
+            $lastQuotation = Quotation::where('quotation_number', 'like', "Q-{$year}-%")
+                ->orderBy('quotation_number', 'desc')
+                ->first();
+
+            if ($lastQuotation) {
+                $lastNumber = (int) substr($lastQuotation->quotation_number, -4);
+                $newNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT);
+            } else {
+                $newNumber = '0001';
+            }
+            $quotation_number = "Q-{$year}-{$newNumber}";
+
+            return view('admin.quotation.create', compact('customers', 'items', 'quotation_number'));
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage());
         }

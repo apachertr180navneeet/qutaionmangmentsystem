@@ -12,7 +12,7 @@ class Item extends Model
 
     protected $fillable = [
         'uuid', 'name', 'sku', 'description', 'unit', 'rate', 'tax_percentage',
-        'type', 'hsn_code', 'is_active', 'created_by',
+        'type', 'hsn_code', 'is_active', 'image', 'created_by',
     ];
 
     protected $casts = [

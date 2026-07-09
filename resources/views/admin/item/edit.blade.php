@@ -6,9 +6,19 @@
     </h5>
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('admin.items.update', $item->id) }}" method="POST">
+            <form action="{{ route('admin.items.update', $item->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf @method('PUT')
                 <div class="row g-3">
+                    <div class="col-md-12">
+                        <label class="form-label">Item Image</label>
+                        @if($item->image)
+                            <div class="mb-2">
+                                <img src="{{ $item->image }}" alt="Item Image" class="img-thumbnail" style="max-height: 100px;">
+                            </div>
+                        @endif
+                        <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" accept="image/*">
+                        @error('image') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
                     <div class="col-md-6">
                         <label class="form-label">Name <span class="text-danger">*</span></label>
                         <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name', $item->name) }}" required>
