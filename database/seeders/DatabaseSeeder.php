@@ -12,8 +12,12 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run(): void
+    public function run()
     {
-        // No seeders defined
+        $this->call([
+            UserSeeder::class,
+            PageSeeder::class,
+            SplashScreenSeeder::class,
+        ]);
     }
 }
