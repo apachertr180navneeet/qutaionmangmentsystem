@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+body {
+    font-family: 'Outfit', sans-serif !important;
+    background-color: #ECEEDF;
+}
+
+/* Override text-primary to match the warm terracotta accent */
+.text-primary {
+    color: #CFAB8D !important;
+}
+
+/* Premium Sidebar */
+.bg-menu-theme {
+    background: #BBDCE5 !important;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.05) !important;
+    border-right: none !important;
+}
+.bg-menu-theme .menu-inner > .menu-item.active > .menu-link {
+    background: linear-gradient(135deg, #CFAB8D 0%, #D9C4B0 100%) !important;
+    box-shadow: 0 4px 15px rgba(207, 171, 141, 0.4) !important;
+    color: #fff !important;
+    border-radius: 12px;
+    margin: 0 10px;
+}
+.bg-menu-theme .menu-inner > .menu-item.active > .menu-link i {
+    color: #fff !important;
+}
+.bg-menu-theme .menu-link {
+    color: #4a505e !important;
+    transition: all 0.3s ease;
+    border-radius: 12px;
+    margin: 0 10px;
+}
+.bg-menu-theme .menu-link i {
+    color: #4a505e !important;
+}
+.bg-menu-theme .menu-link:hover {
+    color: #111 !important;
+    background: rgba(255, 255, 255, 0.5) !important;
+    transform: translateX(5px);
+}
+.bg-menu-theme .menu-link:hover i {
+    color: #111 !important;
+}
+.app-brand-text {
+    color: #2b2f3a !important;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+/* Glassmorphic Header */
+.layout-navbar {
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04) !important;
+    border-radius: 16px !important;
+    margin-top: 1rem !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Cards */
+.card {
+    border: none !important;
+    box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.03) !important;
+    border-radius: 20px !important;
+    transition: all 0.3s ease;
+    background: #ffffff;
+}
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px 0 rgba(0, 0, 0, 0.06) !important;
+}
+.card-header {
+    background: transparent !important;
+    border-bottom: 1px solid rgba(0,0,0,0.05) !important;
+    font-weight: 600;
+    font-size: 1.25rem;
+    padding: 1.5rem 1.5rem;
+}
+
+/* Dashboard Intro Card Gradient */
+.premium-dashboard-card {
+    background: linear-gradient(135deg, #CFAB8D 0%, #D9C4B0 100%) !important;
+    color: white;
+}
+.premium-dashboard-card .card-header {
+    border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+    color: white;
+}
+.premium-dashboard-card h5, .premium-dashboard-card p {
+    color: white !important;
+}
+
+/* Inputs and Buttons */
+.form-control {
+    border-radius: 10px !important;
+    border: 1px solid #e4e6ef !important;
+    padding: 0.75rem 1rem !important;
+    transition: all 0.2s ease;
+}
+.form-control:focus {
+    border-color: #CFAB8D !important;
+    box-shadow: 0 0 0 0.25rem rgba(207, 171, 141, 0.15) !important;
+}
+.btn-primary {
+    background: linear-gradient(135deg, #CFAB8D 0%, #D9C4B0 100%) !important;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(207, 171, 141, 0.3) !important;
+    border-radius: 10px !important;
+    padding: 0.6rem 1.5rem !important;
+    transition: all 0.3s ease !important;
+}
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(207, 171, 141, 0.4) !important;
+}
