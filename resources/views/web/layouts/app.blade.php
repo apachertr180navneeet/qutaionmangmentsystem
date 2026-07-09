@@ -9,7 +9,7 @@
         <title>{{ config('app.name') }}</title>
         <link rel="shortcut icon" type="image/x-icon" href="{{asset('assets/web/img/favicon.png')}}">
         <link href="{{asset('assets/web/css/styles.css?v=1.1')}}" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
         @yield('style')
     </head>
 
