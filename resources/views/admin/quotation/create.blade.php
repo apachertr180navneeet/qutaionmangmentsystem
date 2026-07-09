@@ -69,15 +69,15 @@
                     <table class="table table-bordered mb-0" id="itemsTable">
                         <thead class="table-light">
                             <tr>
-                                <th style="width:5%;">#</th>
-                                <th style="width:8%;">Image</th>
-                                <th style="width:25%;">Item</th>
-                                <th style="width:11%;">HSN</th>
-                                <th style="width:11%;">Unit</th>
-                                <th style="width:10%;">Qty</th>
-                                <th style="width:12%;">Rate</th>
-                                <th style="width:13%;">Total</th>
-                                <th style="width:5%;"></th>
+                                <th style="min-width: 50px;">#</th>
+                                <th style="min-width: 60px;">Image</th>
+                                <th style="min-width: 200px;">Item</th>
+                                <th style="min-width: 100px;">HSN</th>
+                                <th style="min-width: 100px;">Unit</th>
+                                <th style="min-width: 100px;">Qty</th>
+                                <th style="min-width: 120px;">Rate</th>
+                                <th style="min-width: 120px;">Total</th>
+                                <th style="min-width: 50px;"></th>
                             </tr>
                         </thead>
                         <tbody id="itemsBody">
@@ -107,7 +107,8 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <table class="table table-bordered summary-table">
+                        <div class="table-responsive">
+                            <table class="table table-bordered summary-table">
                             <tr>
                                 <td>Subtotal</td>
                                 <td><input type="text" name="subtotal" id="subtotal" class="form-control form-control-sm calc-input" readonly value="0.00"></td>
@@ -181,6 +182,7 @@
                                 <td><input type="text" name="grand_total" id="grand_total" class="form-control form-control-sm calc-input fw-bold" readonly value="0.00"></td>
                             </tr>
                         </table>
+                        </div>
                     </div>
                 </div>
             </div>

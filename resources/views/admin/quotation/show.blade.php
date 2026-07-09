@@ -95,18 +95,20 @@
                     @endif
                 </div>
                 <div class="col-md-6">
-                    <table class="table table-bordered">
-                        <tr><td>Subtotal</td><td class="text-end">{{ number_format($quotation->subtotal, 2) }}</td></tr>
-                        @if($quotation->discount_amount > 0)
-                        <tr>
-                            <td>Discount ({{ $quotation->discount_type == 'percentage' ? $quotation->discount_value.'%' : 'Fixed' }})</td>
-                            <td class="text-end">-{{ number_format($quotation->discount_amount, 2) }}</td>
-                        </tr>
-                        @endif
-                        <tr><td>Total Tax</td><td class="text-end">{{ number_format($quotation->cgst_amount + $quotation->sgst_amount + $quotation->igst_amount, 2) }}</td></tr>
-                        <tr><td>Round Off</td><td class="text-end">{{ number_format($quotation->round_off, 2) }}</td></tr>
-                        <tr class="table-active"><td><strong>Grand Total</strong></td><td class="text-end"><strong>{{ number_format($quotation->grand_total, 2) }}</strong></td></tr>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tr><td>Subtotal</td><td class="text-end">{{ number_format($quotation->subtotal, 2) }}</td></tr>
+                            @if($quotation->discount_amount > 0)
+                            <tr>
+                                <td>Discount ({{ $quotation->discount_type == 'percentage' ? $quotation->discount_value.'%' : 'Fixed' }})</td>
+                                <td class="text-end">-{{ number_format($quotation->discount_amount, 2) }}</td>
+                            </tr>
+                            @endif
+                            <tr><td>Total Tax</td><td class="text-end">{{ number_format($quotation->cgst_amount + $quotation->sgst_amount + $quotation->igst_amount, 2) }}</td></tr>
+                            <tr><td>Round Off</td><td class="text-end">{{ number_format($quotation->round_off, 2) }}</td></tr>
+                            <tr class="table-active"><td><strong>Grand Total</strong></td><td class="text-end"><strong>{{ number_format($quotation->grand_total, 2) }}</strong></td></tr>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
