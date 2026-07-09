@@ -47,12 +47,11 @@ class ItemController extends Controller
                 'description' => 'nullable|string',
                 'unit' => 'required|string|max:50',
                 'rate' => 'required|numeric|min:0',
-                'tax_percentage' => 'nullable|numeric|min:0|max:100',
-                'type' => 'nullable|string|max:50',
                 'hsn_code' => 'nullable|string|max:50',
-                'is_active' => 'required|boolean',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
+            
+            $data['is_active'] = true;
             
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
@@ -99,10 +98,7 @@ class ItemController extends Controller
                 'description' => 'nullable|string',
                 'unit' => 'required|string|max:50',
                 'rate' => 'required|numeric|min:0',
-                'tax_percentage' => 'nullable|numeric|min:0|max:100',
-                'type' => 'nullable|string|max:50',
                 'hsn_code' => 'nullable|string|max:50',
-                'is_active' => 'required|boolean',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
             

@@ -32,12 +32,6 @@
                     <p><span class="detail-label">Rate:</span><br>{{ number_format($item->rate, 2) }}</p>
                 </div>
                 <div class="col-md-6">
-                    <p><span class="detail-label">Tax Percentage:</span><br>{{ $item->tax_percentage ?? '0' }}%</p>
-                </div>
-                <div class="col-md-6">
-                    <p><span class="detail-label">Type:</span><br>{{ ucfirst($item->type) }}</p>
-                </div>
-                <div class="col-md-6">
                     <p><span class="detail-label">HSN Code:</span><br>{{ $item->hsn_code ?? 'N/A' }}</p>
                 </div>
                 <div class="col-md-6">

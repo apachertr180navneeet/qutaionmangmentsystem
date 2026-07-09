@@ -71,26 +71,20 @@
                     <table class="table table-bordered mb-0" id="itemsTable">
                         <thead class="table-light">
                             <tr>
-                                <th style="width:40px;">#</th>
-                                <th style="min-width:180px;">Item</th>
-                                <th style="width:70px;">HSN</th>
-                                <th style="width:60px;">Unit</th>
-                                <th style="width:70px;">Qty</th>
-                                <th style="width:90px;">Rate</th>
-                                <th style="width:70px;">Disc%</th>
-                                <th style="width:90px;">Disc Amt</th>
-                                <th style="width:100px;">Taxable Value</th>
-                                <th style="width:70px;">CGST%</th>
-                                <th style="width:85px;">CGST Amt</th>
-                                <th style="width:70px;">SGST%</th>
-                                <th style="width:85px;">SGST Amt</th>
-                                <th style="width:100px;">Total</th>
-                                <th style="width:40px;"></th>
+                                <th style="width:5%;">#</th>
+                                <th style="width:8%;">Image</th>
+                                <th style="width:25%;">Item</th>
+                                <th style="width:11%;">HSN</th>
+                                <th style="width:11%;">Unit</th>
+                                <th style="width:10%;">Qty</th>
+                                <th style="width:12%;">Rate</th>
+                                <th style="width:13%;">Total</th>
+                                <th style="width:5%;"></th>
                             </tr>
                         </thead>
                         <tbody id="itemsBody">
                             <tr id="noItemsRow">
-                                <td colspan="15" class="text-center text-muted py-3">No items added yet.</td>
+                                <td colspan="9" class="text-center text-muted py-3">Click "Add Item" to add items to this quotation.</td>
                             </tr>
                         </tbody>
                     </table>
@@ -205,11 +199,14 @@
 <template id="itemRowTemplate">
     <tr class="item-row">
         <td class="item-sr text-center"></td>
+        <td class="text-center">
+            <img src="" class="item-image-preview img-thumbnail d-none" style="width:40px; height:40px; object-fit:cover;">
+        </td>
         <td>
             <select class="form-select form-select-sm item-select" name="items[__INDEX__][item_id]" required>
                 <option value="">Search item...</option>
                 @foreach($items as $item)
-                    <option value="{{ $item->id }}" data-rate="{{ $item->rate }}" data-tax="{{ $item->tax_percentage }}" data-unit="{{ $item->unit }}" data-hsn="{{ $item->hsn_code }}" data-name="{{ $item->name }}">{{ $item->name }} ({{ $item->sku }})</option>
+                    <option value="{{ $item->id }}" data-rate="{{ $item->rate }}" data-tax="{{ $item->tax_percentage }}" data-unit="{{ $item->unit }}" data-hsn="{{ $item->hsn_code }}" data-name="{{ $item->name }}" data-image="{{ $item->image }}">{{ $item->name }} ({{ $item->sku }})</option>
                 @endforeach
             </select>
         </td>
@@ -217,14 +214,16 @@
         <td><input type="text" name="items[__INDEX__][unit]" class="form-control form-control-sm unit-input" readonly></td>
         <td><input type="number" step="0.01" name="items[__INDEX__][quantity]" class="form-control form-control-sm quantity-input calc-input" value="1" min="0.01"></td>
         <td><input type="number" step="0.01" name="items[__INDEX__][rate]" class="form-control form-control-sm rate-input calc-input" value="0" min="0"></td>
-        <td><input type="number" step="0.01" name="items[__INDEX__][discount_percentage]" class="form-control form-control-sm discount-pct-input calc-input" value="0" min="0" max="100"></td>
-        <td><input type="text" name="items[__INDEX__][discount_amount]" class="form-control form-control-sm discount-amt-input calc-input" readonly value="0.00"></td>
-        <td><input type="text" name="items[__INDEX__][taxable_value]" class="form-control form-control-sm taxable-input calc-input" readonly value="0.00"></td>
-        <td><input type="number" step="0.01" name="items[__INDEX__][cgst_percentage]" class="form-control form-control-sm cgst-pct-input calc-input" value="9" min="0"></td>
-        <td><input type="text" name="items[__INDEX__][cgst_amount]" class="form-control form-control-sm cgst-amt-input calc-input" readonly value="0.00"></td>
-        <td><input type="number" step="0.01" name="items[__INDEX__][sgst_percentage]" class="form-control form-control-sm sgst-pct-input calc-input" value="9" min="0"></td>
-        <td><input type="text" name="items[__INDEX__][sgst_amount]" class="form-control form-control-sm sgst-amt-input calc-input" readonly value="0.00"></td>
-        <td><input type="text" name="items[__INDEX__][total]" class="form-control form-control-sm total-input calc-input" readonly value="0.00"></td>
+        <td>
+            <input type="hidden" name="items[__INDEX__][discount_percentage]" class="discount-pct-input calc-input" value="0">
+            <input type="hidden" name="items[__INDEX__][discount_amount]" class="discount-amt-input calc-input" value="0.00">
+            <input type="hidden" name="items[__INDEX__][taxable_value]" class="taxable-input calc-input" value="0.00">
+            <input type="hidden" name="items[__INDEX__][cgst_percentage]" class="cgst-pct-input calc-input" value="9">
+            <input type="hidden" name="items[__INDEX__][cgst_amount]" class="cgst-amt-input calc-input" value="0.00">
+            <input type="hidden" name="items[__INDEX__][sgst_percentage]" class="sgst-pct-input calc-input" value="9">
+            <input type="hidden" name="items[__INDEX__][sgst_amount]" class="sgst-amt-input calc-input" value="0.00">
+            <input type="text" name="items[__INDEX__][total]" class="form-control form-control-sm total-input calc-input" readonly value="0.00">
+        </td>
         <td class="text-center"><i class="bx bx-trash text-danger remove-item fs-5"></i></td>
     </tr>
 </template>
@@ -310,6 +309,13 @@ function addItemRow(data) {
 
     if (data) {
         row.find('.item-select').val(data.item_id);
+        
+        var selectedOption = row.find('.item-select option[value="'+data.item_id+'"]');
+        var imageUrl = selectedOption.data('image');
+        if (imageUrl) {
+            row.find('.item-image-preview').attr('src', imageUrl).removeClass('d-none');
+        }
+
         row.find('.hsn-input').val(data.hsn || data.hsn_code || '');
         row.find('.unit-input').val(data.unit || '');
         row.find('.quantity-input').val(data.quantity || 1);
@@ -326,14 +332,21 @@ function addItemRow(data) {
     row.find('.item-select').select2({
         theme: 'bootstrap-5',
         width: '100%',
-        placeholder: 'Search item...',
-        dropdownParent: row
+        placeholder: 'Search item...'
     }).on('change', function(){
         var selected = $(this).find(':selected');
         var rate = selected.data('rate') || 0;
         var tax = selected.data('tax') || 0;
         var unit = selected.data('unit') || '';
         var hsn = selected.data('hsn') || '';
+        var imageUrl = selected.data('image');
+
+        if (imageUrl) {
+            row.find('.item-image-preview').attr('src', imageUrl).removeClass('d-none');
+        } else {
+            row.find('.item-image-preview').addClass('d-none').attr('src', '');
+        }
+
         var cgst = tax / 2;
         var sgst = tax / 2;
         row.find('.rate-input').val(rate);

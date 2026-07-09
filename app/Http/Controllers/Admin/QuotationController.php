@@ -121,32 +121,6 @@ class QuotationController extends Controller
 
             foreach ($data['items'] as $index => $itemData) {
                 $itemSubtotal = $itemData['quantity'] * $itemData['rate'];
-                $itemDiscount = 0;
-                if (!empty($itemData['discount_percentage'])) {
-                    $itemDiscount = ($itemSubtotal * $itemData['discount_percentage']) / 100;
-                }
-                $taxableValue = $itemSubtotal - $itemDiscount;
-                $itemTaxPerc = 0;
-                $itemCgst = 0;
-                $itemSgst = 0;
-                $itemIgst = 0;
-
-                if ($data['tax_type'] === 'cgst_sgst') {
-                    $itemCgstPerc = $data['cgst_percentage'] ?? 0;
-                    $itemSgstPerc = $data['sgst_percentage'] ?? 0;
-                    $itemCgst = ($taxableValue * $itemCgstPerc) / 100;
-                    $itemSgst = ($taxableValue * $itemSgstPerc) / 100;
-                    $itemTaxPerc = $itemCgstPerc + $itemSgstPerc;
-                    $itemIgst = 0;
-                } elseif ($data['tax_type'] === 'igst') {
-                    $itemIgstPerc = $data['igst_percentage'] ?? 0;
-                    $itemIgst = ($taxableValue * $itemIgstPerc) / 100;
-                    $itemTaxPerc = $itemIgstPerc;
-                    $itemCgst = 0;
-                    $itemSgst = 0;
-                }
-
-                $itemTotal = $taxableValue + $itemCgst + $itemSgst + $itemIgst;
 
                 QuotationItem::create([
                     'quotation_id' => $quotation->id,
@@ -154,17 +128,7 @@ class QuotationController extends Controller
                     'item_name' => $itemData['item_name'],
                     'quantity' => $itemData['quantity'],
                     'rate' => $itemData['rate'],
-                    'discount_percentage' => $itemData['discount_percentage'] ?? 0,
-                    'discount_amount' => $itemDiscount,
-                    'taxable_value' => $taxableValue,
-                    'tax_percentage' => $itemTaxPerc,
-                    'cgst_percentage' => $data['cgst_percentage'] ?? 0,
-                    'sgst_percentage' => $data['sgst_percentage'] ?? 0,
-                    'igst_percentage' => $data['igst_percentage'] ?? 0,
-                    'cgst_amount' => $itemCgst,
-                    'sgst_amount' => $itemSgst,
-                    'igst_amount' => $itemIgst,
-                    'total' => $itemTotal,
+                    'total' => $itemSubtotal,
                     'sort_order' => $index + 1,
                 ]);
             }
@@ -252,29 +216,6 @@ class QuotationController extends Controller
 
             foreach ($data['items'] as $index => $itemData) {
                 $itemSubtotal = $itemData['quantity'] * $itemData['rate'];
-                $itemDiscount = 0;
-                if (!empty($itemData['discount_percentage'])) {
-                    $itemDiscount = ($itemSubtotal * $itemData['discount_percentage']) / 100;
-                }
-                $taxableValue = $itemSubtotal - $itemDiscount;
-                $itemTaxPerc = 0;
-                $itemCgst = 0;
-                $itemSgst = 0;
-                $itemIgst = 0;
-
-                if ($data['tax_type'] === 'cgst_sgst') {
-                    $itemCgstPerc = $data['cgst_percentage'] ?? 0;
-                    $itemSgstPerc = $data['sgst_percentage'] ?? 0;
-                    $itemCgst = ($taxableValue * $itemCgstPerc) / 100;
-                    $itemSgst = ($taxableValue * $itemSgstPerc) / 100;
-                    $itemTaxPerc = $itemCgstPerc + $itemSgstPerc;
-                } elseif ($data['tax_type'] === 'igst') {
-                    $itemIgstPerc = $data['igst_percentage'] ?? 0;
-                    $itemIgst = ($taxableValue * $itemIgstPerc) / 100;
-                    $itemTaxPerc = $itemIgstPerc;
-                }
-
-                $itemTotal = $taxableValue + $itemCgst + $itemSgst + $itemIgst;
 
                 QuotationItem::create([
                     'quotation_id' => $quotation->id,
@@ -282,17 +223,7 @@ class QuotationController extends Controller
                     'item_name' => $itemData['item_name'],
                     'quantity' => $itemData['quantity'],
                     'rate' => $itemData['rate'],
-                    'discount_percentage' => $itemData['discount_percentage'] ?? 0,
-                    'discount_amount' => $itemDiscount,
-                    'taxable_value' => $taxableValue,
-                    'tax_percentage' => $itemTaxPerc,
-                    'cgst_percentage' => $data['cgst_percentage'] ?? 0,
-                    'sgst_percentage' => $data['sgst_percentage'] ?? 0,
-                    'igst_percentage' => $data['igst_percentage'] ?? 0,
-                    'cgst_amount' => $itemCgst,
-                    'sgst_amount' => $itemSgst,
-                    'igst_amount' => $itemIgst,
-                    'total' => $itemTotal,
+                    'total' => $itemSubtotal,
                     'sort_order' => $index + 1,
                 ]);
             }

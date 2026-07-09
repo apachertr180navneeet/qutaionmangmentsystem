@@ -31,8 +31,6 @@
                             <th>SKU</th>
                             <th>Unit</th>
                             <th>Rate</th>
-                            <th>Tax (%)</th>
-                            <th>Type</th>
                             <th>HSN Code</th>
                             <th>Status</th>
                             <th class="text-center">Actions</th>
@@ -53,8 +51,6 @@
                             <td>{{ $item->sku }}</td>
                             <td>{{ $item->unit }}</td>
                             <td>{{ number_format($item->rate, 2) }}</td>
-                            <td>{{ $item->tax_percentage }}</td>
-                            <td>{{ ucfirst($item->type) }}</td>
                             <td>{{ $item->hsn_code }}</td>
                             <td>
                                 @if($item->is_active)
@@ -73,7 +69,7 @@
                             </td>
                         </tr>
                         @empty
-                        <tr><td colspan="11" class="text-center text-muted py-3">No items found.</td></tr>
+                        <tr><td colspan="9" class="text-center text-muted py-3">No items found.</td></tr>
                         @endforelse
                     </tbody>
                 </table>
