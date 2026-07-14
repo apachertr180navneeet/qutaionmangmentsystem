@@ -341,9 +341,16 @@
                     'rejected' => 'status-rejected',
                 ];
             @endphp
-            <span class="q-status-badge {{ $statusMap[$quotation->status] ?? 'status-draft' }}">
-                {{ ucfirst($quotation->status) }}
-            </span>
+            <div class="d-flex align-items-center gap-2">
+                <span class="text-white" style="font-size: 0.75rem; font-weight: 700; letter-spacing: 1px;">STATUS:</span>
+                <select id="statusAjaxSelect" class="form-select form-select-sm q-status-badge {{ $statusMap[$quotation->status] ?? 'status-draft' }} fw-bold" style="cursor: pointer; width: 140px; border: 2px solid rgba(255,255,255,0.4);" data-id="{{ $quotation->id }}">
+                    <option value="draft" class="text-dark bg-white" {{ $quotation->status == 'draft' ? 'selected' : '' }}>Draft</option>
+                    <option value="sent" class="text-dark bg-white" {{ $quotation->status == 'sent' ? 'selected' : '' }}>Sent</option>
+                    <option value="approved" class="text-dark bg-white" {{ $quotation->status == 'approved' ? 'selected' : '' }}>Approved</option>
+                    <option value="rejected" class="text-dark bg-white" {{ $quotation->status == 'rejected' ? 'selected' : '' }}>Rejected</option>
+                    <option value="expired" class="text-dark bg-white" {{ $quotation->status == 'expired' ? 'selected' : '' }}>Expired</option>
+                </select>
+            </div>
         </div>
         <div class="q-info-body">
             <div class="row g-3">
@@ -487,4 +494,50 @@
     </div>
 
 </div>
+@endsection
+
+@section('script')
+<script>
+$(document).ready(function() {
+    $('#statusAjaxSelect').on('change', function() {
+        var $select = $(this);
+        var status = $select.val();
+        var id = $select.data('id');
+        var originalClass = $select.attr('class');
+        
+        // Remove old status classes
+        $select.removeClass('status-draft status-sent status-approved status-expired status-rejected');
+        
+        // Add new class based on selection
+        var newClass = 'status-' + status;
+        $select.addClass(newClass);
+
+        $.ajax({
+            url: "{{ url('admin/quotations') }}/" + id + "/status",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+                status: status
+            },
+            success: function(response) {
+                if(response.success) {
+                    // Optional: show a small toast notification here
+                    console.log(response.message);
+                } else {
+                    alert('Failed to update status.');
+                    // Revert UI on failure
+                    $select.attr('class', originalClass);
+                    $select.val($select.find('option[selected]').val());
+                }
+            },
+            error: function() {
+                alert('An error occurred. Please try again.');
+                // Revert UI on failure
+                $select.attr('class', originalClass);
+                $select.val($select.find('option[selected]').val());
+            }
+        });
+    });
+});
+</script>
 @endsection

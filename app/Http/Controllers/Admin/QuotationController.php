@@ -275,7 +275,7 @@ class QuotationController extends Controller
         }
     }
 
-    public function updateStatus(Request $request, $id)
+    public function updateStatusold(Request $request, $id)
     {
         try {
             $request->validate([
@@ -355,6 +355,30 @@ class QuotationController extends Controller
             return redirect()->back()->with('success', 'Email sent successfully.');
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        try {
+            $request->validate([
+                'status' => 'required|in:draft,sent,approved,expired,rejected'
+            ]);
+
+            $quotation = Quotation::findOrFail($id);
+            $quotation->status = $request->status;
+            $quotation->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Status updated successfully.',
+                'status' => $quotation->status
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
         }
     }
 }
