@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-    --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-    --primary-color: #6366f1;
-    --secondary-color: #a855f7;
+    --primary-gradient: linear-gradient(135deg, #A05AFF 0%, #1BCFB4 100%);
+    --primary-color: #A05AFF;
+    --secondary-color: #1BCFB4;
     --bg-dark: #0f172a;
     --bg-card: rgba(30, 41, 59, 0.7);
     --text-main: #f8fafc;

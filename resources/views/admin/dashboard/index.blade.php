@@ -16,7 +16,7 @@
                     </div>
                     <div class="col-sm-5 text-center text-sm-left">
                         <div class="card-body pb-0 px-0 px-md-4">
-                            <img src="{{asset('assets/admin/img/illustrations/man-with-laptop-light.png')}}" height="140" alt="View Badge User" data-app-dark-img="illustrations/man-with-laptop-dark.png" data-app-light-img="illustrations/man-with-laptop-light.png">
+                            <img src="{{asset('assets/admin/img/illustrations/man-with-laptop-light.png')}}" height="140" alt="View Badge User" class="floating-img" data-app-dark-img="illustrations/man-with-laptop-dark.png" data-app-light-img="illustrations/man-with-laptop-light.png">
                         </div>
                     </div>
                 </div>
@@ -243,7 +243,7 @@ $(document).ready(function(){
             height: 300,
             toolbar: { show: false }
         },
-        colors: ['#696cff'],
+        colors: ['#A05AFF'],
         xaxis: {
             categories: {{ json_encode($monthlyLabels ?? ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']) }}
         },
@@ -262,7 +262,7 @@ $(document).ready(function(){
             height: 300
         },
         labels: ['Draft', 'Sent', 'Approved', 'Expired', 'Rejected'],
-        colors: ['#8592a3', '#696cff', '#71dd37', '#ffab00', '#ff3e1d'],
+        colors: ['#8592a3', '#A05AFF', '#1BCFB4', '#ffab00', '#FE9496'],
         legend: { position: 'bottom' },
         responsive: [{
             breakpoint: 480,

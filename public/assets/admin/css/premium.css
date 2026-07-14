@@ -1,12 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 
 :root {
-    --admin-primary: #CFAB8D;
-    --admin-primary-dark: #b89376;
-    --admin-gradient: linear-gradient(135deg, #CFAB8D 0%, #D9C4B0 100%);
+    --admin-primary: #A05AFF;
+    --admin-primary-dark: #9E58FF;
+    --admin-gradient: linear-gradient(135deg, #A05AFF 0%, #1BCFB4 100%);
     --admin-bg: #F4F6F9;
     --glass-bg: rgba(255, 255, 255, 0.75);
     --glass-border: rgba(255, 255, 255, 0.6);
+    
+    /* Bootstrap overrides for Sneat template */
+    --bs-primary: #A05AFF;
+    --bs-primary-rgb: 160, 90, 255;
+    --bs-secondary: #9E58FF;
+    --bs-secondary-rgb: 158, 88, 255;
+    --bs-info: #4BCBEB;
+    --bs-info-rgb: 75, 203, 235;
+    --bs-success: #1BCFB4;
+    --bs-success-rgb: 27, 207, 180;
+    --bs-danger: #FE9496;
+    --bs-danger-rgb: 254, 148, 150;
 }
 
 body {
@@ -159,4 +171,58 @@ body {
 .swal2-confirm {
     border-radius: 12px !important;
     background: var(--admin-gradient) !important;
+}
+
+/* Dynamic Dashboard Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dashboard-animated .card {
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+}
+
+/* Staggered animation delays for elements inside dashboard */
+.dashboard-animated > .row:nth-child(1) .card { animation-delay: 0.1s; }
+.dashboard-animated > .row:nth-child(2) > div:nth-child(1) .card { animation-delay: 0.2s; }
+.dashboard-animated > .row:nth-child(2) > div:nth-child(2) .card { animation-delay: 0.3s; }
+.dashboard-animated > .row:nth-child(2) > div:nth-child(3) .card { animation-delay: 0.4s; }
+.dashboard-animated > .row:nth-child(2) > div:nth-child(4) .card { animation-delay: 0.5s; }
+.dashboard-animated > .row:nth-child(2) > div:nth-child(5) .card { animation-delay: 0.6s; }
+.dashboard-animated > .row:nth-child(2) > div:nth-child(6) .card { animation-delay: 0.7s; }
+
+.dashboard-animated > .row:nth-child(3) > div:nth-child(1) .card { animation-delay: 0.5s; }
+.dashboard-animated > .row:nth-child(3) > div:nth-child(2) .card { animation-delay: 0.6s; }
+
+.dashboard-animated > .row:nth-child(4) > div:nth-child(1) .card { animation-delay: 0.7s; }
+.dashboard-animated > .row:nth-child(4) > div:nth-child(2) .card { animation-delay: 0.8s; }
+.dashboard-animated > .row:nth-child(4) > div:nth-child(3) .card { animation-delay: 0.9s; }
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
+}
+
+.floating-img {
+    animation: float 4s ease-in-out infinite;
+}
+
+/* Enhanced Hover Card */
+.hover-card {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+.hover-card:hover {
+    transform: translateY(-8px) scale(1.03) !important;
+    box-shadow: 0 25px 50px rgba(160, 90, 255, 0.2) !important;
+    border-color: var(--admin-primary) !important;
+    z-index: 10;
 }
