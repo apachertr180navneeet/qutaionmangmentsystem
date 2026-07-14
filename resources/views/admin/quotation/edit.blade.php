@@ -19,6 +19,7 @@
 
     <form action="{{ route('admin.quotations.update', $quotation->id) }}" method="POST" id="quotationForm">
         @csrf @method('PUT')
+        <input type="hidden" name="status" value="{{ old('status', $quotation->status ?? 'draft') }}">
         <div class="card mb-3">
             <div class="card-header"><strong>Quotation Details</strong></div>
             <div class="card-body">
@@ -210,6 +211,7 @@
                     <option value="{{ $item->id }}" data-rate="{{ $item->rate }}" data-tax="{{ $item->tax_percentage }}" data-unit="{{ $item->unit }}" data-hsn="{{ $item->hsn_code }}" data-name="{{ $item->name }}" data-image="{{ $item->image }}">{{ $item->name }} ({{ $item->sku }})</option>
                 @endforeach
             </select>
+            <input type="hidden" name="items[__INDEX__][item_name]" class="item-name-input" value="">
         </td>
         <td><input type="text" name="items[__INDEX__][hsn_code]" class="form-control form-control-sm hsn-input" readonly></td>
         <td><input type="text" name="items[__INDEX__][unit]" class="form-control form-control-sm unit-input" readonly></td>
@@ -345,10 +347,12 @@ function addItemRow(data) {
         
         var selectedOption = row.find('.item-select option[value="'+data.item_id+'"]');
         var imageUrl = selectedOption.data('image');
+        var itemName = selectedOption.data('name') || data.item_name || '';
         if (imageUrl) {
             row.find('.item-image-preview').attr('src', imageUrl).removeClass('d-none');
         }
 
+        row.find('.item-name-input').val(itemName);
         row.find('.hsn-input').val(data.hsn || data.hsn_code || '');
         row.find('.unit-input').val(data.unit || '');
         row.find('.quantity-input').val(data.quantity || 1);
@@ -377,6 +381,7 @@ function addItemRow(data) {
         var tax = selected.data('tax') || 0;
         var unit = selected.data('unit') || '';
         var hsn = selected.data('hsn') || '';
+        var itemName = selected.data('name') || selected.text().split(' (')[0] || '';
         var imageUrl = selected.data('image');
 
         if (imageUrl) {
@@ -385,6 +390,7 @@ function addItemRow(data) {
             row.find('.item-image-preview').addClass('d-none').attr('src', '');
         }
 
+        row.find('.item-name-input').val(itemName);
         row.find('.rate-input').val(rate);
         row.find('.unit-input').val(unit);
         row.find('.hsn-input').val(hsn);

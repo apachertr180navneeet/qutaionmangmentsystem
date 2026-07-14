@@ -43,3 +43,27 @@
     })
 </script>
 @endif
+@if($errors->any())
+<script>
+    var errorMessages = [];
+    @foreach($errors->all() as $error)
+        errorMessages.push("{{ $error }}");
+    @endforeach
+
+    if (errorMessages.length <= 3) {
+        errorMessages.forEach(function(msg) {
+            Toast.fire({
+                icon: 'error',
+                title: msg
+            });
+        });
+    } else {
+        Swal.fire({
+            icon: 'error',
+            title: 'Validation Errors',
+            html: '<ul style="text-align:left; margin:0; padding-left:20px;">' + errorMessages.map(function(msg){ return '<li style="margin-bottom:5px;">' + msg + '</li>'; }).join('') + '</ul>',
+            confirmButtonColor: '#4A00E0'
+        });
+    }
+</script>
+@endif
