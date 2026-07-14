@@ -126,7 +126,7 @@
             <tr>
                 <td>{{ $key + 1 }}</td>
                 <td class="left">{{ $item->item->name ?? $item->item_name ?? 'N/A' }}</td>
-                <td>{{ $item->hsn_code ?? '' }}</td>
+                <td>{{ $item->item->hsn_code ?? '' }}</td>
                 <td>{{ $item->quantity }}</td>
                 <td>{{ number_format($item->rate, 2) }}</td>
                 <td>{{ $item->discount_percentage ? $item->discount_percentage.'%' : '-' }}</td>
