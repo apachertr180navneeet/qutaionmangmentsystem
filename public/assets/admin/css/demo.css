@@ -177,8 +177,8 @@
 
 .form-control:focus, .form-select:focus, .select2-container--bootstrap-5.select2-container--focus .select2-selection {
   background-color: #ffffff !important;
-  border-color: #696cff !important;
-  box-shadow: 0 0 0 0.25rem rgba(105, 108, 255, 0.15) !important;
+  border-color: #6f42c1 !important;
+  box-shadow: 0 0 0 0.25rem rgba(111, 66, 193, 0.15) !important;
 }
 
 .card-header {
@@ -190,15 +190,35 @@
 
 /* Premium Buttons */
 .btn-primary {
-  background: linear-gradient(135deg, #696cff 0%, #5b5ee6 100%) !important;
+  background: #6f42c1 !important;
   border: none !important;
-  box-shadow: 0 4px 10px rgba(105, 108, 255, 0.3) !important;
+  box-shadow: 0 4px 10px rgba(111, 66, 193, 0.3) !important;
+  color: #fff !important;
   transition: all 0.25s ease !important;
 }
 
 .btn-primary:hover {
+  background: #5b32a3 !important;
   transform: translateY(-2px) !important;
-  box-shadow: 0 6px 15px rgba(105, 108, 255, 0.4) !important;
+  box-shadow: 0 6px 15px rgba(111, 66, 193, 0.4) !important;
+}
+
+.btn-outline-primary {
+  background-color: transparent !important;
+  color: #6f42c1 !important;
+  border: 1px solid #6f42c1 !important;
+}
+.btn-outline-primary:hover {
+  background-color: rgba(111, 66, 193, 0.05) !important;
+}
+
+.form-label {
+  color: #6f42c1 !important;
+  font-weight: 600 !important;
+}
+
+.card-header i, .card-title i, h5 i {
+  color: #6f42c1 !important;
 }
 
 .btn-secondary {
@@ -222,9 +242,9 @@
   overflow: hidden;
 }
 
-.table-light th {
-  background-color: #f8fafc !important;
-  color: #566a7f !important;
+.table-light th, .table thead th {
+  background-color: #f4effa !important;
+  color: #6f42c1 !important;
   text-transform: uppercase;
   font-size: 0.75rem;
   letter-spacing: 1px;
@@ -233,12 +253,14 @@
 
 /* Add Item Button styling specifically */
 #addItemBtn {
-  background: linear-gradient(135deg, #71dd37 0%, #60c52f 100%) !important;
-  box-shadow: 0 4px 10px rgba(113, 221, 55, 0.3) !important;
+  background: #00cccc !important;
+  box-shadow: 0 4px 10px rgba(0, 204, 204, 0.3) !important;
   color: #fff !important;
+  border: none !important;
 }
 #addItemBtn:hover {
-  box-shadow: 0 6px 15px rgba(113, 221, 55, 0.4) !important;
+  background: #00b3b3 !important;
+  box-shadow: 0 6px 15px rgba(0, 204, 204, 0.4) !important;
   transform: translateY(-2px) !important;
 }
 
