@@ -322,7 +322,9 @@
             <a href="{{ route('admin.quotations.edit', $quotation->id) }}" class="btn btn-edit-q">
                 <i class="bx bx-edit me-1"></i> Edit Quotation
             </a>
-
+            <a href="{{ route('admin.quotations.pdf', $quotation->id) }}" class="btn btn-download-q" target="_blank">
+                <i class="bx bx-file-blank me-1"></i> Generate PDF
+            </a>
         </div>
     </div>
 

@@ -67,6 +67,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
             Route::delete('/{id}', [QuotationController::class, 'destroy'])->name('destroy');
             Route::post('/{id}/duplicate', [QuotationController::class, 'duplicate'])->name('duplicate');
             Route::post('/{id}/status', [QuotationController::class, 'updateStatus'])->name('status');
+            Route::get('/{id}/pdf', [QuotationController::class, 'pdf'])->name('pdf');
 
             Route::post('/{id}/email', [QuotationController::class, 'email'])->name('email');
         });

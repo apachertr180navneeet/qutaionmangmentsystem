@@ -59,17 +59,17 @@
 <body>
     <div class="header">
         <div class="company-info">
-            <p class="company-name">{{ $company->company_name ?? config('app.name') }}</p>
-            <p class="company-detail">{{ $company->address }}{{ $company->city ? ', '.$company->city : '' }}{{ $company->state ? ', '.$company->state : '' }}{{ $company->zip_code ? ' - '.$company->zip_code : '' }}</p>
-            <p class="company-detail">Phone: {{ $company->phone }}</p>
-            <p class="company-detail">Email: {{ $company->email }}</p>
-            @if($company->gst_number)
-                <p class="company-detail">GST: {{ $company->gst_number }}</p>
+            <p class="company-name">{{ $company?->company_name ?? config('app.name') }}</p>
+            <p class="company-detail">{{ $company?->address }}{{ $company?->city ? ', '.$company?->city : '' }}{{ $company?->state ? ', '.$company?->state : '' }}{{ $company?->zip_code ? ' - '.$company?->zip_code : '' }}</p>
+            <p class="company-detail">Phone: {{ $company?->phone }}</p>
+            <p class="company-detail">Email: {{ $company?->email }}</p>
+            @if($company?->gst_number)
+                <p class="company-detail">GST: {{ $company?->gst_number }}</p>
             @endif
         </div>
         <div class="company-logo">
-            @if($company->logo)
-                <img src="{{ $company->logo }}" alt="Logo" style="max-height: 80px;">
+            @if($company?->logo)
+                <img src="{{ $company?->logo }}" alt="Logo" style="max-height: 80px;">
             @endif
         </div>
     </div>
@@ -109,15 +109,12 @@
     <table class="items">
         <thead>
             <tr>
-                <th style="width:5%;">#</th>
-                <th style="width:22%;">Item Name</th>
-                <th style="width:8%;">HSN</th>
-                <th style="width:7%;">Qty</th>
-                <th style="width:9%;">Rate</th>
-                <th style="width:8%;">Disc%</th>
-                <th style="width:11%;">Taxable Value</th>
-                <th style="width:9%;">CGST</th>
-                <th style="width:9%;">SGST</th>
+                <th style="width:6%;">#</th>
+                <th style="width:10%;">Img</th>
+                <th style="width:38%;">Item Name</th>
+                <th style="width:12%;">HSN</th>
+                <th style="width:10%;">Qty</th>
+                <th style="width:12%;">Rate</th>
                 <th style="width:12%;">Total</th>
             </tr>
         </thead>
@@ -125,18 +122,21 @@
             @forelse($quotation->items as $key => $item)
             <tr>
                 <td>{{ $key + 1 }}</td>
+                <td>
+                    @if($item->item && $item->item->image)
+                        <img src="{{ $item->item->image }}" style="max-width:35px; max-height:35px; border-radius:4px;" alt="img">
+                    @else
+                        -
+                    @endif
+                </td>
                 <td class="left">{{ $item->item->name ?? $item->item_name ?? 'N/A' }}</td>
                 <td>{{ $item->item->hsn_code ?? '' }}</td>
                 <td>{{ $item->quantity }}</td>
                 <td>{{ number_format($item->rate, 2) }}</td>
-                <td>{{ $item->discount_percentage ? $item->discount_percentage.'%' : '-' }}</td>
-                <td>{{ number_format($item->taxable_value, 2) }}</td>
-                <td>{{ $item->cgst_percentage ? $item->cgst_percentage.'% / '.number_format($item->cgst_amount, 2) : '-' }}</td>
-                <td>{{ $item->sgst_percentage ? $item->sgst_percentage.'% / '.number_format($item->sgst_amount, 2) : '-' }}</td>
                 <td>{{ number_format($item->total, 2) }}</td>
             </tr>
             @empty
-            <tr><td colspan="10" style="text-align:center;padding:15px;">No items found.</td></tr>
+            <tr><td colspan="7" style="text-align:center;padding:15px;">No items found.</td></tr>
             @endforelse
         </tbody>
     </table>
@@ -172,7 +172,7 @@
         <div class="terms">
             <div class="terms-box">
                 <h4>Terms & Conditions</h4>
-                <p>{{ $quotation->terms_conditions ?: ($company->terms_conditions ?? 'N/A') }}</p>
+                <p>{{ $quotation->terms_conditions ?: ($company?->terms_conditions ?? 'N/A') }}</p>
             </div>
         </div>
         <div class="totals">
@@ -193,15 +193,15 @@
 
     <div class="signature-section">
         <div class="signature">
-            @if($company->signature)
-                <img src="{{ $company->signature }}" class="signature-img" alt="Signature">
+            @if($company?->signature)
+                <img src="{{ $company?->signature }}" class="signature-img" alt="Signature">
             @endif
             <p style="margin:5px 0 0 0;font-size:11px;color:#555;">Authorised Signatory</p>
         </div>
     </div>
 
     <div class="footer">
-        Page {PAGE_NUM} of {PAGE_COUNT} &mdash; {{ $company->company_name ?? config('app.name') }}
+        Page {PAGE_NUM} of {PAGE_COUNT} &mdash; {{ $company?->company_name ?? config('app.name') }}
     </div>
     <script type="text/php">
         if (isset($pdf)) {

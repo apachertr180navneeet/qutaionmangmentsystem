@@ -23,7 +23,7 @@
 <script>
     Toast.fire({
         icon: 'success',
-        title: "{{ !empty(Session::get('message')) ? Session::get('message') :Session::get('success') }}"
+        title: {!! json_encode(!empty(Session::get('message')) ? Session::get('message') : Session::get('success')) !!}
     })
 </script>
 @endif
@@ -31,7 +31,7 @@
 <script>
     Toast.fire({
         icon: 'error',
-        title: "{{ !empty(Session::get('message')) ? Session::get('message') :Session::get('error') }}"
+        title: {!! json_encode(!empty(Session::get('message')) ? Session::get('message') : Session::get('error')) !!}
     })
 </script>
 @endif
@@ -39,7 +39,7 @@
 <script>
     Toast.fire({
         icon: 'warning',
-        title: "{{ !empty(Session::get('message')) ? Session::get('message') :Session::get('warning') }}"
+        title: {!! json_encode(!empty(Session::get('message')) ? Session::get('message') : Session::get('warning')) !!}
     })
 </script>
 @endif
@@ -47,7 +47,7 @@
 <script>
     var errorMessages = [];
     @foreach($errors->all() as $error)
-        errorMessages.push("{{ $error }}");
+        errorMessages.push({!! json_encode($error) !!});
     @endforeach
 
     if (errorMessages.length <= 3) {

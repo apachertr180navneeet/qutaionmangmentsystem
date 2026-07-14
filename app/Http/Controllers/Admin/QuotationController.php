@@ -288,7 +288,8 @@ class QuotationController extends Controller
             $quotation = Quotation::with(['customer', 'items'])->findOrFail($id);
             $company = CompanySetting::first();
 
-            $pdf = Pdf::loadView('admin.quotation.pdf', compact('quotation', 'company'));
+            $pdf = Pdf::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])
+                ->loadView('admin.quotation.pdf', compact('quotation', 'company'));
 
             $data = [
                 'quotation' => $quotation,
@@ -314,6 +315,21 @@ class QuotationController extends Controller
             ]);
 
             return redirect()->back()->with('success', 'Email sent successfully.');
+        } catch (Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function pdf($id)
+    {
+        try {
+            $quotation = Quotation::with(['customer', 'items'])->findOrFail($id);
+            $company = CompanySetting::first();
+
+            $pdf = Pdf::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])
+                ->loadView('admin.quotation.pdf', compact('quotation', 'company'));
+
+            return $pdf->download('quotation-' . $quotation->quotation_number . '.pdf');
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage());
         }
