@@ -46,17 +46,6 @@
                         <input type="date" name="valid_until" class="form-control @error('valid_until') is-invalid @enderror" value="{{ old('valid_until', $quotation->valid_until) }}">
                         @error('valid_until') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Status</label>
-                        <select name="status" class="form-select @error('status') is-invalid @enderror">
-                            <option value="draft" {{ old('status', $quotation->status) == 'draft' ? 'selected' : '' }}>Draft</option>
-                            <option value="sent" {{ old('status', $quotation->status) == 'sent' ? 'selected' : '' }}>Sent</option>
-                            <option value="approved" {{ old('status', $quotation->status) == 'approved' ? 'selected' : '' }}>Approved</option>
-                            <option value="expired" {{ old('status', $quotation->status) == 'expired' ? 'selected' : '' }}>Expired</option>
-                            <option value="rejected" {{ old('status', $quotation->status) == 'rejected' ? 'selected' : '' }}>Rejected</option>
-                        </select>
-                        @error('status') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                    </div>
                 </div>
             </div>
         </div>
@@ -436,6 +425,27 @@ $(document).ready(function(){
 
     var savedTaxType = '{{ old('tax_type', $quotation->tax_type ?? 'cgst_sgst') }}';
     $('input[name="tax_type"][value="' + savedTaxType + '"]').prop('checked', true).trigger('change');
+
+    function updateValidUntil() {
+        var dateVal = $('input[name="date"]').val();
+        if (dateVal) {
+            var dateObj = new Date(dateVal);
+            dateObj.setDate(dateObj.getDate() + 30);
+            var year = dateObj.getFullYear();
+            var month = ('0' + (dateObj.getMonth() + 1)).slice(-2);
+            var day = ('0' + dateObj.getDate()).slice(-2);
+            var validUntilVal = year + '-' + month + '-' + day;
+            $('input[name="valid_until"]').val(validUntilVal);
+        }
+    }
+
+    $('input[name="date"]').on('change', function() {
+        updateValidUntil();
+    });
+
+    if (!$('input[name="valid_until"]').val()) {
+        updateValidUntil();
+    }
 
     @if(($quotation->items ?? null) && count($quotation->items) > 0)
         var existingItems = @json($quotation->items);
