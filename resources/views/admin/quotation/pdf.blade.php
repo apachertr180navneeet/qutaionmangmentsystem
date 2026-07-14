@@ -1,5 +1,16 @@
 <!DOCTYPE html>
 <html>
+@php
+function getLocalImagePath($url) {
+    if (!$url) return '';
+    $baseUrl = url('/');
+    if (str_starts_with($url, $baseUrl)) {
+        $relativePath = str_replace($baseUrl, '', $url);
+        return public_path(ltrim($relativePath, '/'));
+    }
+    return $url;
+}
+@endphp
 <head>
     <meta charset="utf-8">
     <title>Quotation #{{ $quotation->quotation_number }}</title>
@@ -69,7 +80,7 @@
         </div>
         <div class="company-logo">
             @if($company?->logo)
-                <img src="{{ $company?->logo }}" alt="Logo" style="max-height: 80px;">
+                <img src="{{ getLocalImagePath($company?->logo) }}" alt="Logo" style="max-height: 80px;">
             @endif
         </div>
     </div>
@@ -124,7 +135,7 @@
                 <td>{{ $key + 1 }}</td>
                 <td>
                     @if($item->item && $item->item->image)
-                        <img src="{{ $item->item->image }}" style="max-width:35px; max-height:35px; border-radius:4px;" alt="img">
+                        <img src="{{ getLocalImagePath($item->item->image) }}" style="max-width:35px; max-height:35px; border-radius:4px;" alt="img">
                     @else
                         -
                     @endif
@@ -194,7 +205,7 @@
     <div class="signature-section">
         <div class="signature">
             @if($company?->signature)
-                <img src="{{ $company?->signature }}" class="signature-img" alt="Signature">
+                <img src="{{ getLocalImagePath($company?->signature) }}" class="signature-img" alt="Signature">
             @endif
             <p style="margin:5px 0 0 0;font-size:11px;color:#555;">Authorised Signatory</p>
         </div>
