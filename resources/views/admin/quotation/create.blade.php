@@ -106,32 +106,34 @@
                         <div class="table-responsive p-3 bg-white rounded-3 border shadow-sm">
                             <table class="table table-borderless summary-table mb-0">
                             <tr class="border-bottom">
-                                <td class="text-muted py-3">Subtotal</td>
-                                <td class="py-3"><input type="text" name="subtotal" id="subtotal" class="form-control form-control-sm calc-input border-0 bg-transparent text-end p-0 m-0" readonly value="0.00"></td>
+                                <td class="text-muted py-3" style="width: 45%;">Subtotal</td>
+                                <td class="py-3"><input type="text" name="subtotal" id="subtotal" class="form-control calc-input text-end shadow-none px-3" readonly value="0.00" style="height: 38px;"></td>
                             </tr>
                             <tr class="border-bottom">
-                                <td class="text-muted py-3 align-middle">
+                                <td class="text-muted py-3 align-middle" style="width: 45%;">
                                     <div class="mb-1 text-dark" style="font-size: 0.85rem;">Discount Type</div>
-                                    <select name="discount_type" id="discount_type" class="form-select form-select-sm shadow-none w-75">
+                                    <select name="discount_type" id="discount_type" class="form-select shadow-none w-100">
                                         <option value="percentage" {{ old('discount_type', 'percentage') == 'percentage' ? 'selected' : '' }}>Percentage (%)</option>
                                         <option value="fixed" {{ old('discount_type') == 'fixed' ? 'selected' : '' }}>Fixed Amount</option>
                                     </select>
                                 </td>
                                 <td class="py-3 align-middle">
                                     <div class="row g-2 justify-content-end align-items-center mt-1">
-                                        <div class="col-5" id="discount_value_col">
-                                            <input type="number" step="0.01" name="discount_value" id="discount_value" class="form-control form-control-sm text-center shadow-none" value="{{ old('discount_value', 0) }}" placeholder="%">
+                                        <div class="col-12" id="discount_value_col">
+                                            <div class="position-relative">
+                                                <span class="position-absolute top-50 translate-middle-y text-muted" id="discount_addon_left" style="left: 15px; display:none; font-weight: 600;">₹</span>
+                                                <input type="number" step="0.01" name="discount_value" id="discount_value" class="form-control text-center shadow-none px-4" value="{{ old('discount_value', '') }}" placeholder="0" style="height: 38px;">
+                                                <span class="position-absolute top-50 translate-middle-y text-muted" id="discount_addon_right" style="right: 15px; font-weight: 600;">%</span>
+                                            </div>
                                         </div>
-                                        <div class="col-5" id="discount_amount_col">
-                                            <input type="text" name="discount_amount" id="discount_amount" class="form-control form-control-sm calc-input text-center shadow-none" readonly value="0.00" placeholder="Amount">
-                                        </div>
+                                        <input type="hidden" name="discount_amount" id="discount_amount" value="0.00">
                                     </div>
                                 </td>
                             </tr>
                             <tr class="border-bottom">
-                                <td class="text-muted py-3 align-middle">
+                                <td class="text-muted py-3 align-middle" style="width: 45%;">
                                     <div class="mb-1 text-dark" style="font-size: 0.85rem;">Tax Type</div>
-                                    <select name="tax_type" id="tax_type" class="form-select form-select-sm shadow-none w-75">
+                                    <select name="tax_type" id="tax_type" class="form-select shadow-none w-100">
                                         <option value="cgst_sgst" {{ old('tax_type', 'cgst_sgst') == 'cgst_sgst' ? 'selected' : '' }}>CGST + SGST</option>
                                         <option value="igst" {{ old('tax_type') == 'igst' ? 'selected' : '' }}>IGST</option>
                                         <option value="none" {{ old('tax_type') == 'none' ? 'selected' : '' }}>No Tax</option>
@@ -139,32 +141,48 @@
                                 </td>
                                 <td class="py-3 align-middle">
                                     <div class="row g-2 justify-content-end align-items-end" id="taxFields">
-                                        <div class="col-4">
-                                            <label class="form-label text-center d-block text-muted mb-1 fw-bold" style="font-size: 0.7rem;">CGST%</label>
-                                            <input type="number" step="0.01" name="cgst_percentage" id="cgst_percentage" class="form-control form-control-sm text-center shadow-none p-1" value="{{ old('cgst_percentage', 9) }}">
+                                        <div class="col-6" id="cgst_col">
+                                            <label class="form-label text-center d-block text-muted mb-1 fw-bold" style="font-size: 0.7rem;">CGST</label>
+                                            <div class="position-relative">
+                                                <input type="number" step="0.01" name="cgst_percentage" id="cgst_percentage" class="form-control text-center shadow-none px-3" value="{{ old('cgst_percentage', 9) }}" style="height: 38px;">
+                                                <span class="position-absolute top-50 translate-middle-y text-muted" style="right: 10px; font-size: 0.75rem; font-weight: 600;">%</span>
+                                            </div>
                                         </div>
-                                        <div class="col-4">
-                                            <label class="form-label text-center d-block text-muted mb-1 fw-bold" style="font-size: 0.7rem;">SGST%</label>
-                                            <input type="number" step="0.01" name="sgst_percentage" id="sgst_percentage" class="form-control form-control-sm text-center shadow-none p-1" value="{{ old('sgst_percentage', 9) }}">
+                                        <div class="col-6" id="sgst_col">
+                                            <label class="form-label text-center d-block text-muted mb-1 fw-bold" style="font-size: 0.7rem;">SGST</label>
+                                            <div class="position-relative">
+                                                <input type="number" step="0.01" name="sgst_percentage" id="sgst_percentage" class="form-control text-center shadow-none px-3" value="{{ old('sgst_percentage', 9) }}" style="height: 38px;">
+                                                <span class="position-absolute top-50 translate-middle-y text-muted" style="right: 10px; font-size: 0.75rem; font-weight: 600;">%</span>
+                                            </div>
                                         </div>
-                                        <div class="col-4">
-                                            <label class="form-label text-center d-block text-muted mb-1 fw-bold" style="font-size: 0.7rem;">IGST%</label>
-                                            <input type="number" step="0.01" name="igst_percentage" id="igst_percentage" class="form-control form-control-sm text-center shadow-none p-1" value="{{ old('igst_percentage', 18) }}">
+                                        <div class="col-12" id="igst_col" style="display:none;">
+                                            <label class="form-label text-center d-block text-muted mb-1 fw-bold" style="font-size: 0.7rem;">IGST</label>
+                                            <div class="position-relative">
+                                                <input type="number" step="0.01" name="igst_percentage" id="igst_percentage" class="form-control text-center shadow-none px-3" value="{{ old('igst_percentage', 18) }}" style="height: 38px;">
+                                                <span class="position-absolute top-50 translate-middle-y text-muted" style="right: 10px; font-size: 0.75rem; font-weight: 600;">%</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-12" id="no_tax_col" style="display:none;">
+                                            <label class="form-label text-center d-block text-muted mb-1 fw-bold" style="font-size: 0.7rem;">&nbsp;</label>
+                                            <div class="position-relative">
+                                                <input type="number" class="form-control text-center shadow-none px-3" value="0" style="height: 38px; background-color: #e9ecef; cursor: not-allowed;" readonly>
+                                                <span class="position-absolute top-50 translate-middle-y text-muted" style="right: 10px; font-size: 0.75rem; font-weight: 600;">%</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </td>
                             </tr>
                             <tr class="border-bottom">
-                                <td class="text-muted py-3">Total Tax</td>
-                                <td class="py-3"><input type="text" name="total_tax" id="total_tax" class="form-control form-control-sm calc-input border-0 bg-transparent text-end p-0 m-0" readonly value="0.00"></td>
+                                <td class="text-muted py-3" style="width: 45%;">Total Tax</td>
+                                <td class="py-3"><input type="text" name="total_tax" id="total_tax" class="form-control calc-input text-end shadow-none px-3" readonly value="0.00" style="height: 38px;"></td>
                             </tr>
                             <tr>
-                                <td class="text-muted py-3">Round Off</td>
-                                <td class="py-3"><input type="text" name="round_off" id="round_off" class="form-control form-control-sm calc-input border-0 bg-transparent text-end p-0 m-0" readonly value="0.00"></td>
+                                <td class="text-muted py-3" style="width: 45%;">Round Off</td>
+                                <td class="py-3"><input type="text" name="round_off" id="round_off" class="form-control calc-input text-end shadow-none px-3" readonly value="0.00" style="height: 38px;"></td>
                             </tr>
                             <tr class="bg-light rounded">
                                 <td class="py-3"><strong class="text-secondary ps-2">Grand Total</strong></td>
-                                <td class="py-3"><input type="text" name="grand_total" id="grand_total" class="form-control form-control-sm calc-input fw-bold bg-transparent border-0 text-end pe-2 m-0 shadow-none" readonly value="0.00" style="font-size: 1.1rem;"></td>
+                                <td class="py-3"><input type="text" name="grand_total" id="grand_total" class="form-control calc-input fw-bold text-end shadow-none px-3" readonly value="0.00" style="height: 38px; font-size: 1.1rem; color: #4A5568;"></td>
                             </tr>
                         </table>
                         </div>
@@ -258,41 +276,24 @@ function formatCustomer(customer) {
 function calculateRow(row) {
     var qty = parseFloat(row.find('.quantity-input').val()) || 0;
     var rate = parseFloat(row.find('.rate-input').val()) || 0;
-    var discPct = parseFloat(row.find('.discount-pct-input').val()) || 0;
-    var cgstPct = parseFloat(row.find('.cgst-pct-input').val()) || 0;
-    var sgstPct = parseFloat(row.find('.sgst-pct-input').val()) || 0;
 
     var amount = qty * rate;
-    var discAmt = (discPct / 100) * amount;
-    row.find('.discount-amt-input').val(discAmt.toFixed(2));
-    var taxable = amount - discAmt;
-    row.find('.taxable-input').val(taxable.toFixed(2));
-
-    var cgstAmt = (cgstPct / 100) * taxable;
-    var sgstAmt = (sgstPct / 100) * taxable;
-    row.find('.cgst-amt-input').val(cgstAmt.toFixed(2));
-    row.find('.sgst-amt-input').val(sgstAmt.toFixed(2));
-
-    var total = taxable + cgstAmt + sgstAmt;
-    row.find('.total-input').val(total.toFixed(2));
+    
+    // We only need the base amount for the row, global tax/discount are calculated in summary
+    row.find('.total-input').val(amount.toFixed(2));
 
     calculateSummary();
 }
 
 function calculateSummary() {
     var subtotal = 0;
-    var totalTax = 0;
 
     $('.item-row').each(function(){
         var total = parseFloat($(this).find('.total-input').val()) || 0;
         subtotal += total;
-        var cgst = parseFloat($(this).find('.cgst-amt-input').val()) || 0;
-        var sgst = parseFloat($(this).find('.sgst-amt-input').val()) || 0;
-        totalTax += cgst + sgst;
     });
 
     $('#subtotal').val(subtotal.toFixed(2));
-    $('#total_tax').val(totalTax.toFixed(2));
 
     var discType = $('select[name="discount_type"]').val();
     var discVal = parseFloat($('#discount_value').val()) || 0;
@@ -305,6 +306,21 @@ function calculateSummary() {
     $('#discount_amount').val(discAmt.toFixed(2));
 
     var afterDiscount = subtotal - discAmt;
+    
+    var taxType = $('select[name="tax_type"]').val();
+    var totalTax = 0;
+    
+    if (taxType === 'igst') {
+        var igstPct = parseFloat($('#igst_percentage').val()) || 0;
+        totalTax = (igstPct / 100) * afterDiscount;
+    } else if (taxType === 'cgst_sgst') {
+        var cgstPct = parseFloat($('#cgst_percentage').val()) || 0;
+        var sgstPct = parseFloat($('#sgst_percentage').val()) || 0;
+        totalTax = ((cgstPct + sgstPct) / 100) * afterDiscount;
+    }
+
+    $('#total_tax').val(totalTax.toFixed(2));
+
     var grandTotal = afterDiscount + totalTax;
     var roundOff = Math.round(grandTotal) - grandTotal;
     grandTotal = Math.round(grandTotal);
@@ -374,13 +390,9 @@ function addItemRow(data) {
             row.find('.item-image-preview').addClass('d-none').attr('src', '');
         }
 
-        var cgst = tax / 2;
-        var sgst = tax / 2;
         row.find('.rate-input').val(rate);
         row.find('.unit-input').val(unit);
         row.find('.hsn-input').val(hsn);
-        row.find('.cgst-pct-input').val(cgst.toFixed(2));
-        row.find('.sgst-pct-input').val(sgst.toFixed(2));
         calculateRow(row);
     });
 
@@ -427,13 +439,11 @@ $(document).ready(function(){
     $('select[name="discount_type"]').on('change', function(){
         var type = $(this).val();
         if (type === 'percentage') {
-            $('#discount_value_col').removeClass('col-10').addClass('col-5');
-            $('#discount_value').attr('placeholder', '%');
-            $('#discount_amount_col').show();
+            $('#discount_addon_left').hide();
+            $('#discount_addon_right').show();
         } else {
-            $('#discount_value_col').removeClass('col-5').addClass('col-10');
-            $('#discount_value').attr('placeholder', 'Amount (₹)');
-            $('#discount_amount_col').hide();
+            $('#discount_addon_left').show();
+            $('#discount_addon_right').hide();
         }
         calculateSummary();
     });
@@ -446,40 +456,33 @@ $(document).ready(function(){
     $('select[name="tax_type"]').on('change', function(){
         var val = $(this).val();
         if (val === 'none') {
+            $('#taxFields').show();
+            $('#cgst_col, #sgst_col, #igst_col').hide();
+            $('#no_tax_col').show();
             $('#taxFields input').val(0).prop('readonly', true);
         } else {
+            $('#taxFields').show();
+            $('#no_tax_col').hide();
             $('#taxFields input').prop('readonly', false);
             if (val === 'igst') {
+                $('#cgst_col, #sgst_col').hide();
+                $('#igst_col').show();
                 $('#cgst_percentage').val(0).prop('readonly', true);
                 $('#sgst_percentage').val(0).prop('readonly', true);
                 if ($('#igst_percentage').val() == 0) $('#igst_percentage').val(18);
             } else {
+                $('#igst_col').hide();
+                $('#cgst_col, #sgst_col').show();
                 $('#igst_percentage').val(0).prop('readonly', true);
                 if ($('#cgst_percentage').val() == 0) $('#cgst_percentage').val(9);
                 if ($('#sgst_percentage').val() == 0) $('#sgst_percentage').val(9);
             }
         }
+        calculateSummary();
     });
 
     $('#cgst_percentage, #sgst_percentage, #igst_percentage').on('input', function(){
-        var taxType = $('select[name="tax_type"]').val();
-        $('.item-row').each(function(){
-            var cgstPct, sgstPct;
-            if (taxType === 'igst') {
-                var igst = parseFloat($('#igst_percentage').val()) || 0;
-                cgstPct = igst / 2;
-                sgstPct = igst / 2;
-            } else if (taxType === 'none') {
-                cgstPct = 0;
-                sgstPct = 0;
-            } else {
-                cgstPct = parseFloat($('#cgst_percentage').val()) || 0;
-                sgstPct = parseFloat($('#sgst_percentage').val()) || 0;
-            }
-            $(this).find('.cgst-pct-input').val(cgstPct.toFixed(2));
-            $(this).find('.sgst-pct-input').val(sgstPct.toFixed(2));
-            calculateRow($(this));
-        });
+        calculateSummary();
     });
 
     $('select[name="tax_type"]').trigger('change');
