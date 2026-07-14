@@ -62,12 +62,7 @@
 			</a>
 		</li>
 
-		<li class="menu-item {{ request()->is('admin/email-logs*') ? 'active' : ''}}">
-			<a href="{{route('admin.email_logs.index')}}" class="menu-link">
-				<i class="menu-icon tf-icons bx bx-envelope"></i>
-				<div data-i18n="Email Logs">Email Logs</div>
-			</a>
-		</li>
+
 
 	</ul>
 </aside>

@@ -26,13 +26,19 @@ class ReportController extends Controller
     public function customerWise(Request $request)
     {
         try {
-            $request->validate(['customer_id' => 'required|exists:customers,id']);
-            $customer = Customer::findOrFail($request->customer_id);
-            $quotations = Quotation::with('items')
-                ->where('customer_id', $request->customer_id)
-                ->latest()
-                ->get();
-            return view('admin.report.customer_wise', compact('quotations', 'customer'));
+            $customers = Customer::where('status', true)->orderBy('company_name')->get();
+            $quotations = collect();
+            $customer = null;
+
+            if ($request->has('customer_id')) {
+                $request->validate(['customer_id' => 'required|exists:customers,id']);
+                $customer = Customer::findOrFail($request->customer_id);
+                $quotations = Quotation::with('items')
+                    ->where('customer_id', $request->customer_id)
+                    ->latest()
+                    ->get();
+            }
+            return view('admin.report.customer_wise', compact('quotations', 'customer', 'customers'));
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage());
         }
@@ -41,16 +47,20 @@ class ReportController extends Controller
     public function dateWise(Request $request)
     {
         try {
-            $request->validate([
-                'from_date' => 'required|date',
-                'to_date' => 'required|date|after_or_equal:from_date',
-            ]);
+            $quotations = collect();
 
-            $quotations = Quotation::with('customer')
-                ->whereDate('created_at', '>=', $request->from_date)
-                ->whereDate('created_at', '<=', $request->to_date)
-                ->latest()
-                ->get();
+            if ($request->has('from_date') && $request->has('to_date')) {
+                $request->validate([
+                    'from_date' => 'required|date',
+                    'to_date' => 'required|date|after_or_equal:from_date',
+                ]);
+
+                $quotations = Quotation::with('customer')
+                    ->whereDate('created_at', '>=', $request->from_date)
+                    ->whereDate('created_at', '<=', $request->to_date)
+                    ->latest()
+                    ->get();
+            }
 
             return view('admin.report.date_wise', compact('quotations'));
         } catch (Exception $e) {
@@ -61,12 +71,16 @@ class ReportController extends Controller
     public function statusWise(Request $request)
     {
         try {
-            $request->validate(['status' => 'required|in:draft,sent,approved,expired,rejected']);
+            $quotations = collect();
 
-            $quotations = Quotation::with('customer')
-                ->where('status', $request->status)
-                ->latest()
-                ->get();
+            if ($request->has('status')) {
+                $request->validate(['status' => 'required|in:draft,sent,approved,expired,rejected']);
+
+                $quotations = Quotation::with('customer')
+                    ->where('status', $request->status)
+                    ->latest()
+                    ->get();
+            }
 
             return view('admin.report.status_wise', compact('quotations'));
         } catch (Exception $e) {
@@ -79,12 +93,15 @@ class ReportController extends Controller
         try {
             $month = $request->input('month', now()->month);
             $year = $request->input('year', now()->year);
+            $quotations = collect();
 
-            $quotations = Quotation::with('customer')
-                ->whereMonth('created_at', $month)
-                ->whereYear('created_at', $year)
-                ->latest()
-                ->get();
+            if ($request->has('month') && $request->has('year')) {
+                $quotations = Quotation::with('customer')
+                    ->whereMonth('created_at', $month)
+                    ->whereYear('created_at', $year)
+                    ->latest()
+                    ->get();
+            }
 
             return view('admin.report.monthly', compact('quotations', 'month', 'year'));
         } catch (Exception $e) {
@@ -95,14 +112,21 @@ class ReportController extends Controller
     public function itemWise(Request $request)
     {
         try {
-            $request->validate(['item_id' => 'required|exists:items,id']);
+            $items = Item::orderBy('name')->get();
+            $quotationItems = collect();
+            $item = null;
 
-            $item = Item::findOrFail($request->item_id);
-            $quotations = Quotation::whereHas('items', function ($q) use ($request) {
-                $q->where('item_id', $request->item_id);
-            })->with('customer')->latest()->get();
+            if ($request->has('item_id')) {
+                $request->validate(['item_id' => 'required|exists:items,id']);
 
-            return view('admin.report.item_wise', compact('quotations', 'item'));
+                $item = Item::findOrFail($request->item_id);
+                $quotationItems = \App\Models\QuotationItem::with('quotation.customer')
+                    ->where('item_id', $request->item_id)
+                    ->latest()
+                    ->get();
+            }
+
+            return view('admin.report.item_wise', compact('quotationItems', 'item', 'items'));
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage());
         }
