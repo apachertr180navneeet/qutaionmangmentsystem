@@ -101,11 +101,13 @@
         text-transform: uppercase;
         letter-spacing: 0.8px;
     }
-    .status-draft { background: rgba(255,255,255,0.2); color: #fff; border: 1px solid rgba(255,255,255,0.4); }
-    .status-sent { background: #e8f4fd; color: #0ea5e9; }
-    .status-approved { background: #dcfce7; color: #16a34a; }
-    .status-expired { background: #fef3cd; color: #d97706; }
-    .status-rejected { background: #fee2e2; color: #dc2626; }
+    .status-draft { background-color: rgba(255,255,255,0.2) !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.4) !important; }
+    .status-sent { background-color: #e8f4fd !important; color: #0ea5e9 !important; border: 1px solid #e8f4fd !important; }
+    .status-approved { background-color: #dcfce7 !important; color: #16a34a !important; border: 1px solid #dcfce7 !important; }
+    .status-expired { background-color: #fef3cd !important; color: #d97706 !important; border: 1px solid #fef3cd !important; }
+    .status-rejected { background-color: #fee2e2 !important; color: #dc2626 !important; border: 1px solid #fee2e2 !important; }
+    .q-status-badge:focus { box-shadow: none !important; background-color: #fff !important; color: #212529 !important; }
+    .q-status-badge:disabled { opacity: 0.8; cursor: not-allowed !important; }
 
     .q-info-body {
         padding: 24px;
@@ -320,11 +322,7 @@
             <a href="{{ route('admin.quotations.edit', $quotation->id) }}" class="btn btn-edit-q">
                 <i class="bx bx-edit me-1"></i> Edit Quotation
             </a>
-            @if(Route::has('admin.quotations.pdf'))
-            <a href="{{ route('admin.quotations.pdf', $quotation->id) }}" class="btn btn-download-q" target="_blank">
-                <i class="bx bx-download me-1"></i> Download PDF
-            </a>
-            @endif
+
         </div>
     </div>
 
@@ -343,7 +341,7 @@
             @endphp
             <div class="d-flex align-items-center gap-2">
                 <span class="text-white" style="font-size: 0.75rem; font-weight: 700; letter-spacing: 1px;">STATUS:</span>
-                <select id="statusAjaxSelect" class="form-select form-select-sm q-status-badge {{ $statusMap[$quotation->status] ?? 'status-draft' }} fw-bold" style="cursor: pointer; width: 140px; border: 2px solid rgba(255,255,255,0.4);" data-id="{{ $quotation->id }}">
+                <select id="statusAjaxSelect" class="form-select form-select-sm q-status-badge {{ $statusMap[$quotation->status] ?? 'status-draft' }} fw-bold" style="cursor: pointer; width: 140px;" data-id="{{ $quotation->id }}" {{ in_array($quotation->status, ['approved', 'rejected', 'expired']) ? 'disabled' : '' }}>
                     <option value="draft" class="text-dark bg-white" {{ $quotation->status == 'draft' ? 'selected' : '' }}>Draft</option>
                     <option value="sent" class="text-dark bg-white" {{ $quotation->status == 'sent' ? 'selected' : '' }}>Sent</option>
                     <option value="approved" class="text-dark bg-white" {{ $quotation->status == 'approved' ? 'selected' : '' }}>Approved</option>
@@ -521,6 +519,9 @@ $(document).ready(function() {
             },
             success: function(response) {
                 if(response.success) {
+                    if (['approved', 'rejected', 'expired'].includes(status)) {
+                        $select.prop('disabled', true);
+                    }
                     // Optional: show a small toast notification here
                     console.log(response.message);
                 } else {

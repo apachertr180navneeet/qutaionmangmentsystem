@@ -275,45 +275,6 @@ class QuotationController extends Controller
         }
     }
 
-    public function updateStatusold(Request $request, $id)
-    {
-        try {
-            $request->validate([
-                'status' => 'required|in:draft,sent,approved,expired,rejected',
-            ]);
-
-            $quotation = Quotation::findOrFail($id);
-            $quotation->update(['status' => $request->status]);
-
-            return redirect()->back()->with('success', 'Status updated successfully.');
-        } catch (Exception $e) {
-            return back()->with('error', $e->getMessage());
-        }
-    }
-
-    public function print_pdf($id)
-    {
-        try {
-            $quotation = Quotation::with(['customer', 'items', 'creator'])->findOrFail($id);
-            $company = CompanySetting::first();
-            $pdf = Pdf::loadView('admin.quotation.pdf', compact('quotation', 'company'));
-            return $pdf->stream('quotation-' . $quotation->quotation_number . '.pdf');
-        } catch (Exception $e) {
-            return back()->with('error', $e->getMessage());
-        }
-    }
-
-    public function download_pdf($id)
-    {
-        try {
-            $quotation = Quotation::with(['customer', 'items', 'creator'])->findOrFail($id);
-            $company = CompanySetting::first();
-            $pdf = Pdf::loadView('admin.quotation.pdf', compact('quotation', 'company'));
-            return $pdf->download('quotation-' . $quotation->quotation_number . '.pdf');
-        } catch (Exception $e) {
-            return back()->with('error', $e->getMessage());
-        }
-    }
 
     public function email(Request $request, $id)
     {
