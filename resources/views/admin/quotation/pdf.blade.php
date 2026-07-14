@@ -3,11 +3,22 @@
 @php
 function getLocalImagePath($url) {
     if (!$url) return '';
-    $baseUrl = url('/');
-    if (str_starts_with($url, $baseUrl)) {
-        $relativePath = str_replace($baseUrl, '', $url);
-        return public_path(ltrim($relativePath, '/'));
+    if (str_starts_with($url, 'data:image')) return $url;
+    
+    $path = '';
+    $pos = strpos($url, 'uploads/');
+    if ($pos !== false) {
+        $path = public_path(substr($url, $pos));
+    } else {
+        $path = public_path($url);
     }
+
+    if ($path && file_exists($path)) {
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $data = file_get_contents($path);
+        return 'data:image/' . $type . ';base64,' . base64_encode($data);
+    }
+    
     return $url;
 }
 @endphp
