@@ -162,7 +162,7 @@
   transition: all 0.2s ease;
 }
 .list-group-item:hover {
-  background-color: rgba(105, 108, 255, 0.05);
+  background-color: rgba(111, 66, 193, 0.05);
   transform: translateX(5px);
 }
 
@@ -190,35 +190,35 @@
 
 /* Premium Buttons */
 .btn-primary {
-  background: #6f42c1 !important;
+  background: linear-gradient(45deg, #8E2DE2, #4A00E0) !important;
   border: none !important;
-  box-shadow: 0 4px 10px rgba(111, 66, 193, 0.3) !important;
+  box-shadow: 0 4px 10px rgba(142, 45, 226, 0.3) !important;
   color: #fff !important;
   transition: all 0.25s ease !important;
 }
 
 .btn-primary:hover {
-  background: #5b32a3 !important;
+  background: linear-gradient(45deg, #7c22cf, #3d00be) !important;
   transform: translateY(-2px) !important;
-  box-shadow: 0 6px 15px rgba(111, 66, 193, 0.4) !important;
+  box-shadow: 0 6px 15px rgba(142, 45, 226, 0.4) !important;
 }
 
 .btn-outline-primary {
   background-color: transparent !important;
-  color: #6f42c1 !important;
-  border: 1px solid #6f42c1 !important;
+  color: #8E2DE2 !important;
+  border: 1px solid #8E2DE2 !important;
 }
 .btn-outline-primary:hover {
-  background-color: rgba(111, 66, 193, 0.05) !important;
+  background-color: rgba(142, 45, 226, 0.05) !important;
 }
 
 .form-label {
-  color: #6f42c1 !important;
+  color: #8E2DE2 !important;
   font-weight: 600 !important;
 }
 
 .card-header i, .card-title i, h5 i {
-  color: #6f42c1 !important;
+  color: #8E2DE2 !important;
 }
 
 .btn-secondary {
@@ -243,12 +243,14 @@
 }
 
 .table-light th, .table thead th {
-  background-color: #f4effa !important;
-  color: #6f42c1 !important;
+  background-color: #fcfcfd !important;
+  color: #7f2cde !important;
+  font-weight: 700 !important;
   text-transform: uppercase;
   font-size: 0.75rem;
-  letter-spacing: 1px;
-  border-bottom: 2px solid #ebedf2 !important;
+  letter-spacing: 0.05em;
+  border-top: 1px solid #f1f5f9 !important;
+  border-bottom: 1px solid #f1f5f9 !important;
 }
 
 /* Add Item Button styling specifically */
