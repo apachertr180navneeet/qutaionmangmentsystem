@@ -105,57 +105,46 @@
                                 <td><input type="text" name="subtotal" id="subtotal" class="form-control form-control-sm calc-input" readonly value="{{ old('subtotal', $quotation->subtotal ?? '0.00') }}"></td>
                             </tr>
                             <tr>
-                                <td>
-                                    Discount Type<br>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="discount_type" id="discount_type_percentage" value="percentage" {{ old('discount_type', $quotation->discount_type ?? 'percentage') == 'percentage' ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="discount_type_percentage">%</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="discount_type" id="discount_type_fixed" value="fixed" {{ old('discount_type', $quotation->discount_type) == 'fixed' ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="discount_type_fixed">Fixed</label>
-                                    </div>
+                                <td class="align-middle">
+                                    <div class="mb-1">Discount Type</div>
+                                    <select name="discount_type" id="discount_type" class="form-select form-select-sm w-75 shadow-none">
+                                        <option value="percentage" {{ old('discount_type', $quotation->discount_type ?? 'percentage') == 'percentage' ? 'selected' : '' }}>Percentage (%)</option>
+                                        <option value="fixed" {{ old('discount_type', $quotation->discount_type) == 'fixed' ? 'selected' : '' }}>Fixed Amount</option>
+                                    </select>
                                 </td>
-                                <td>
-                                    <div class="row g-1">
-                                        <div class="col-6">
-                                            <input type="number" step="0.01" name="discount_value" id="discount_value" class="form-control form-control-sm calc-input" value="{{ old('discount_value', $quotation->discount_value ?? 0) }}" placeholder="Value">
+                                <td class="align-middle">
+                                    <div class="row g-2 justify-content-end align-items-center">
+                                        <div class="col-5" id="discount_value_col">
+                                            <input type="number" step="0.01" name="discount_value" id="discount_value" class="form-control form-control-sm text-center calc-input" value="{{ old('discount_value', $quotation->discount_value ?? 0) }}" placeholder="%">
                                         </div>
-                                        <div class="col-6">
-                                            <input type="text" name="discount_amount" id="discount_amount" class="form-control form-control-sm calc-input" readonly value="{{ old('discount_amount', $quotation->discount_amount ?? '0.00') }}" placeholder="Amount">
+                                        <div class="col-5" id="discount_amount_col">
+                                            <input type="text" name="discount_amount" id="discount_amount" class="form-control form-control-sm text-center calc-input" readonly value="{{ old('discount_amount', $quotation->discount_amount ?? '0.00') }}" placeholder="Amount">
                                         </div>
                                     </div>
                                 </td>
                             </tr>
                             <tr>
-                                <td>
-                                    Tax Type<br>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="tax_type" id="tax_type_cgst_sgst" value="cgst_sgst" {{ old('tax_type', $quotation->tax_type ?? 'cgst_sgst') == 'cgst_sgst' ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="tax_type_cgst_sgst">CGST+SGST</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="tax_type" id="tax_type_igst" value="igst" {{ old('tax_type', $quotation->tax_type) == 'igst' ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="tax_type_igst">IGST</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="tax_type" id="tax_type_none" value="none" {{ old('tax_type', $quotation->tax_type) == 'none' ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="tax_type_none">No Tax</label>
-                                    </div>
+                                <td class="align-middle">
+                                    <div class="mb-1">Tax Type</div>
+                                    <select name="tax_type" id="tax_type" class="form-select form-select-sm w-75 shadow-none">
+                                        <option value="cgst_sgst" {{ old('tax_type', $quotation->tax_type ?? 'cgst_sgst') == 'cgst_sgst' ? 'selected' : '' }}>CGST + SGST</option>
+                                        <option value="igst" {{ old('tax_type', $quotation->tax_type) == 'igst' ? 'selected' : '' }}>IGST</option>
+                                        <option value="none" {{ old('tax_type', $quotation->tax_type) == 'none' ? 'selected' : '' }}>No Tax</option>
+                                    </select>
                                 </td>
-                                <td>
-                                    <div class="row g-1" id="taxFields">
+                                <td class="align-middle">
+                                    <div class="row g-2 justify-content-end align-items-end" id="taxFields">
                                         <div class="col-4">
-                                            <label class="form-label small">CGST%</label>
-                                            <input type="number" step="0.01" name="cgst_percentage" id="cgst_percentage" class="form-control form-control-sm calc-input" value="{{ old('cgst_percentage', $quotation->cgst_percentage ?? 9) }}">
+                                            <label class="form-label text-center d-block small fw-bold mb-1">CGST%</label>
+                                            <input type="number" step="0.01" name="cgst_percentage" id="cgst_percentage" class="form-control form-control-sm text-center calc-input" value="{{ old('cgst_percentage', $quotation->cgst_percentage ?? 9) }}">
                                         </div>
                                         <div class="col-4">
-                                            <label class="form-label small">SGST%</label>
-                                            <input type="number" step="0.01" name="sgst_percentage" id="sgst_percentage" class="form-control form-control-sm calc-input" value="{{ old('sgst_percentage', $quotation->sgst_percentage ?? 9) }}">
+                                            <label class="form-label text-center d-block small fw-bold mb-1">SGST%</label>
+                                            <input type="number" step="0.01" name="sgst_percentage" id="sgst_percentage" class="form-control form-control-sm text-center calc-input" value="{{ old('sgst_percentage', $quotation->sgst_percentage ?? 9) }}">
                                         </div>
                                         <div class="col-4">
-                                            <label class="form-label small">IGST%</label>
-                                            <input type="number" step="0.01" name="igst_percentage" id="igst_percentage" class="form-control form-control-sm calc-input" value="{{ old('igst_percentage', $quotation->igst_percentage ?? 18) }}">
+                                            <label class="form-label text-center d-block small fw-bold mb-1">IGST%</label>
+                                            <input type="number" step="0.01" name="igst_percentage" id="igst_percentage" class="form-control form-control-sm text-center calc-input" value="{{ old('igst_percentage', $quotation->igst_percentage ?? 18) }}">
                                         </div>
                                     </div>
                                 </td>
@@ -227,6 +216,40 @@
 <script>
 var itemIndex = {{ count($quotation->items ?? []) }};
 
+function formatItem(item) {
+    if (!item.id) { return item.text; }
+    var $el = $(item.element);
+    var image = $el.data('image');
+    var rate = $el.data('rate') || 0;
+    var hsn = $el.data('hsn') || 'N/A';
+    
+    var imgHtml = image ? '<img src="' + image + '" class="rounded me-2" style="width:32px; height:32px; object-fit:cover;">' : '<div class="rounded me-2 bg-light border d-inline-block" style="width:32px; height:32px;"></div>';
+    
+    return $(
+        '<div class="d-flex align-items-center py-1">' +
+            imgHtml +
+            '<div>' +
+                '<div class="fw-bold text-dark" style="font-size: 0.85rem; line-height: 1.2;">' + item.text.split(' (')[0] + '</div>' +
+                '<div class="text-muted" style="font-size: 0.75rem;">Rate: ₹' + parseFloat(rate).toFixed(2) + ' | HSN: ' + hsn + '</div>' +
+            '</div>' +
+        '</div>'
+    );
+}
+
+function formatCustomer(customer) {
+    if (!customer.id) { return customer.text; }
+    var textParts = customer.text.split(' (');
+    var name = textParts[0];
+    var email = textParts[1] ? textParts[1].replace(')', '') : '';
+    
+    return $(
+        '<div class="py-1">' +
+            '<div class="fw-bold text-dark" style="font-size: 0.85rem; line-height: 1.2;">' + name + '</div>' +
+            (email ? '<div class="text-muted" style="font-size: 0.75rem;"><i class="bx bx-envelope"></i> ' + email + '</div>' : '') +
+        '</div>'
+    );
+}
+
 function calculateRow(row) {
     var qty = parseFloat(row.find('.quantity-input').val()) || 0;
     var rate = parseFloat(row.find('.rate-input').val()) || 0;
@@ -266,7 +289,7 @@ function calculateSummary() {
     $('#subtotal').val(subtotal.toFixed(2));
     $('#total_tax').val(totalTax.toFixed(2));
 
-    var discType = $('input[name="discount_type"]:checked').val();
+    var discType = $('select[name="discount_type"]').val();
     var discVal = parseFloat($('#discount_value').val()) || 0;
     var discAmt = 0;
     if (discType === 'percentage') {
@@ -326,7 +349,12 @@ function addItemRow(data) {
     row.find('.item-select').select2({
         theme: 'bootstrap-5',
         width: '100%',
-        placeholder: 'Search item...'
+        placeholder: 'Search item...',
+        templateResult: formatItem,
+        templateSelection: function(item) {
+            if (!item.id) return item.text;
+            return item.text.split(' (')[0];
+        }
     }).on('change', function(){
         var selected = $(this).find(':selected');
         var rate = selected.data('rate') || 0;
@@ -370,24 +398,47 @@ function addItemRow(data) {
 }
 
 $(document).ready(function(){
-    $('.select2').select2({
+    $('.select2').not('.item-select').select2({
         theme: 'bootstrap-5',
-        width: '100%'
+        width: '100%',
+        templateResult: function(item) {
+            if ($(item.element).closest('select').attr('id') === 'customer_id') {
+                return formatCustomer(item);
+            }
+            return item.text;
+        },
+        templateSelection: function(item) {
+            if ($(item.element).closest('select').attr('id') === 'customer_id' && item.id) {
+                return item.text.split(' (')[0];
+            }
+            return item.text;
+        }
     });
 
     $('#addItemBtn').on('click', function(){
         addItemRow();
     });
 
-    $('input[name="discount_type"]').on('change', function(){
+    $('select[name="discount_type"]').on('change', function(){
+        var type = $(this).val();
+        if (type === 'percentage') {
+            $('#discount_value_col').removeClass('col-10').addClass('col-5');
+            $('#discount_value').attr('placeholder', '%');
+            $('#discount_amount_col').show();
+        } else {
+            $('#discount_value_col').removeClass('col-5').addClass('col-10');
+            $('#discount_value').attr('placeholder', 'Amount (₹)');
+            $('#discount_amount_col').hide();
+        }
         calculateSummary();
     });
+    $('select[name="discount_type"]').trigger('change');
 
     $('#discount_value').on('input', function(){
         calculateSummary();
     });
 
-    $('input[name="tax_type"]').on('change', function(){
+    $('select[name="tax_type"]').on('change', function(){
         var val = $(this).val();
         if (val === 'none') {
             $('#taxFields input').val(0).prop('readonly', true);
@@ -406,7 +457,7 @@ $(document).ready(function(){
     });
 
     $('#cgst_percentage, #sgst_percentage, #igst_percentage').on('input', function(){
-        var taxType = $('input[name="tax_type"]:checked').val();
+        var taxType = $('select[name="tax_type"]').val();
         $('.item-row').each(function(){
             var cgstPct, sgstPct;
             if (taxType === 'igst') {
@@ -427,7 +478,7 @@ $(document).ready(function(){
     });
 
     var savedTaxType = '{{ old('tax_type', $quotation->tax_type ?? 'cgst_sgst') }}';
-    $('input[name="tax_type"][value="' + savedTaxType + '"]').prop('checked', true).trigger('change');
+    $('select[name="tax_type"]').val(savedTaxType).trigger('change');
 
     function updateValidUntil() {
         var dateVal = $('input[name="date"]').val();
