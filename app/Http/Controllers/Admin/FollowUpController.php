@@ -69,7 +69,7 @@ class FollowUpController extends Controller
             $data['user_id'] = auth()->id();
             FollowUp::create($data);
 
-            return redirect()->back()->with('success', 'Follow-up created successfully.');
+            return redirect()->route('admin.followups.index')->with('success', 'Follow-up created successfully.');
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage())->withInput();
         }
@@ -90,7 +90,7 @@ class FollowUpController extends Controller
 
             $followUp->update($data);
 
-            return redirect()->back()->with('success', 'Follow-up updated successfully.');
+            return redirect()->route('admin.followups.index')->with('success', 'Follow-up updated successfully.');
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage())->withInput();
         }

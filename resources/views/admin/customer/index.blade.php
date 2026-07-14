@@ -6,7 +6,7 @@
             Customer List
         </h4>
         <div class="d-flex gap-2">
-            <a href="{{ route('admin.customers.import_template') }}" class="btn btn-outline-secondary" style="border-radius: 8px;">
+            <a href="{{ route('admin.customers.import_template') }}" class="btn btn-outline-primary" style="border-radius: 8px;">
                 <i class="bx bx-download me-1"></i> Template
             </a>
             <button type="button" class="btn-gradient-primary" data-bs-toggle="modal" data-bs-target="#importModal">
@@ -25,7 +25,7 @@
                 </div>
                 <button type="submit" class="btn-gradient-primary"><i class="bx bx-search me-1"></i> Search</button>
                 @if(request('search'))
-                    <a href="{{ route('admin.customers.index') }}" class="btn btn-outline-secondary" style="border-radius: 8px;">Clear</a>
+                    <a href="{{ route('admin.customers.index') }}" class="btn btn-outline-primary" style="border-radius: 8px;">Clear</a>
                 @endif
             </form>
         </div>
@@ -94,12 +94,12 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="file" class="form-label">Upload CSV/Excel File</label>
+                        <label for="file" class="form-label custom-form-label">Upload CSV/Excel File</label>
                         <input class="form-control" type="file" id="file" name="file" accept=".csv, .xlsx, .xls" required>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" style="border-radius: 8px;" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-outline-primary" style="border-radius: 8px;" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn-gradient-primary">Import</button>
                 </div>
             </div>

@@ -5,9 +5,17 @@
         <h4 class="page-title">
             Item List
         </h4>
-        <a href="{{ route('admin.items.create') }}" class="btn-success-custom">
-            <i class="bx bx-plus-circle me-1"></i> Add New Item
-        </a>
+        <div class="d-flex gap-2">
+            <a href="{{ route('admin.items.import_template') }}" class="btn btn-outline-secondary" style="border-radius: 8px;">
+                <i class="bx bx-download me-1"></i> Template
+            </a>
+            <button type="button" class="btn-gradient-primary" data-bs-toggle="modal" data-bs-target="#importModal">
+                <i class="bx bx-upload me-1"></i> Import
+            </button>
+            <a href="{{ route('admin.items.create') }}" class="btn-success-custom">
+                <i class="bx bx-plus-circle me-1"></i> Add New Item
+            </a>
+        </div>
     </div>
     <div class="custom-card mb-4 p-3">
         <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
@@ -80,6 +88,31 @@
         <div class="d-flex justify-content-center p-4">
             {{ $items->links() }}
         </div>
+    </div>
+</div>
+
+<!-- Import Modal -->
+<div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="{{ route('admin.items.import') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="importModalLabel">Import Items</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="file" class="form-label">Upload CSV/Excel File</label>
+                        <input class="form-control" type="file" id="file" name="file" accept=".csv, .xlsx, .xls" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" style="border-radius: 8px;" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn-gradient-primary">Import</button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 @endsection

@@ -417,3 +417,12 @@ body {
 .table-actions {
     white-space: nowrap;
 }
+
+.custom-form-label {
+    color: #8E2DE2;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+}

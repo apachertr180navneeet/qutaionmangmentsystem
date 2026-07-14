@@ -47,7 +47,7 @@ class CompanySettingController extends Controller
                     File::makeDirectory($path, $mode = 0777, true, true);
                 }
                 $file->move($path, $filename);
-                $data['logo'] = $folder . $filename;
+                $data['logo'] = url($folder . $filename);
             }
 
             $setting = CompanySetting::first();

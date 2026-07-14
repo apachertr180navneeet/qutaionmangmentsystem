@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use Exception;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\ItemImport;
+use App\Exports\ItemTemplateExport;
 
 class ItemController extends Controller
 {
@@ -143,5 +146,24 @@ class ItemController extends Controller
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:csv,txt,xlsx,xls',
+        ]);
+
+        try {
+            Excel::import(new ItemImport, $request->file('file'));
+            return redirect()->route('admin.items.index')->with('success', 'Items imported successfully.');
+        } catch (Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function downloadTemplate()
+    {
+        return Excel::download(new ItemTemplateExport, 'item_import_template.xlsx');
     }
 }
