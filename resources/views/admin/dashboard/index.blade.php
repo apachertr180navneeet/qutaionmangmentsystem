@@ -236,7 +236,7 @@ $(document).ready(function(){
     var trendOptions = {
         series: [{
             name: 'Quotations',
-            data: {{ json_encode($monthlyTrend ?? []) }}
+            data: {!! json_encode($monthlyTrend ?? []) !!}
         }],
         chart: {
             type: 'line',
@@ -245,7 +245,7 @@ $(document).ready(function(){
         },
         colors: ['#A05AFF'],
         xaxis: {
-            categories: {{ json_encode($monthlyLabels ?? ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']) }}
+            categories: {!! json_encode($monthlyLabels ?? ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']) !!}
         },
         yaxis: {
             title: { text: 'Count' }
@@ -256,7 +256,7 @@ $(document).ready(function(){
     trendChart.render();
 
     var statusOptions = {
-        series: {{ json_encode($statusDistribution ?? [0,0,0,0,0]) }},
+        series: {!! json_encode($statusDistribution ?? [0,0,0,0,0]) !!},
         chart: {
             type: 'pie',
             height: 300

@@ -54,6 +54,9 @@ body {
 .bg-menu-theme .menu-inner > .menu-item.active > .menu-link i {
     color: #fff !important;
 }
+.bg-menu-theme .menu-inner > .menu-item.active:before {
+    display: none !important;
+}
 .bg-menu-theme .menu-link {
     color: #4a505e !important;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
