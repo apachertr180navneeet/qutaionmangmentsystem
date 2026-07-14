@@ -1,29 +1,31 @@
 @extends('admin.layouts.app')
-@section('style')
-<style>
-.table-actions { white-space: nowrap; }
-</style>
-@endsection
 @section('content')
 <div class="container-fluid flex-grow-1 container-p-y">
-    <h5 class="py-2 mb-2">
-        <span class="text-primary fw-light">Item List</span>
-    </h5>
-    <div class="card">
-        <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
-            <form method="GET" action="{{ route('admin.items.index') }}" class="d-flex gap-2 flex-wrap">
-                <input type="text" name="search" class="form-control" placeholder="Search by name, SKU..." value="{{ request('search') }}" style="min-width:250px;">
-                <button type="submit" class="btn btn-primary"><i class="bx bx-search"></i> Search</button>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="page-title">
+            Item List
+        </h4>
+        <a href="{{ route('admin.items.create') }}" class="btn-success-custom">
+            <i class="bx bx-plus-circle me-1"></i> Add New Item
+        </a>
+    </div>
+    <div class="custom-card mb-4 p-3">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <form method="GET" action="{{ route('admin.items.index') }}" class="d-flex gap-3 flex-wrap align-items-center flex-grow-1">
+                <div class="flex-grow-1" style="max-width: 400px;">
+                    <input type="text" name="search" class="custom-input no-icon" placeholder="Search by name, SKU..." value="{{ request('search') }}">
+                </div>
+                <button type="submit" class="btn-gradient-primary"><i class="bx bx-search me-1"></i> Search</button>
                 @if(request('search'))
-                    <a href="{{ route('admin.items.index') }}" class="btn btn-outline-secondary">Clear</a>
+                    <a href="{{ route('admin.items.index') }}" class="btn btn-outline-secondary" style="border-radius: 8px;">Clear</a>
                 @endif
             </form>
-            <a href="{{ route('admin.items.create') }}" class="btn btn-success"><i class="bx bx-plus"></i> Add New Item</a>
         </div>
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-striped table-bordered mb-0">
-                    <thead class="table-light">
+    </div>
+    <div class="custom-card">
+        <div class="table-responsive">
+            <table class="custom-table">
+                <thead>
                         <tr>
                             <th>#</th>
                             <th>Image</th>
@@ -48,21 +50,21 @@
                                 @endif
                             </td>
                             <td>{{ $item->name }}</td>
-                            <td>{{ $item->sku }}</td>
-                            <td>{{ $item->unit }}</td>
-                            <td>{{ number_format($item->rate, 2) }}</td>
+                            <td><span class="text-purple-custom">{{ $item->sku }}</span></td>
+                            <td class="table-dark-text">{{ $item->unit }}</td>
+                            <td class="table-dark-text">{{ number_format($item->rate, 2) }}</td>
                             <td>{{ $item->hsn_code }}</td>
                             <td>
                                 @if($item->is_active)
-                                    <span class="badge bg-label-success">Active</span>
+                                    <span class="badge-custom badge-active">ACTIVE</span>
                                 @else
-                                    <span class="badge bg-label-danger">Inactive</span>
+                                    <span class="badge-custom badge-inactive">INACTIVE</span>
                                 @endif
                             </td>
                             <td class="text-center table-actions">
-                                <a href="{{ route('admin.items.show', $item->id) }}" class="btn btn-sm btn-info" title="View"><i class="bx bx-show"></i></a>
-                                <a href="{{ route('admin.items.edit', $item->id) }}" class="btn btn-sm btn-primary" title="Edit"><i class="bx bx-edit"></i></a>
-                                <button type="button" class="btn btn-sm btn-danger delete-item" data-id="{{ $item->id }}" title="Delete"><i class="bx bx-trash"></i></button>
+                                <a href="{{ route('admin.items.show', $item->id) }}" class="action-btn-outline btn-outline-view" title="View"><i class="bx bx-show"></i></a>
+                                <a href="{{ route('admin.items.edit', $item->id) }}" class="action-btn-outline btn-outline-edit" title="Edit"><i class="bx bx-edit"></i></a>
+                                <button type="button" class="action-btn-outline btn-outline-delete delete-item" data-id="{{ $item->id }}" title="Delete"><i class="bx bx-trash"></i></button>
                                 <form id="delete-form-{{ $item->id }}" action="{{ route('admin.items.destroy', $item->id) }}" method="POST" style="display:none;">
                                     @csrf @method('DELETE')
                                 </form>
@@ -75,7 +77,7 @@
                 </table>
             </div>
         </div>
-        <div class="card-footer d-flex justify-content-center">
+        <div class="d-flex justify-content-center p-4">
             {{ $items->links() }}
         </div>
     </div>

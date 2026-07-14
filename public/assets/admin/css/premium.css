@@ -217,12 +217,201 @@ body {
 }
 
 /* Enhanced Hover Card */
-.hover-card {
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
-}
 .hover-card:hover {
     transform: translateY(-8px) scale(1.03) !important;
     box-shadow: 0 25px 50px rgba(160, 90, 255, 0.2) !important;
     border-color: var(--admin-primary) !important;
     z-index: 10;
+}
+
+/* ---------------------------------------------------
+   Global Table & Form Styles (from Quotations)
+--------------------------------------------------- */
+.page-title {
+    color: #9f7aea;
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin-bottom: 0;
+}
+.custom-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    border: none;
+    overflow: hidden;
+}
+.custom-card-header {
+    padding: 1.5rem;
+    border-bottom: none;
+    background: transparent;
+}
+.custom-input {
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    padding: 0.6rem 1rem 0.6rem 2.5rem;
+    font-size: 0.9rem;
+    width: 100%;
+    outline: none;
+    transition: all 0.2s;
+    color: #475569;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23cbd5e1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>') no-repeat 0.75rem center;
+    background-color: #fff;
+}
+.custom-input.no-icon {
+    padding-left: 1rem;
+    background: #fff;
+}
+.custom-input::placeholder {
+    color: #cbd5e1;
+}
+.custom-input:focus {
+    border-color: #9f7aea;
+    box-shadow: 0 0 0 3px rgba(159, 122, 234, 0.1);
+}
+.custom-select {
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    padding: 0.6rem 2.5rem 0.6rem 1rem;
+    font-size: 0.9rem;
+    width: 100%;
+    outline: none;
+    transition: all 0.2s;
+    color: #64748b;
+    appearance: none;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23cbd5e1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>') no-repeat right 0.75rem center;
+    background-color: #fff;
+}
+.custom-select:focus {
+    border-color: #9f7aea;
+    box-shadow: 0 0 0 3px rgba(159, 122, 234, 0.1);
+}
+.btn-gradient-primary {
+    background: linear-gradient(135deg, #9f7aea, #4bd2f2);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.6rem 1.5rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: opacity 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+}
+.btn-gradient-primary:hover {
+    opacity: 0.9;
+    color: white;
+}
+.btn-success-custom {
+    background-color: #55c777;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.6rem 1.25rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+}
+.btn-success-custom:hover {
+    background-color: #4ab56a;
+    color: white;
+}
+.custom-table {
+    margin-bottom: 0;
+    width: 100%;
+    border-collapse: collapse;
+}
+.custom-table thead th {
+    background-color: #fcfcfd;
+    color: #64748b;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #f1f5f9;
+    border-top: 1px solid #f1f5f9;
+}
+.custom-table tbody td {
+    padding: 1.25rem 1.5rem;
+    vertical-align: middle;
+    color: #64748b;
+    font-size: 0.875rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+.custom-table tbody tr:hover td {
+    background-color: #f8fafc;
+}
+.text-purple-custom {
+    color: #a78bfa;
+    font-weight: 500;
+}
+.avatar-circle {
+    width: 28px;
+    height: 28px;
+    background-color: #ede9fe;
+    color: #8b5cf6;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-right: 0.75rem;
+}
+.table-dark-text {
+    color: #475569;
+    font-weight: 600;
+}
+.badge-custom {
+    padding: 0.35rem 0.85rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+.badge-draft { background-color: #f1f5f9; color: #94a3b8; }
+.badge-sent { background-color: #e0f2fe; color: #38bdf8; }
+.badge-approved { background-color: #dcfce7; color: #22c55e; }
+.badge-active { background-color: #dcfce7; color: #22c55e; }
+.badge-inactive { background-color: #fee2e2; color: #ef4444; }
+.badge-expired { background-color: #fef9c3; color: #eab308; }
+.badge-rejected { background-color: #fee2e2; color: #ef4444; }
+
+.action-btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: transparent;
+    margin: 0 2px;
+    transition: all 0.2s;
+    text-decoration: none;
+}
+.btn-outline-view {
+    border: 1px solid #38bdf8;
+    color: #38bdf8;
+}
+.btn-outline-view:hover { background: #38bdf8; color: white; border-color: #38bdf8; }
+.btn-outline-edit {
+    border: 1px solid #a78bfa;
+    color: #a78bfa;
+}
+.btn-outline-edit:hover { background: #a78bfa; color: white; border-color: #a78bfa; }
+.btn-outline-delete {
+    border: 1px solid #f87171;
+    color: #f87171;
+}
+.btn-outline-delete:hover { background: #f87171; color: white; border-color: #f87171; }
+
+.table-actions {
+    white-space: nowrap;
 }
