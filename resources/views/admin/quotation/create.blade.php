@@ -13,18 +13,20 @@
 @endsection
 @section('content')
 <div class="container-fluid flex-grow-1 container-p-y">
-    <h5 class="py-2 mb-2">
-        <span class="text-primary fw-light">Create Quotation</span>
-    </h5>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="fw-bold py-3 mb-0" style="background: -webkit-linear-gradient(45deg, #8E2DE2, #4A00E0); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+            Create Quotation
+        </h4>
+    </div>
 
     <form action="{{ route('admin.quotations.store') }}" method="POST" id="quotationForm" class="form-animated">
         @csrf
-        <div class="card mb-3">
-            <div class="card-header"><strong>Quotation Details</strong></div>
-            <div class="card-body">
-                <div class="row g-3">
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+                <h5 class="card-title text-secondary fw-bold mb-4">Quotation Details</h5>
+                <div class="row g-4">
                     <div class="col-md-3">
-                        <label class="form-label">Customer <span class="text-danger">*</span></label>
+                        <label class="form-label text-muted fw-bold" style="font-size: 0.75rem; letter-spacing: 0.5px;">CUSTOMER <span class="text-danger">*</span></label>
                         <select name="customer_id" id="customer_id" class="form-select select2 @error('customer_id') is-invalid @enderror" required>
                             <option value="">Select Customer</option>
                             @foreach($customers as $customer)
@@ -34,21 +36,21 @@
                         @error('customer_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label">Quotation Number</label>
+                        <label class="form-label text-muted fw-bold" style="font-size: 0.75rem; letter-spacing: 0.5px;">QUOTATION NUMBER</label>
                         <input type="text" name="quotation_number" class="form-control" value="{{ old('quotation_number', $quotation_number ?? '') }}" readonly>
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label">Date <span class="text-danger">*</span></label>
+                        <label class="form-label text-muted fw-bold" style="font-size: 0.75rem; letter-spacing: 0.5px;">DATE <span class="text-danger">*</span></label>
                         <input type="date" name="date" class="form-control @error('date') is-invalid @enderror" value="{{ old('date', date('Y-m-d')) }}" required>
                         @error('date') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label">Valid Until</label>
+                        <label class="form-label text-muted fw-bold" style="font-size: 0.75rem; letter-spacing: 0.5px;">VALID UNTIL</label>
                         <input type="date" name="valid_until" class="form-control @error('valid_until') is-invalid @enderror" value="{{ old('valid_until') }}">
                         @error('valid_until') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Status</label>
+                    <div class="col-md-3 mt-3">
+                        <label class="form-label text-muted fw-bold" style="font-size: 0.75rem; letter-spacing: 0.5px;">STATUS</label>
                         <select name="status" class="form-select @error('status') is-invalid @enderror">
                             <option value="draft" {{ old('status') == 'draft' ? 'selected' : '' }}>Draft</option>
                             <option value="sent" {{ old('status') == 'sent' ? 'selected' : '' }}>Sent</option>
@@ -59,30 +61,32 @@
             </div>
         </div>
 
-        <div class="card mb-3">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <strong>Items</strong>
-                <button type="button" class="btn btn-primary btn-sm" id="addItemBtn"><i class="bx bx-plus"></i> Add Item</button>
-            </div>
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-bordered mb-0" id="itemsTable">
-                        <thead class="table-light">
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="card-title text-secondary fw-bold mb-0">Items</h5>
+                    <button type="button" class="btn btn-success shadow-sm rounded-pill px-3 py-2" style="background: linear-gradient(135deg, #28a745, #20c997); border: none; font-weight: 500;" id="addItemBtn">
+                        <i class="bx bx-plus me-1"></i> Add Item
+                    </button>
+                </div>
+                <div class="table-responsive text-nowrap">
+                    <table class="table table-borderless table-hover mb-0" id="itemsTable">
+                        <thead class="bg-light border-bottom">
                             <tr>
-                                <th style="min-width: 50px;">#</th>
-                                <th style="min-width: 60px;">Image</th>
-                                <th style="min-width: 200px;">Item</th>
-                                <th style="min-width: 100px;">HSN</th>
-                                <th style="min-width: 100px;">Unit</th>
-                                <th style="min-width: 100px;">Qty</th>
-                                <th style="min-width: 120px;">Rate</th>
-                                <th style="min-width: 120px;">Total</th>
+                                <th class="text-muted fw-bold" style="font-size: 0.75rem; letter-spacing: 0.5px; min-width: 50px;">#</th>
+                                <th class="text-muted fw-bold" style="font-size: 0.75rem; letter-spacing: 0.5px; min-width: 60px;">IMAGE</th>
+                                <th class="text-muted fw-bold" style="font-size: 0.75rem; letter-spacing: 0.5px; min-width: 200px;">ITEM</th>
+                                <th class="text-muted fw-bold" style="font-size: 0.75rem; letter-spacing: 0.5px; min-width: 100px;">HSN</th>
+                                <th class="text-muted fw-bold" style="font-size: 0.75rem; letter-spacing: 0.5px; min-width: 100px;">UNIT</th>
+                                <th class="text-muted fw-bold" style="font-size: 0.75rem; letter-spacing: 0.5px; min-width: 100px;">QTY</th>
+                                <th class="text-muted fw-bold" style="font-size: 0.75rem; letter-spacing: 0.5px; min-width: 120px;">RATE</th>
+                                <th class="text-muted fw-bold" style="font-size: 0.75rem; letter-spacing: 0.5px; min-width: 120px;">TOTAL</th>
                                 <th style="min-width: 50px;"></th>
                             </tr>
                         </thead>
-                        <tbody id="itemsBody">
+                        <tbody id="itemsBody" class="border-bottom">
                             <tr id="noItemsRow">
-                                <td colspan="9" class="text-center text-muted py-3">Click "Add Item" to add items to this quotation.</td>
+                                <td colspan="9" class="text-center text-muted py-4">Click "Add Item" to add items to this quotation.</td>
                             </tr>
                         </tbody>
                     </table>
@@ -90,96 +94,100 @@
             </div>
         </div>
 
-        <div class="card mb-3">
-            <div class="card-header"><strong>Summary & Totals</strong></div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label class="form-label">Notes</label>
-                            <textarea name="notes" class="form-control @error('notes') is-invalid @enderror" rows="3">{{ old('notes') }}</textarea>
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+                <h5 class="card-title text-secondary fw-bold mb-4">Summary & Totals</h5>
+                <div class="row g-4">
+                    <div class="col-md-7">
+                        <div class="mb-4">
+                            <label class="form-label text-muted fw-bold" style="font-size: 0.75rem; letter-spacing: 0.5px;">NOTES</label>
+                            <textarea name="notes" class="form-control rounded-3 shadow-none border @error('notes') is-invalid @enderror" rows="4">{{ old('notes') }}</textarea>
                             @error('notes') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Terms & Conditions</label>
-                            <textarea name="terms_conditions" class="form-control @error('terms_conditions') is-invalid @enderror" rows="3">{{ old('terms_conditions') }}</textarea>
+                            <label class="form-label text-muted fw-bold" style="font-size: 0.75rem; letter-spacing: 0.5px;">TERMS & CONDITIONS</label>
+                            <textarea name="terms_conditions" class="form-control rounded-3 shadow-none border @error('terms_conditions') is-invalid @enderror" rows="4">{{ old('terms_conditions') }}</textarea>
                             @error('terms_conditions') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="table-responsive">
-                            <table class="table table-bordered summary-table">
-                            <tr>
-                                <td>Subtotal</td>
-                                <td><input type="text" name="subtotal" id="subtotal" class="form-control form-control-sm calc-input" readonly value="0.00"></td>
+                    <div class="col-md-5">
+                        <div class="table-responsive p-3 bg-white rounded-3 border shadow-sm">
+                            <table class="table table-borderless summary-table mb-0">
+                            <tr class="border-bottom">
+                                <td class="text-muted py-3">Subtotal</td>
+                                <td class="py-3"><input type="text" name="subtotal" id="subtotal" class="form-control form-control-sm calc-input border-0 bg-transparent text-end p-0 m-0" readonly value="0.00"></td>
                             </tr>
-                            <tr>
-                                <td>
-                                    Discount Type<br>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="discount_type" id="discount_type_percentage" value="percentage" {{ old('discount_type', 'percentage') == 'percentage' ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="discount_type_percentage">%</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="discount_type" id="discount_type_fixed" value="fixed" {{ old('discount_type') == 'fixed' ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="discount_type_fixed">Fixed</label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="row g-1">
-                                        <div class="col-6">
-                                            <input type="number" step="0.01" name="discount_value" id="discount_value" class="form-control form-control-sm calc-input" value="{{ old('discount_value', 0) }}" placeholder="Value">
+                            <tr class="border-bottom">
+                                <td class="text-muted py-3 align-middle">
+                                    <div class="mb-1 text-dark" style="font-size: 0.85rem;">Discount Type</div>
+                                    <div class="d-flex gap-2">
+                                        <div class="form-check form-check-inline m-0">
+                                            <input class="form-check-input mt-1" type="radio" name="discount_type" id="discount_type_percentage" value="percentage" {{ old('discount_type', 'percentage') == 'percentage' ? 'checked' : '' }}>
+                                            <label class="form-check-label text-dark" style="font-size: 0.85rem;" for="discount_type_percentage">%</label>
                                         </div>
-                                        <div class="col-6">
-                                            <input type="text" name="discount_amount" id="discount_amount" class="form-control form-control-sm calc-input" readonly value="0.00" placeholder="Amount">
+                                        <div class="form-check form-check-inline m-0">
+                                            <input class="form-check-input mt-1" type="radio" name="discount_type" id="discount_type_fixed" value="fixed" {{ old('discount_type') == 'fixed' ? 'checked' : '' }}>
+                                            <label class="form-check-label text-dark" style="font-size: 0.85rem;" for="discount_type_fixed">Fixed</label>
                                         </div>
                                     </div>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Tax Type<br>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="tax_type" id="tax_type_cgst_sgst" value="cgst_sgst" {{ old('tax_type', 'cgst_sgst') == 'cgst_sgst' ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="tax_type_cgst_sgst">CGST+SGST</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="tax_type" id="tax_type_igst" value="igst" {{ old('tax_type') == 'igst' ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="tax_type_igst">IGST</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="tax_type" id="tax_type_none" value="none" {{ old('tax_type') == 'none' ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="tax_type_none">No Tax</label>
+                                <td class="py-3 align-middle">
+                                    <div class="row g-2 justify-content-end mt-1">
+                                        <div class="col-5">
+                                            <input type="number" step="0.01" name="discount_value" id="discount_value" class="form-control form-control-sm text-center shadow-none" value="{{ old('discount_value', 0) }}" placeholder="Value">
+                                        </div>
+                                        <div class="col-5">
+                                            <input type="text" name="discount_amount" id="discount_amount" class="form-control form-control-sm calc-input bg-transparent border-0 text-end shadow-none p-0" readonly value="0.00" placeholder="Amount">
+                                        </div>
                                     </div>
                                 </td>
-                                <td>
-                                    <div class="row g-1" id="taxFields">
+                            </tr>
+                            <tr class="border-bottom">
+                                <td class="text-muted py-3 align-middle">
+                                    <div class="mb-1 text-dark" style="font-size: 0.85rem;">Tax Type</div>
+                                    <div class="d-flex gap-2">
+                                        <div class="form-check form-check-inline m-0">
+                                            <input class="form-check-input mt-1" type="radio" name="tax_type" id="tax_type_cgst_sgst" value="cgst_sgst" {{ old('tax_type', 'cgst_sgst') == 'cgst_sgst' ? 'checked' : '' }}>
+                                            <label class="form-check-label text-dark" style="font-size: 0.85rem;" for="tax_type_cgst_sgst">CGST+SGST</label>
+                                        </div>
+                                        <div class="form-check form-check-inline m-0">
+                                            <input class="form-check-input mt-1" type="radio" name="tax_type" id="tax_type_igst" value="igst" {{ old('tax_type') == 'igst' ? 'checked' : '' }}>
+                                            <label class="form-check-label text-dark" style="font-size: 0.85rem;" for="tax_type_igst">IGST</label>
+                                        </div>
+                                        <div class="form-check form-check-inline m-0">
+                                            <input class="form-check-input mt-1" type="radio" name="tax_type" id="tax_type_none" value="none" {{ old('tax_type') == 'none' ? 'checked' : '' }}>
+                                            <label class="form-check-label text-dark" style="font-size: 0.85rem;" for="tax_type_none">No Tax</label>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-3 align-middle">
+                                    <div class="row g-2 justify-content-end" id="taxFields">
                                         <div class="col-4">
-                                            <label class="form-label small">CGST%</label>
-                                            <input type="number" step="0.01" name="cgst_percentage" id="cgst_percentage" class="form-control form-control-sm calc-input" value="{{ old('cgst_percentage', 9) }}">
+                                            <label class="form-label text-center d-block text-muted mb-1" style="font-size: 0.65rem;">CGST%</label>
+                                            <input type="number" step="0.01" name="cgst_percentage" id="cgst_percentage" class="form-control form-control-sm text-center shadow-none p-1" value="{{ old('cgst_percentage', 9) }}">
                                         </div>
                                         <div class="col-4">
-                                            <label class="form-label small">SGST%</label>
-                                            <input type="number" step="0.01" name="sgst_percentage" id="sgst_percentage" class="form-control form-control-sm calc-input" value="{{ old('sgst_percentage', 9) }}">
+                                            <label class="form-label text-center d-block text-muted mb-1" style="font-size: 0.65rem;">SGST%</label>
+                                            <input type="number" step="0.01" name="sgst_percentage" id="sgst_percentage" class="form-control form-control-sm text-center shadow-none p-1" value="{{ old('sgst_percentage', 9) }}">
                                         </div>
                                         <div class="col-4">
-                                            <label class="form-label small">IGST%</label>
-                                            <input type="number" step="0.01" name="igst_percentage" id="igst_percentage" class="form-control form-control-sm calc-input" value="{{ old('igst_percentage', 18) }}">
+                                            <label class="form-label text-center d-block text-muted mb-1" style="font-size: 0.65rem;">IGST%</label>
+                                            <input type="number" step="0.01" name="igst_percentage" id="igst_percentage" class="form-control form-control-sm text-center shadow-none p-1" value="{{ old('igst_percentage', 18) }}">
                                         </div>
                                     </div>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>Total Tax</td>
-                                <td><input type="text" name="total_tax" id="total_tax" class="form-control form-control-sm calc-input" readonly value="0.00"></td>
+                            <tr class="border-bottom">
+                                <td class="text-muted py-3">Total Tax</td>
+                                <td class="py-3"><input type="text" name="total_tax" id="total_tax" class="form-control form-control-sm calc-input border-0 bg-transparent text-end p-0 m-0" readonly value="0.00"></td>
                             </tr>
                             <tr>
-                                <td>Round Off</td>
-                                <td><input type="text" name="round_off" id="round_off" class="form-control form-control-sm calc-input" readonly value="0.00"></td>
+                                <td class="text-muted py-3">Round Off</td>
+                                <td class="py-3"><input type="text" name="round_off" id="round_off" class="form-control form-control-sm calc-input border-0 bg-transparent text-end p-0 m-0" readonly value="0.00"></td>
                             </tr>
-                            <tr class="table-active">
-                                <td><strong>Grand Total</strong></td>
-                                <td><input type="text" name="grand_total" id="grand_total" class="form-control form-control-sm calc-input fw-bold" readonly value="0.00"></td>
+                            <tr class="bg-light rounded">
+                                <td class="py-3"><strong class="text-secondary ps-2">Grand Total</strong></td>
+                                <td class="py-3"><input type="text" name="grand_total" id="grand_total" class="form-control form-control-sm calc-input fw-bold bg-transparent border-0 text-end pe-2 m-0 shadow-none" readonly value="0.00" style="font-size: 1.1rem;"></td>
                             </tr>
                         </table>
                         </div>
@@ -188,10 +196,14 @@
             </div>
         </div>
 
-        <div class="pt-3 pb-4 text-center">
-            <button type="submit" name="submit_action" value="draft" class="btn btn-secondary"><i class="bx bx-save"></i> Save as Draft</button>
-            <button type="submit" name="submit_action" value="sent" class="btn btn-primary"><i class="bx bx-send"></i> Send</button>
-            <a href="{{ route('admin.quotations.index') }}" class="btn btn-outline-secondary">Cancel</a>
+        <div class="d-flex justify-content-center gap-3 pt-2 pb-5 text-center">
+            <button type="submit" name="submit_action" value="draft" class="btn btn-secondary shadow-sm rounded-pill px-4">
+                <i class="bx bx-save me-1"></i> Save as Draft
+            </button>
+            <button type="submit" name="submit_action" value="sent" class="btn btn-primary shadow-sm rounded-pill px-5" style="background: linear-gradient(135deg, #8E2DE2, #4A00E0); border: none;">
+                <i class="bx bx-send me-1"></i> Send
+            </button>
+            <a href="{{ route('admin.quotations.index') }}" class="btn btn-outline-secondary shadow-sm rounded-pill px-4 bg-white">Cancel</a>
         </div>
     </form>
 </div>
