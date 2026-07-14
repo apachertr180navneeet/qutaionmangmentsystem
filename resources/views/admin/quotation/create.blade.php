@@ -188,14 +188,13 @@
             </div>
         </div>
 
-        <div class="d-flex justify-content-center gap-3 pt-2 pb-5 text-center">
-            <button type="submit" name="submit_action" value="draft" class="btn btn-secondary shadow-sm rounded-pill px-4">
-                <i class="bx bx-save me-1"></i> Save as Draft
-            </button>
-            <button type="submit" name="submit_action" value="sent" class="btn btn-primary shadow-sm rounded-pill px-5" style="background: linear-gradient(135deg, #8E2DE2, #4A00E0); border: none;">
-                <i class="bx bx-send me-1"></i> Send
-            </button>
-            <a href="{{ route('admin.quotations.index') }}" class="btn btn-outline-secondary shadow-sm rounded-pill px-4 bg-white">Cancel</a>
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4 d-flex justify-content-end gap-3">
+                <a href="{{ route('admin.quotations.index') }}" class="btn btn-outline-secondary shadow-sm rounded-pill px-4 bg-white">Cancel</a>
+                <button type="submit" class="btn btn-primary shadow-sm rounded-pill px-5" style="background: linear-gradient(135deg, #8E2DE2, #4A00E0); border: none;">
+                    <i class="bx bx-save me-1"></i> Save
+                </button>
+            </div>
         </div>
     </form>
 </div>
