@@ -72,7 +72,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                @if($user->avatar)
+                                @if(!empty($user->avatar) && file_exists(public_path('/').$user->avatar))
                                     <img src="{{asset($user->avatar)}}" class="user-image" id="user-image">
                                 @else
                                     <img src="{{asset('assets/admin/img/avatars/1.png')}}" class="user-image" id="user-image">
