@@ -7,6 +7,9 @@ use App\Http\Requests\CustomerRequest;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Exception;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\CustomerImport;
+use App\Exports\CustomerTemplateExport;
 
 class CustomerController extends Controller
 {
@@ -93,5 +96,24 @@ class CustomerController extends Controller
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage());
         }
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:csv,txt,xlsx,xls',
+        ]);
+
+        try {
+            Excel::import(new CustomerImport, $request->file('file'));
+            return redirect()->route('admin.customers.index')->with('success', 'Customers imported successfully.');
+        } catch (Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function downloadTemplate()
+    {
+        return Excel::download(new CustomerTemplateExport, 'customer_import_template.xlsx');
     }
 }

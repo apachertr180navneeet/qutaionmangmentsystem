@@ -38,6 +38,8 @@ Route::name('admin.')->prefix('admin')->group(function () {
             Route::get('/', [CustomerController::class, 'index'])->name('index');
             Route::get('/create', [CustomerController::class, 'create'])->name('create');
             Route::post('/', [CustomerController::class, 'store'])->name('store');
+            Route::get('/import-template', [CustomerController::class, 'downloadTemplate'])->name('import_template');
+            Route::post('/import', [CustomerController::class, 'import'])->name('import');
             Route::get('/{id}', [CustomerController::class, 'show'])->name('show');
             Route::get('/{id}/edit', [CustomerController::class, 'edit'])->name('edit');
             Route::put('/{id}', [CustomerController::class, 'update'])->name('update');
