@@ -429,3 +429,49 @@ body {
     letter-spacing: 0.05em;
     margin-bottom: 0.5rem;
 }
+
+/* ---------------------------------------------------
+   Premium Custom Pagination Styles
+--------------------------------------------------- */
+.pagination {
+    margin-bottom: 0;
+    gap: 6px;
+    display: inline-flex;
+    align-items: center;
+}
+.pagination .page-item .page-link {
+    border: 1px solid #e2e8f0;
+    color: #64748b;
+    border-radius: 8px !important;
+    padding: 0.5rem 0.85rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: all 0.25s ease;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+.pagination .page-item:first-child .page-link,
+.pagination .page-item:last-child .page-link {
+    border-radius: 8px !important;
+}
+.pagination .page-item .page-link:hover {
+    background-color: rgba(142, 45, 226, 0.06);
+    border-color: #8E2DE2;
+    color: #8E2DE2;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(142, 45, 226, 0.1);
+}
+.pagination .page-item.active .page-link {
+    background: linear-gradient(45deg, #8E2DE2, #4A00E0) !important;
+    border-color: transparent !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(142, 45, 226, 0.3);
+}
+.pagination .page-item.disabled .page-link {
+    background-color: #f8fafc;
+    border-color: #e2e8f0;
+    color: #cbd5e1;
+    pointer-events: none;
+    box-shadow: none;
+}
+
