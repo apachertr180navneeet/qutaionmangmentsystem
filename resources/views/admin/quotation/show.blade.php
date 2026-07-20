@@ -395,7 +395,6 @@
                             <th>#</th>
                             <th>Item</th>
                             <th>Description</th>
-                            <th>HSN Code</th>
                             <th>Unit</th>
                             <th class="text-center">Qty</th>
                             <th class="text-end">Rate</th>
@@ -419,7 +418,6 @@
                                 </div>
                             </td>
                             <td class="text-muted">{{ $item->item->description ?? '—' }}</td>
-                            <td>{{ $item->item->hsn_code ?? '—' }}</td>
                             <td>{{ $item->item->unit ?? '—' }}</td>
                             <td class="text-center">{{ $item->quantity }}</td>
                             <td class="text-end">{{ number_format($item->rate, 2) }}</td>
@@ -427,7 +425,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="8" class="text-center text-muted py-4">
+                            <td colspan="7" class="text-center text-muted py-4">
                                 <i class="bx bx-package" style="font-size: 2rem;"></i>
                                 <p class="mb-0 mt-2">No items added yet.</p>
                             </td>

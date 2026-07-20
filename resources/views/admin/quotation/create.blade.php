@@ -317,7 +317,6 @@
                                 <th style="width: 45px;">#</th>
                                 <th style="width: 55px;">Image</th>
                                 <th style="min-width: 200px;">Item</th>
-                                <th style="min-width: 90px;">HSN</th>
                                 <th style="min-width: 80px;">Unit</th>
                                 <th style="min-width: 100px;">Qty</th>
                                 <th style="min-width: 110px;">Rate</th>
@@ -327,7 +326,7 @@
                         </thead>
                         <tbody id="itemsBody">
                             <tr id="noItemsRow">
-                                <td colspan="9" class="text-center text-muted py-4">
+                                <td colspan="8" class="text-center text-muted py-4">
                                     <i class="bx bx-package" style="font-size: 2rem; color: #d4c5f9;"></i>
                                     <p class="mb-0 mt-2">Click <strong>"Add Item"</strong> to add items to this quotation.</p>
                                 </td>
@@ -468,7 +467,6 @@
             </select>
             <input type="hidden" name="items[__INDEX__][item_name]" class="item-name-input" value="">
         </td>
-        <td><input type="text" class="form-control form-control-sm hsn-display" readonly style="background: #f8f7ff; border: 1px solid #e8e5f0;"></td>
         <td><input type="text" class="form-control form-control-sm unit-display" readonly style="background: #f8f7ff; border: 1px solid #e8e5f0;"></td>
         <td><input type="number" step="0.01" name="items[__INDEX__][quantity]" class="form-control form-control-sm quantity-input calc-input" value="1" min="0.01"></td>
         <td><input type="number" step="0.01" name="items[__INDEX__][rate]" class="form-control form-control-sm rate-input calc-input" value="0" min="0"></td>
@@ -497,7 +495,7 @@ function formatItem(item) {
             imgHtml +
             '<div>' +
                 '<div class="fw-bold text-dark" style="font-size: 0.85rem; line-height: 1.2;">' + item.text.split(' (')[0] + '</div>' +
-                '<div class="text-muted" style="font-size: 0.75rem;">Rate: ₹' + parseFloat(rate).toFixed(2) + ' | HSN: ' + hsn + '</div>' +
+                '<div class="text-muted" style="font-size: 0.75rem;">Rate: ₹' + parseFloat(rate).toFixed(2) + '</div>' +
             '</div>' +
         '</div>'
     );
@@ -589,7 +587,6 @@ function addItemRow(data) {
         var selectedOption = row.find('.item-select option[value="'+data.item_id+'"]');
         var imageUrl = selectedOption.data('image');
         var itemName = selectedOption.data('name') || data.item_name || '';
-        var hsn = selectedOption.data('hsn') || '';
         var unit = selectedOption.data('unit') || '';
 
         if (imageUrl) {
@@ -598,7 +595,6 @@ function addItemRow(data) {
         }
 
         row.find('.item-name-input').val(itemName);
-        row.find('.hsn-display').val(hsn);
         row.find('.unit-display').val(unit);
         row.find('.quantity-input').val(data.quantity || 1);
         row.find('.rate-input').val(data.rate || 0);
@@ -621,7 +617,6 @@ function addItemRow(data) {
         var selected = $(this).find(':selected');
         var rate = selected.data('rate') || 0;
         var unit = selected.data('unit') || '';
-        var hsn = selected.data('hsn') || '';
         var itemName = selected.data('name') || selected.text().split(' (')[0] || '';
         var imageUrl = selected.data('image');
 
@@ -636,7 +631,6 @@ function addItemRow(data) {
         row.find('.item-name-input').val(itemName);
         row.find('.rate-input').val(rate);
         row.find('.unit-display').val(unit);
-        row.find('.hsn-display').val(hsn);
         calculateRow(row);
     });
 
