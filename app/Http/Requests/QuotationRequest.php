@@ -15,8 +15,8 @@ class QuotationRequest extends FormRequest
     {
         return [
             'customer_id' => 'nullable|exists:customers,id',
-            'discount_type' => 'required|in:percentage,fixed',
-            'discount_value' => 'required|numeric|min:0',
+            'discount_type' => 'nullable|in:percentage,fixed',
+            'discount_value' => 'nullable|numeric|min:0',
             'tax_type' => 'required|in:cgst_sgst,igst,none',
             'cgst_percentage' => 'nullable|numeric|min:0|max:100',
             'sgst_percentage' => 'nullable|numeric|min:0|max:100',

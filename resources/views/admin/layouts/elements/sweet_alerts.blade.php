@@ -1,5 +1,4 @@
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" integrity="sha384-6sW6vNINy3Bo+KajT6sz8uOXqFGrN1UYVFF9ch9m503yI0hceN3zIpzWbEHaYGP" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     const Toast = Swal.mixin({
         toast: true,

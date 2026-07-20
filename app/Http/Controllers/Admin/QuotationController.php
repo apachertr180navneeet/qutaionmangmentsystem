@@ -77,6 +77,12 @@ class QuotationController extends Controller
             $data['created_by'] = auth()->id();
             $data['status'] = 'draft';
 
+            $data['discount_type'] = $data['discount_type'] ?? 'percentage';
+            $data['discount_value'] = $data['discount_value'] ?? 0;
+            $data['cgst_percentage'] = $data['cgst_percentage'] ?? 0;
+            $data['sgst_percentage'] = $data['sgst_percentage'] ?? 0;
+            $data['igst_percentage'] = $data['igst_percentage'] ?? 0;
+
             $subtotal = 0;
             foreach ($data['items'] as $item) {
                 $lineTotal = $item['quantity'] * $item['rate'];
@@ -170,6 +176,12 @@ class QuotationController extends Controller
 
             $quotation = Quotation::findOrFail($id);
             $data = $request->validated();
+
+            $data['discount_type'] = $data['discount_type'] ?? 'percentage';
+            $data['discount_value'] = $data['discount_value'] ?? 0;
+            $data['cgst_percentage'] = $data['cgst_percentage'] ?? 0;
+            $data['sgst_percentage'] = $data['sgst_percentage'] ?? 0;
+            $data['igst_percentage'] = $data['igst_percentage'] ?? 0;
 
             $subtotal = 0;
             foreach ($data['items'] as $item) {
