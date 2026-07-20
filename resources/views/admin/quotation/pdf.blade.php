@@ -32,24 +32,17 @@ function getLocalImagePath($url) {
         }
         body {
             font-family: 'DejaVu Sans', sans-serif;
-            font-size: 10px;
-            color: #334155;
+            font-size: 10.5px;
+            color: #495057;
             margin: 0;
-            padding: 30px 40px 60px 40px;
+            padding: 40px;
             line-height: 1.5;
             background-color: #ffffff;
         }
         
-        /* Brand Accent Top Line */
-        .brand-top-bar {
-            height: 6px;
-            background: #2563eb;
-            margin: -30px -40px 25px -40px;
-        }
-        
-        h1, h2, h3, h4, p { margin: 0; padding: 0; }
-        
-        /* Top Section Grid */
+        h1, h2, h3, h4, h5, h6, p { margin: 0; padding: 0; }
+
+        /* Header Table */
         .header-table {
             width: 100%;
             border-collapse: collapse;
@@ -58,208 +51,145 @@ function getLocalImagePath($url) {
         .header-table td {
             vertical-align: top;
         }
-        .doc-title-container {
-            text-align: left;
-        }
-        .doc-title {
-            font-size: 28px;
+        .company-logo-text {
+            font-size: 22px;
             font-weight: bold;
-            color: #1e293b;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
+            color: #0d6efd;
+            letter-spacing: 0.5px;
             margin-bottom: 5px;
         }
-        .quotation-badge {
-            display: inline-block;
-            background-color: #dbeafe;
-            color: #2563eb;
-            padding: 3px 10px;
-            font-size: 9px;
-            font-weight: bold;
-            border-radius: 12px;
-            text-transform: uppercase;
-        }
-        
-        .company-info-container {
-            text-align: right;
-        }
         .company-logo-img {
-            max-height: 55px;
+            max-height: 50px;
             max-width: 160px;
             margin-bottom: 8px;
         }
-        .company-name {
-            font-size: 13px;
+        .company-details {
+            font-size: 9px;
+            color: #6c757d;
+            line-height: 1.4;
+        }
+        
+        .quote-title-container {
+            text-align: right;
+        }
+        .quote-title {
+            font-size: 20px;
             font-weight: bold;
-            color: #0f172a;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        .quote-meta-text {
+            font-size: 10px;
+            color: #212529;
             margin-bottom: 3px;
         }
-        .company-detail {
-            font-size: 9px;
-            color: #64748b;
-            line-height: 1.35;
+        .quote-meta-text strong {
+            color: #212529;
         }
 
-        /* Divider */
         .divider {
-            border-top: 1px solid #e2e8f0;
-            margin: 15px 0 20px 0;
+            border-top: 1px solid #dee2e6;
+            margin: 10px 0 25px 0;
         }
 
-        /* Details Section */
-        .details-table {
+        /* Client Info Section */
+        .client-section {
             width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
         }
-        .details-table td {
+        .client-section td {
             vertical-align: top;
-            width: 50%;
         }
-        
-        /* Cards */
-        .info-card {
-            background-color: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 15px;
-            margin-right: 10px;
-        }
-        .info-card.right-card {
-            margin-right: 0;
-            margin-left: 10px;
-        }
-        .card-title {
-            font-size: 10px;
+        .section-subtitle {
+            font-size: 9px;
             font-weight: bold;
-            color: #2563eb;
+            color: #6c757d;
             text-transform: uppercase;
-            letter-spacing: 0.8px;
-            border-bottom: 1.5px solid #e2e8f0;
-            padding-bottom: 5px;
-            margin-bottom: 10px;
-        }
-        
-        .customer-name {
-            font-size: 12px;
-            font-weight: bold;
-            color: #0f172a;
+            letter-spacing: 0.5px;
             margin-bottom: 5px;
         }
-        .customer-detail {
-            font-size: 9px;
-            color: #475569;
-            line-height: 1.45;
-        }
-        .customer-meta {
-            font-size: 9px;
-            margin-top: 8px;
-            color: #475569;
-        }
-        .customer-meta strong {
-            color: #1e293b;
-        }
-
-        .meta-list-table {
-            width: 100%;
-        }
-        .meta-list-table td {
-            padding: 4px 0;
-            font-size: 9.5px;
-            border-bottom: 1px dashed #e2e8f0;
-        }
-        .meta-list-table tr:last-child td {
-            border-bottom: none;
-        }
-        .meta-label {
+        .client-name {
+            font-size: 13px;
             font-weight: bold;
-            color: #475569;
-            width: 45%;
+            color: #212529;
+            margin-bottom: 4px;
         }
-        .meta-value {
-            color: #0f172a;
-            text-align: right;
-            font-weight: 600;
+        .client-details {
+            font-size: 9.5px;
+            color: #6c757d;
+            line-height: 1.45;
         }
 
         /* Items Table */
         .items-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         .items-table th {
-            background-color: #1e293b;
-            color: #ffffff;
+            background-color: #f8f9fa;
+            color: #212529;
             font-weight: bold;
-            font-size: 9.5px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: 10px 8px;
-            border: none;
+            font-size: 10px;
+            padding: 10px 12px;
+            border-bottom: 1px solid #dee2e6;
         }
         .items-table th.left { text-align: left; }
+        .items-table th.center { text-align: center; }
         .items-table th.right { text-align: right; }
         
         .items-table td {
-            padding: 10px 8px;
+            padding: 12px;
             vertical-align: middle;
-            border-bottom: 1px solid #e2e8f0;
-            color: #334155;
-            font-size: 9.5px;
+            border-bottom: 1px solid #dee2e6;
+            color: #212529;
+            font-size: 10px;
         }
         .items-table td.left { text-align: left; }
+        .items-table td.center { text-align: center; }
         .items-table td.right { text-align: right; }
         
-        .items-table tbody tr:nth-child(even) td {
-            background-color: #f8fafc;
+        .item-img-preview {
+            width: 50px;
+            height: 50px;
+            border-radius: 6px;
+            border: 1px solid #dee2e6;
         }
-        .item-number-title {
-            color: #0f172a;
-            font-weight: bold;
+        .item-img-placeholder {
+            width: 50px;
+            height: 50px;
+            border-radius: 6px;
+            border: 1px solid #dee2e6;
+            background-color: #f8f9fa;
+            text-align: center;
+            line-height: 50px;
+            color: #adb5bd;
+            font-size: 14px;
         }
         
-        /* Summary Grid */
-        .summary-container-table {
+        .item-name {
+            font-size: 10.5px;
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 2px;
+        }
+        .item-description {
+            font-size: 9px;
+            color: #6c757d;
+        }
+        
+        /* Summary Section */
+        .summary-table-container {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 30px;
+            margin-top: 15px;
+            margin-bottom: 40px;
             page-break-inside: avoid;
         }
-        .summary-container-table td {
+        .summary-table-container td {
             vertical-align: top;
-        }
-        
-        .gst-card {
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 12px;
-            width: 85%;
-        }
-        .gst-card-title {
-            font-size: 9px;
-            font-weight: bold;
-            color: #64748b;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 6px;
-        }
-        .gst-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .gst-table th, .gst-table td {
-            padding: 5px 0;
-            font-size: 9px;
-            border-bottom: 1px solid #f1f5f9;
-        }
-        .gst-table th {
-            color: #64748b;
-            font-weight: bold;
-            text-align: left;
-        }
-        .gst-table td {
-            color: #334155;
         }
         
         .totals-table {
@@ -267,129 +197,120 @@ function getLocalImagePath($url) {
             border-collapse: collapse;
         }
         .totals-table td {
-            padding: 8px 12px;
-            font-size: 10px;
-            border-bottom: 1px solid #f1f5f9;
+            padding: 6px 12px;
+            font-size: 10.5px;
         }
-        .totals-table .t-label {
-            color: #64748b;
+        .totals-table .label {
+            color: #6c757d;
             text-align: left;
         }
-        .totals-table .t-value {
+        .totals-table .value {
             text-align: right;
             font-weight: 600;
-            color: #0f172a;
+            color: #212529;
         }
-        .totals-table .total-row td {
-            background-color: #2563eb;
-            color: #ffffff;
-            border-bottom: none;
+        .totals-table .grand-total-row td {
             font-size: 14px;
             font-weight: bold;
-            border-radius: 6px;
-            padding: 10px 12px;
+            color: #0d6efd;
+            border-top: 1px solid #dee2e6;
+            padding-top: 10px;
+            padding-bottom: 10px;
         }
-        .totals-table .total-row .t-label {
-            color: #ffffff;
+        .totals-table .grand-total-row .label {
+            color: #0d6efd;
         }
-        .totals-table .total-row .t-value {
-            color: #ffffff;
+        .totals-table .grand-total-row .value {
+            color: #0d6efd;
         }
 
-        /* Bottom Section / Terms & Signatures */
-        .bottom-table {
+        /* Terms and Signature Footer */
+        .footer-section {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 15px;
+            margin-top: 30px;
+            border-top: 1px solid #dee2e6;
+            padding-top: 20px;
             page-break-inside: avoid;
         }
-        .bottom-table td {
+        .footer-section td {
             vertical-align: top;
         }
         
-        .terms-card {
-            background-color: #f8fafc;
-            border-left: 3px solid #64748b;
-            padding: 12px;
-            border-radius: 0 8px 8px 0;
-            margin-right: 15px;
-        }
         .terms-title {
             font-size: 10px;
             font-weight: bold;
-            color: #1e293b;
+            color: #6c757d;
+            text-transform: uppercase;
             margin-bottom: 6px;
         }
-        .terms-content {
-            font-size: 8.5px;
-            color: #475569;
+        .terms-list {
+            font-size: 9px;
+            color: #6c757d;
             line-height: 1.5;
-            white-space: pre-wrap;
+            padding-left: 15px;
+            margin: 0;
         }
         
         .signature-container {
             text-align: right;
-            padding-top: 10px;
         }
         .signature-img {
-            max-height: 45px;
-            margin-bottom: 5px;
+            max-height: 40px;
+            margin-bottom: 4px;
         }
         .signature-line {
-            border-top: 1px solid #cbd5e1;
-            width: 150px;
+            border-top: 1px solid #dee2e6;
+            width: 140px;
             display: inline-block;
             margin-top: 5px;
         }
         .signature-label {
             font-size: 8.5px;
-            color: #64748b;
+            color: #6c757d;
             margin-top: 3px;
-            font-weight: bold;
             text-transform: uppercase;
+            font-weight: bold;
         }
         
-        .footer {
+        .page-number-footer {
             position: fixed;
             bottom: 15px;
             left: 0;
             right: 0;
             text-align: center;
             font-size: 8px;
-            color: #94a3b8;
-            border-top: 1px solid #f1f5f9;
+            color: #adb5bd;
+            border-top: 1px solid #f8f9fa;
             padding-top: 8px;
         }
     </style>
 </head>
 <body>
-    <div class="brand-top-bar"></div>
 
-    <!-- Header Section -->
+    <!-- Header / Branding -->
     <table class="header-table">
         <tr>
-            <td style="width: 50%;">
-                <div class="doc-title-container">
-                    <h1 class="doc-title">Quotation</h1>
-                    <span class="quotation-badge">Official Document</span>
+            <td style="width: 55%;">
+                @if($company?->logo)
+                    <img src="{{ getLocalImagePath($company?->logo) }}" alt="Logo" class="company-logo-img">
+                @else
+                    <div class="company-logo-text">{{ $company?->company_name ?? config('app.name') }}</div>
+                @endif
+                <div class="company-details">
+                    {{ $company?->address }}{{ $company?->city ? ', '.$company?->city : '' }}{{ $company?->state ? ', '.$company?->state : '' }}{{ $company?->zip_code ? ' - '.$company?->zip_code : '' }}
+                    <br>
+                    @if($company?->email) Email: {{ $company?->email }} @endif
+                    @if($company?->phone) | Phone: {{ $company?->phone }} @endif
+                    @if($company?->gst_number) <br>GSTIN: {{ $company?->gst_number }} @endif
                 </div>
             </td>
-            <td style="width: 50%;">
-                <div class="company-info-container">
-                    @if($company?->logo)
-                        <img src="{{ getLocalImagePath($company?->logo) }}" alt="Logo" class="company-logo-img">
-                    @endif
-                    <p class="company-name">{{ $company?->company_name ?? config('app.name') }}</p>
-                    <p class="company-detail">{{ $company?->address }}{{ $company?->city ? ', '.$company?->city : '' }}{{ $company?->state ? ', '.$company?->state : '' }}{{ $company?->zip_code ? ' - '.$company?->zip_code : '' }}</p>
-                    @if($company?->phone || $company?->email)
-                        <p class="company-detail">
-                            @if($company?->phone) Tel: {{ $company?->phone }} @endif
-                            @if($company?->email) &bull; Email: {{ $company?->email }} @endif
-                        </p>
-                    @endif
-                    @if($company?->gst_number) 
-                        <p class="company-detail"><strong>GSTIN:</strong> {{ $company?->gst_number }}</p> 
-                    @endif
+            <td style="width: 45%;">
+                <div class="quote-title-container">
+                    <h3 class="quote-title">Price Quotation</h3>
+                    <p class="quote-meta-text"><strong>Quote #:</strong> {{ $quotation->quotation_number }}</p>
+                    <p class="quote-meta-text"><strong>Date:</strong> {{ $quotation->created_at ? date('M d, Y', strtotime($quotation->created_at)) : 'N/A' }}</p>
+                    <p class="quote-meta-text"><strong>Valid Until:</strong> {{ $quotation->valid_until ? date('M d, Y', strtotime($quotation->valid_until)) : 'N/A' }}</p>
                 </div>
             </td>
         </tr>
@@ -397,167 +318,123 @@ function getLocalImagePath($url) {
 
     <div class="divider"></div>
 
-    <!-- Client and Quotation details -->
-    <table class="details-table">
+    <!-- Client Info -->
+    <table class="client-section">
         <tr>
-            <td style="padding-right: 5px;">
-                <div class="info-card">
-                    <div class="card-title">Billed To</div>
-                    <p class="customer-name">{{ $quotation->customer->company_name ?? 'N/A' }}</p>
-                    <p class="customer-detail">{{ $quotation->customer->address ?? '' }}</p>
-                    
-                    @if($quotation->customer->gst_number || $quotation->customer->contact_person)
-                        <div class="customer-meta">
-                            @if($quotation->customer->gst_number)
-                                <div><strong>GSTIN:</strong> {{ $quotation->customer->gst_number }}</div>
-                            @endif
-                            @if($quotation->customer->contact_person)
-                                <div style="margin-top: 2px;"><strong>Contact Person:</strong> {{ $quotation->customer->contact_person }}</div>
-                            @endif
-                        </div>
+            <td>
+                <h6 class="section-subtitle">Prepared For:</h6>
+                <h5 class="client-name">{{ $quotation->customer->company_name ?? 'N/A' }}</h5>
+                <p class="client-details">
+                    @if($quotation->customer->contact_person)
+                        Attn: {{ $quotation->customer->contact_person }}<br>
                     @endif
-                </div>
-            </td>
-            <td style="padding-left: 5px;">
-                <div class="info-card right-card">
-                    <div class="card-title">Quotation Details</div>
-                    <table class="meta-list-table">
-                        <tr>
-                            <td class="meta-label">Quotation #</td>
-                            <td class="meta-value">{{ $quotation->quotation_number }}</td>
-                        </tr>
-                        <tr>
-                            <td class="meta-label">Quotation Date</td>
-                            <td class="meta-value">{{ $quotation->created_at ? date('M d, Y', strtotime($quotation->created_at)) : 'N/A' }}</td>
-                        </tr>
-                        <tr>
-                            <td class="meta-label">Valid Until</td>
-                            <td class="meta-value">{{ $quotation->valid_until ? date('M d, Y', strtotime($quotation->valid_until)) : 'N/A' }}</td>
-                        </tr>
-                    </table>
-                </div>
+                    {{ $quotation->customer->address ?? '' }}
+                    @if($quotation->customer->gst_number)
+                        <br>GSTIN: {{ $quotation->customer->gst_number }}
+                    @endif
+                </p>
             </td>
         </tr>
     </table>
 
-    <!-- Items Table -->
+    <!-- Quotation Items Table -->
     <table class="items-table">
         <thead>
             <tr>
-                <th class="left" style="width: 55%;">Item / Description</th>
-                <th style="width: 12%;">Image</th>
-                <th style="width: 8%;">Qty</th>
-                <th class="right" style="width: 12%;">Rate</th>
-                <th class="right" style="width: 13%;">Amount</th>
+                <th class="left" style="width: 75px;">Image</th>
+                <th class="left">Item Description</th>
+                <th class="center" style="width: 50px;">Qty</th>
+                <th class="right" style="width: 100px;">Unit Price</th>
+                <th class="right" style="width: 100px;">Total</th>
             </tr>
         </thead>
         <tbody>
             @forelse($quotation->items as $key => $item)
             <tr>
                 <td class="left">
-                    <span class="item-number-title">{{ $key + 1 }}.</span> {{ $item->item->name ?? $item->item_name ?? 'N/A' }}
-                </td>
-                <td style="text-align: center;">
                     @if($item->item && $item->item->image)
-                        <img src="{{ getLocalImagePath($item->item->image) }}" style="max-width: 25px; max-height: 25px; border-radius: 4px;" alt="img">
+                        <img src="{{ getLocalImagePath($item->item->image) }}" class="item-img-preview" alt="Product">
                     @else
-                        -
+                        <div class="item-img-placeholder">📦</div>
                     @endif
                 </td>
-                <td style="text-align: center;">{{ $item->quantity }}</td>
+                <td class="left">
+                    <h6 class="item-name">{{ $item->item->name ?? $item->item_name ?? 'N/A' }}</h6>
+                    @if($item->item && $item->item->description)
+                        <span class="item-description">{{ $item->item->description }}</span>
+                    @endif
+                </td>
+                <td class="center">{{ $item->quantity }}</td>
                 <td class="right">{{ number_format($item->rate, 2) }}</td>
-                <td class="right" style="font-weight: 600;">{{ number_format($item->total, 2) }}</td>
+                <td class="right" style="font-weight: bold;">{{ number_format($item->total, 2) }}</td>
             </tr>
             @empty
             <tr>
-                <td colspan="5" style="text-align: center; padding: 20px; color: #94a3b8;">No items found.</td>
+                <td colspan="5" class="center" style="color: #6c757d; padding: 20px;">No items found.</td>
             </tr>
             @endforelse
         </tbody>
     </table>
 
-    <!-- Summary / Totals Section -->
-    <table class="summary-container-table">
+    <!-- Calculation / Summary -->
+    <table class="summary-table-container">
         <tr>
-            <td style="width: 50%;">
-                @php
-                    $cgstTotal = $quotation->items->sum('cgst_amount');
-                    $sgstTotal = $quotation->items->sum('sgst_amount');
-                    $igstTotal = $quotation->igst_amount ?? 0;
-                @endphp
-                @if($cgstTotal > 0 || $sgstTotal > 0 || $igstTotal > 0)
-                    <div class="gst-card">
-                        <div class="gst-card-title">Tax Breakdown</div>
-                        <table class="gst-table">
-                            <thead>
-                                <tr>
-                                    <th>Tax Type</th>
-                                    <th style="text-align: right;">Amount</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if($cgstTotal > 0)
-                                <tr>
-                                    <td>CGST</td>
-                                    <td style="text-align: right; font-weight: 600;">{{ number_format($cgstTotal, 2) }}</td>
-                                </tr>
-                                @endif
-                                @if($sgstTotal > 0)
-                                <tr>
-                                    <td>SGST</td>
-                                    <td style="text-align: right; font-weight: 600;">{{ number_format($sgstTotal, 2) }}</td>
-                                </tr>
-                                @endif
-                                @if($igstTotal > 0)
-                                <tr>
-                                    <td>IGST</td>
-                                    <td style="text-align: right; font-weight: 600;">{{ number_format($igstTotal, 2) }}</td>
-                                </tr>
-                                @endif
-                            </tbody>
-                        </table>
-                    </div>
-                @endif
+            <td style="width: 55%;">
+                <!-- Left column remains blank or for watermark/notes -->
             </td>
-            <td style="width: 50%;">
+            <td style="width: 45%;">
                 <table class="totals-table">
                     <tr>
-                        <td class="t-label">Sub Total</td>
-                        <td class="t-value">{{ number_format($quotation->subtotal, 2) }}</td>
+                        <td class="label">Subtotal</td>
+                        <td class="value">{{ number_format($quotation->subtotal, 2) }}</td>
                     </tr>
                     @if($quotation->discount_amount > 0)
                     <tr>
-                        <td class="t-label">Discount ({{ $quotation->discount_type == 'percentage' ? $quotation->discount_value.'%' : 'Fixed' }})</td>
-                        <td class="t-value" style="color: #dc2626;">- {{ number_format($quotation->discount_amount, 2) }}</td>
+                        <td class="label">Discount ({{ $quotation->discount_type == 'percentage' ? $quotation->discount_value.'%' : 'Fixed' }})</td>
+                        <td class="value" style="color: #dc3545;">- {{ number_format($quotation->discount_amount, 2) }}</td>
                     </tr>
                     @endif
+                    @php
+                        $totalTax = $quotation->cgst_amount + $quotation->sgst_amount + $quotation->igst_amount;
+                    @endphp
+                    @if($totalTax > 0)
                     <tr>
-                        <td class="t-label">Total Tax</td>
-                        <td class="t-value">{{ number_format($quotation->cgst_amount + $quotation->sgst_amount + $quotation->igst_amount, 2) }}</td>
+                        <td class="label">Tax</td>
+                        <td class="value">{{ number_format($totalTax, 2) }}</td>
                     </tr>
+                    @endif
+                    @if($quotation->round_off != 0)
                     <tr>
-                        <td class="t-label">Round Off</td>
-                        <td class="t-value">{{ number_format($quotation->round_off, 2) }}</td>
+                        <td class="label">Round Off</td>
+                        <td class="value">{{ number_format($quotation->round_off, 2) }}</td>
                     </tr>
-                    <tr class="total-row">
-                        <td class="t-label">Grand Total</td>
-                        <td class="t-value">{{ number_format($quotation->grand_total, 2) }}</td>
+                    @endif
+                    <tr class="grand-total-row">
+                        <td class="label">Grand Total</td>
+                        <td class="value">{{ number_format($quotation->grand_total, 2) }}</td>
                     </tr>
                 </table>
             </td>
         </tr>
     </table>
 
-    <!-- Terms & Signatures -->
-    <table class="bottom-table">
+    <!-- Terms & Footer -->
+    <table class="footer-section">
         <tr>
-            <td style="width: 60%;">
-                <div class="terms-card">
-                    <div class="terms-title">Terms & Conditions</div>
-                    <div class="terms-content">{{ $quotation->terms_conditions ?: ($company?->terms_conditions ?? 'N/A') }}</div>
-                </div>
+            <td style="width: 60%; padding-top: 15px;">
+                <h6 class="terms-title">Terms & Conditions:</h6>
+                @if($quotation->terms_conditions || $company?->terms_conditions)
+                    <div style="font-size: 9px; color: #6c757d; line-height: 1.5; white-space: pre-wrap;">
+                        {{ $quotation->terms_conditions ?: $company?->terms_conditions }}
+                    </div>
+                @else
+                    <ul class="terms-list">
+                        <li>Payment is due within 15 days from the date of invoice.</li>
+                        <li>Items will be delivered within 5–7 business days upon quote acceptance.</li>
+                    </ul>
+                @endif
             </td>
-            <td style="width: 40%; vertical-align: bottom;">
+            <td style="width: 40%; padding-top: 15px;">
                 <div class="signature-container">
                     @if($company?->signature)
                         <img src="{{ getLocalImagePath($company?->signature) }}" alt="Signature" class="signature-img">
@@ -570,15 +447,15 @@ function getLocalImagePath($url) {
         </tr>
     </table>
 
-    <!-- Footer -->
-    <div class="footer">
+    <!-- Page Number Footer -->
+    <div class="page-number-footer">
         Page {PAGE_NUM} of {PAGE_COUNT} &mdash; {{ $company?->company_name ?? config('app.name') }}
     </div>
 
     <script type="text/php">
         if (isset($pdf)) {
             $font = $fontMetrics->getFont("DejaVu Sans");
-            $pdf->page_text(520, 820, "Page {PAGE_NUM} of {PAGE_COUNT}", $font, 8, array(148, 163, 184));
+            $pdf->page_text(520, 820, "Page {PAGE_NUM} of {PAGE_COUNT}", $font, 8, array(108, 117, 125));
         }
     </script>
 </body>
