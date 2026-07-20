@@ -40,11 +40,11 @@ class CompanySettingController extends Controller
 
             if ($request->hasFile('logo')) {
                 $file = $request->file('logo');
-                $filename = time() . '_' . $file->getClientOriginalName();
+                $filename = time() . '_' . \Illuminate\Support\Str::random(20) . '.' . $file->getClientOriginalExtension();
                 $folder = 'uploads/company/';
                 $path = public_path($folder);
                 if (!File::exists($path)) {
-                    File::makeDirectory($path, $mode = 0777, true, true);
+                    File::makeDirectory($path, $mode = 0755, true, true);
                 }
                 $file->move($path, $filename);
                 $data['logo'] = url($folder . $filename);

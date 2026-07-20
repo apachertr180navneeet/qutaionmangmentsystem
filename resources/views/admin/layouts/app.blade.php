@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="{{ config('app.name') }}" lang="en" class="light-style layout-menu-fixed layout-compact" dir="ltr" data-theme="theme-default"
+<html lang="en" class="light-style layout-menu-fixed layout-compact" dir="ltr" data-theme="theme-default"
     data-assets-path="../assets/" data-template="vertical-menu-template-free">
     <head>
         <meta charset="utf-8" />
         <title>{{ config('app.name') }}</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="" />
         <meta name="csrf-token" content="{{ csrf_token() }}" />
-        <meta name="ws_url" content="{{ env('WS_URL') }}">
+        <meta name="ws_url" content="{{ config('app.url') }}">
         <meta name="user_id" content="{{ Auth::id() }}">
         <link rel="icon" type="image/x-icon" href="{{asset('assets/admin/img/favicon/favicon.ico')}}" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />

@@ -11,7 +11,7 @@ class Helper
 {
    
     public static function admin(){
-        $admin = User::where('id',1)->first();
+        $admin = User::where('role','admin')->orderBy('id')->first();
         return $admin;
     }
 

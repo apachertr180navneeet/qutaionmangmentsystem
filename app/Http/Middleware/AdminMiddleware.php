@@ -18,13 +18,12 @@ class AdminMiddleware
     {
         if(Auth::user()) {
             $user = Auth::user();
-            if($user->role == "admin") {
+            if($user->role === "admin") {
                 return $next($request);
-            }else{
-                return redirect()->back();
             }
-        }else{
-            return redirect()->route('admin.login');
+            Auth::logout();
+            return redirect()->route('admin.login')->with("error","You do not have admin access");
         }
+        return redirect()->route('admin.login');
     }
 }

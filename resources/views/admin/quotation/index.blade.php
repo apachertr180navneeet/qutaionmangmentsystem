@@ -12,10 +12,10 @@
 
     <div class="custom-card mb-4 p-3">
         <form method="GET" action="{{ route('admin.quotations.index') }}" class="d-flex flex-wrap gap-3 align-items-center">
-            <div class="flex-grow-1" style="max-width: 400px;">
+            <div class="flex-grow-1" style="max-width: 100%;">
                 <input type="text" name="search" class="custom-input" placeholder="Search by quotation no..." value="{{ request('search') }}">
             </div>
-            <div style="min-width: 200px;">
+            <div style="min-width: 150px;">
                 <select name="status" class="custom-select">
                     <option value="">All Statuses</option>
                     <option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>Draft</option>
@@ -62,7 +62,7 @@
                             </div>
                         </td>
                         <td class="date-text">{{ $quotation->created_at ? date('d-m-Y', strtotime($quotation->created_at)) : 'N/A' }}</td>
-                        <td class="table-dark-text">${{ number_format($quotation->grand_total, 2) }}</td>
+                        <td class="table-dark-text">₹{{ number_format($quotation->grand_total, 2) }}</td>
                         <td>
                             @php
                                 $statusClass = match(strtolower($quotation->status)) {

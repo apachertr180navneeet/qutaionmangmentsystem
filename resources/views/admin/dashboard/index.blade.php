@@ -47,7 +47,7 @@
     </div>
 
     <div class="row g-3 mb-4">
-        <div class="col-md-3 col-sm-6">
+        <div class="col-6 col-sm-6 col-md-3">
             <div class="card hover-card">
                 <div class="card-body d-flex align-items-center">
                     <div class="avatar flex-shrink-0 me-3">
@@ -60,7 +60,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3 col-sm-6">
+        <div class="col-6 col-sm-6 col-md-3">
             <div class="card hover-card">
                 <div class="card-body d-flex align-items-center">
                     <div class="avatar flex-shrink-0 me-3">
@@ -73,7 +73,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3 col-sm-6">
+        <div class="col-6 col-sm-6 col-md-3">
             <div class="card hover-card">
                 <div class="card-body d-flex align-items-center">
                     <div class="avatar flex-shrink-0 me-3">
@@ -86,7 +86,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3 col-sm-6">
+        <div class="col-6 col-sm-6 col-md-3">
             <div class="card hover-card">
                 <div class="card-body d-flex align-items-center">
                     <div class="avatar flex-shrink-0 me-3">
@@ -99,7 +99,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3 col-sm-6">
+        <div class="col-6 col-sm-6 col-md-3">
             <div class="card hover-card">
                 <div class="card-body d-flex align-items-center">
                     <div class="avatar flex-shrink-0 me-3">
@@ -112,7 +112,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3 col-sm-6">
+        <div class="col-6 col-sm-6 col-md-3">
             <div class="card hover-card">
                 <div class="card-body d-flex align-items-center">
                     <div class="avatar flex-shrink-0 me-3">

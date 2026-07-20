@@ -44,6 +44,16 @@ class FollowUpController extends Controller
         }
     }
 
+    public function show($id)
+    {
+        try {
+            $followUp = FollowUp::with(['quotation.customer', 'user'])->findOrFail($id);
+            return view('admin.followup.show', compact('followUp'));
+        } catch (Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
+
     public function edit($id)
     {
         try {

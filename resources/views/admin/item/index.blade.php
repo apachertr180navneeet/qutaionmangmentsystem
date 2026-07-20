@@ -20,7 +20,7 @@
     <div class="custom-card mb-4 p-3">
         <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
             <form method="GET" action="{{ route('admin.items.index') }}" class="d-flex gap-3 flex-wrap align-items-center flex-grow-1">
-                <div class="flex-grow-1" style="max-width: 400px;">
+                <div class="flex-grow-1" style="max-width: 100%;">
                     <input type="text" name="search" class="custom-input no-icon" placeholder="Search by name, SKU..." value="{{ request('search') }}">
                 </div>
                 <button type="submit" class="btn-gradient-primary"><i class="bx bx-search me-1"></i> Search</button>

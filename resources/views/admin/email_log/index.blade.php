@@ -9,7 +9,7 @@
     <div class="custom-card mb-4 p-3">
         <div class="d-flex flex-wrap align-items-center gap-2">
             <form method="GET" action="{{ route('admin.email_logs.index') }}" class="d-flex gap-3 flex-wrap align-items-center flex-grow-1">
-                <div style="min-width: 200px;">
+                <div class="flex-grow-1" style="min-width: 150px;">
                     <select name="status" class="custom-select">
                         <option value="">All Status</option>
                         <option value="sent" {{ request('status') == 'sent' ? 'selected' : '' }}>Sent</option>

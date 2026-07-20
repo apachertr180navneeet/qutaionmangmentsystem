@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="{{ config('app.name') }}">
+<html lang="en">
     <head>
         <meta charset="utf-8" />
         <title>{{ config('app.name') }}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="" />
         <meta name="csrf-token" content="{{ csrf_token() }}" />
-        <meta name="ws_url" content="{{ env('WS_URL') }}">
+        <meta name="ws_url" content="{{ config('app.url') }}">
         <meta name="user_id" content="{{ Auth::id() }}">
         <link rel="icon" type="image/x-icon" href="{{asset('assets/admin/img/favicon/favicon.ico')}}" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />

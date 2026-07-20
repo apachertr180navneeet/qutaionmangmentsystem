@@ -11,6 +11,12 @@ class QuotationItem extends Model
         'quantity', 'rate', 'total', 'sort_order',
     ];
 
+    protected $casts = [
+        'quantity' => 'float',
+        'rate' => 'float',
+        'total' => 'float',
+    ];
+
     public function quotation()
     {
         return $this->belongsTo(Quotation::class);

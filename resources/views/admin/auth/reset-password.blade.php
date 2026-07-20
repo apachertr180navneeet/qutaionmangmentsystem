@@ -7,7 +7,7 @@
             <div class="card-body">
                 <!-- Logo -->
                 <div class="app-brand justify-content-center">
-                    <a href="index.html" class="app-brand-link gap-2">
+                    <a href="{{ route('admin.login') }}" class="app-brand-link gap-2">
                         <span class="app-brand-logo demo">
                             <svg width="25" viewBox="0 0 25 42" version="1.1" xmlns="http://www.w3.org/2000/svg"
                                 xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -70,14 +70,14 @@
                     <span class="invalid-feedback"><strong>{{ $errors->first('email') }}</strong></span>
                     @endif
                     <div class="form-group">
-                        <label for="email" class="form-label">Password</label>
+                        <label for="password" class="form-label">Password</label>
                         <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
                         @if ($errors->has('password'))
                         <span class="invalid-feedback"><strong>{{ $errors->first('password') }}</strong></span>
                         @endif
                     </div>
                     <div class="form-group mb-3">
-                        <label for="email" class="form-label">Confirm Password</label>
+                        <label for="password-confirm" class="form-label">Confirm Password</label>
                         <input id="password-confirm" type="password" class="form-control{{ $errors->has('password_confirmation') ? ' is-invalid' : '' }}" name="password_confirmation" required>
                         @if ($errors->has('password_confirmation'))
                         <span class="invalid-feedback"><strong>{{ $errors->first('password_confirmation') }}</strong></span>

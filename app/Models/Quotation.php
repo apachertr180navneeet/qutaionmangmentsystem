@@ -20,6 +20,19 @@ class Quotation extends Model
 
     protected $casts = [
         'valid_until' => 'date',
+        'subtotal' => 'float',
+        'discount_value' => 'float',
+        'discount_amount' => 'float',
+        'tax_rate' => 'float',
+        'cgst_percentage' => 'float',
+        'sgst_percentage' => 'float',
+        'igst_percentage' => 'float',
+        'cgst_amount' => 'float',
+        'sgst_amount' => 'float',
+        'igst_amount' => 'float',
+        'round_off' => 'float',
+        'grand_total' => 'float',
+        'revision_number' => 'integer',
     ];
 
     protected static function boot()
@@ -30,6 +43,7 @@ class Quotation extends Model
             $year = now()->format('Y');
             $lastQuotation = static::where('quotation_number', 'like', "Q-{$year}-%")
                 ->orderBy('quotation_number', 'desc')
+                ->lockForUpdate()
                 ->first();
 
             if ($lastQuotation) {

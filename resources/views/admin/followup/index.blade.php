@@ -12,7 +12,7 @@
     <div class="custom-card mb-4 p-3">
         <div class="d-flex flex-wrap align-items-center gap-2">
             <form method="GET" action="{{ route('admin.followups.index') }}" class="d-flex gap-3 flex-wrap align-items-center flex-grow-1">
-                <div style="min-width: 150px;">
+                <div class="flex-grow-1" style="min-width: 140px;">
                     <select name="status" class="custom-select">
                         <option value="">All Status</option>
                         <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
@@ -20,10 +20,10 @@
                         <option value="cancelled" {{ request('status') == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
                     </select>
                 </div>
-                <div style="min-width: 150px;">
+                <div class="flex-grow-1" style="min-width: 140px;">
                     <input type="date" name="from_date" class="custom-input no-icon" value="{{ request('from_date') }}" placeholder="From date">
                 </div>
-                <div style="min-width: 150px;">
+                <div class="flex-grow-1" style="min-width: 140px;">
                     <input type="date" name="to_date" class="custom-input no-icon" value="{{ request('to_date') }}" placeholder="To date">
                 </div>
                 <button type="submit" class="btn-gradient-primary"><i class="bx bx-filter-alt me-1"></i> Filter</button>

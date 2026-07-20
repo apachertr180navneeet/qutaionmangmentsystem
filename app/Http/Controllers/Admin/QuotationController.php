@@ -254,6 +254,7 @@ class QuotationController extends Controller
 
             $original = Quotation::with('items')->findOrFail($id);
             $newData = $original->replicate();
+            $newData->initializeHasUuid();
             $newData->quotation_number = null;
             $newData->revision_number = ($original->revision_number ?? 0) + 1;
             $newData->parent_id = $original->parent_id ?? $original->id;

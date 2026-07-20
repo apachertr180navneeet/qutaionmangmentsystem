@@ -135,19 +135,24 @@ class ReportController extends Controller
     public function exportPdf(Request $request)
     {
         try {
-            $request->validate(['report_type' => 'required|string']);
+            $request->validate(['report_type' => 'required|string|in:customer_wise,date_wise,status_wise,monthly,item_wise']);
 
             $quotations = collect();
             $title = 'Report';
 
             switch ($request->report_type) {
                 case 'customer_wise':
+                    $request->validate(['customer_id' => 'required|exists:customers,id']);
                     $customer = Customer::findOrFail($request->customer_id);
                     $quotations = Quotation::with('customer')
                         ->where('customer_id', $request->customer_id)->latest()->get();
                     $title = 'Customer Wise Report - ' . $customer->company_name;
                     break;
                 case 'date_wise':
+                    $request->validate([
+                        'from_date' => 'required|date',
+                        'to_date' => 'required|date|after_or_equal:from_date',
+                    ]);
                     $quotations = Quotation::with('customer')
                         ->whereDate('created_at', '>=', $request->from_date)
                         ->whereDate('created_at', '<=', $request->to_date)
@@ -155,6 +160,7 @@ class ReportController extends Controller
                     $title = "Date Wise Report ({$request->from_date} to {$request->to_date})";
                     break;
                 case 'status_wise':
+                    $request->validate(['status' => 'required|in:draft,sent,approved,expired,rejected']);
                     $quotations = Quotation::with('customer')
                         ->where('status', $request->status)->latest()->get();
                     $title = 'Status Wise Report - ' . ucfirst($request->status);
@@ -168,6 +174,7 @@ class ReportController extends Controller
                     $title = "Monthly Report - {$month}/{$year}";
                     break;
                 case 'item_wise':
+                    $request->validate(['item_id' => 'required|exists:items,id']);
                     $item = Item::findOrFail($request->item_id);
                     $quotations = Quotation::whereHas('items', function ($q) use ($request) {
                         $q->where('item_id', $request->item_id);
@@ -186,22 +193,28 @@ class ReportController extends Controller
     public function exportExcel(Request $request)
     {
         try {
-            $request->validate(['report_type' => 'required|string']);
+            $request->validate(['report_type' => 'required|string|in:customer_wise,date_wise,status_wise,monthly,item_wise']);
 
             $quotations = collect();
 
             switch ($request->report_type) {
                 case 'customer_wise':
+                    $request->validate(['customer_id' => 'required|exists:customers,id']);
                     $quotations = Quotation::with('customer')
                         ->where('customer_id', $request->customer_id)->latest()->get();
                     break;
                 case 'date_wise':
+                    $request->validate([
+                        'from_date' => 'required|date',
+                        'to_date' => 'required|date|after_or_equal:from_date',
+                    ]);
                     $quotations = Quotation::with('customer')
                         ->whereDate('created_at', '>=', $request->from_date)
                         ->whereDate('created_at', '<=', $request->to_date)
                         ->latest()->get();
                     break;
                 case 'status_wise':
+                    $request->validate(['status' => 'required|in:draft,sent,approved,expired,rejected']);
                     $quotations = Quotation::with('customer')
                         ->where('status', $request->status)->latest()->get();
                     break;
@@ -213,6 +226,7 @@ class ReportController extends Controller
                         ->whereYear('created_at', $year)->latest()->get();
                     break;
                 case 'item_wise':
+                    $request->validate(['item_id' => 'required|exists:items,id']);
                     $quotations = Quotation::whereHas('items', function ($q) use ($request) {
                         $q->where('item_id', $request->item_id);
                     })->with('customer')->latest()->get();

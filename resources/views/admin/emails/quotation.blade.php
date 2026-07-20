@@ -36,7 +36,7 @@
                 <p><strong>Grand Total:</strong> {{ number_format($quotation->grand_total, 2) }}</p>
             </div>
             <p>
-                <a href="{{ route('admin.quotations.show', $quotation->id) }}" class="btn">View Quotation</a>
+                <a href="{{ url('/quotation/' . $quotation->uuid) }}" class="btn">View Quotation</a>
             </p>
             <p>Regards,<br>{{ $company->company_name ?? config('app.name') }}</p>
         </div>

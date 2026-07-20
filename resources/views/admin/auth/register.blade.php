@@ -85,7 +85,7 @@
                                   <label class="label-text">Password</label>
                                   <div class="form-group">
                                      <span class="la la-lock form-icon"></span>
-                                     <input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" value="{{ old('password') }}" required type="password" placeholder="Type password">
+                                     <input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required type="password" placeholder="Type password">
                                     @if ($errors->has('password'))
                                        <span class="invalid-feedback">
                                           <strong>{{ $errors->first('password') }}</strong>
@@ -98,7 +98,7 @@
                                   <label class="label-text">Repeat Password</label>
                                   <div class="form-group">
                                      <span class="la la-lock form-icon"></span>
-                                     <input class="form-control{{ $errors->has('password_confirmation') ? ' is-invalid' : '' }}" name="password_confirmation" value="{{ old('password_confirmation') }}" required type="password" placeholder="Type again password">
+                                     <input class="form-control{{ $errors->has('password_confirmation') ? ' is-invalid' : '' }}" name="password_confirmation" required type="password" placeholder="Type again password">
                                     @if ($errors->has('password_confirmation'))
                                        <span class="invalid-feedback">
                                           <strong>{{ $errors->first('password_confirmation') }}</strong>
@@ -111,7 +111,7 @@
                                  <button type="submit" class="theme-btn w-100">Register</button>
                                </div>
                                <div class="action-box text-center">
-                                  <p class="font-size-14"><a href="Login.html">Already Registered User? Click here to login</a></p>
+                                  <p class="font-size-14"><a href="{{ route('admin.login') }}">Already Registered User? Click here to login</a></p>
                                  
                                </div>
                             </form>

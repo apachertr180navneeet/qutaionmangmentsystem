@@ -14,4 +14,9 @@ trait HasUuid
             }
         });
     }
+
+    public function initializeHasUuid()
+    {
+        $this->uuid = Str::uuid();
+    }
 }

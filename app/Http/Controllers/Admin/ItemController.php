@@ -58,7 +58,7 @@ class ItemController extends Controller
             
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
-                $filename = time() . '_' . $image->getClientOriginalName();
+                $filename = time() . '_' . \Illuminate\Support\Str::random(20) . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('uploads/items'), $filename);
                 $data['image'] = asset('uploads/items/' . $filename);
             }
@@ -107,7 +107,7 @@ class ItemController extends Controller
             
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
-                $filename = time() . '_' . $image->getClientOriginalName();
+                $filename = time() . '_' . \Illuminate\Support\Str::random(20) . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('uploads/items'), $filename);
                 $data['image'] = asset('uploads/items/' . $filename);
             }

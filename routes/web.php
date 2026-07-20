@@ -18,7 +18,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
     Route::get('/', [AdminAuthController::class, 'index']);
 
     Route::get('login', [AdminAuthController::class, 'login'])->name('login');
-    Route::post('login', [AdminAuthController::class, 'postLogin'])->name('login.post');
+    Route::post('login', [AdminAuthController::class, 'postLogin'])->name('login.post')->middleware('throttle:5,1');
     Route::get('forget-password', [AdminAuthController::class, 'showForgetPasswordForm'])->name('forget.password.get');
     Route::post('forget-password', [AdminAuthController::class, 'submitForgetPasswordForm'])->name('forget.password.post');
     Route::get('reset-password/{token}', [AdminAuthController::class, 'showResetPasswordForm'])->name('reset.password.get');
@@ -81,11 +81,12 @@ Route::name('admin.')->prefix('admin')->group(function () {
             Route::get('/', [FollowUpController::class, 'index'])->name('index');
             Route::get('/create', [FollowUpController::class, 'create'])->name('create');
             Route::post('/', [FollowUpController::class, 'store'])->name('store');
+            Route::get('/today', [FollowUpController::class, 'today'])->name('today');
+            Route::get('/upcoming', [FollowUpController::class, 'upcoming'])->name('upcoming');
+            Route::get('/{id}', [FollowUpController::class, 'show'])->name('show');
             Route::get('/{id}/edit', [FollowUpController::class, 'edit'])->name('edit');
             Route::put('/{id}', [FollowUpController::class, 'update'])->name('update');
             Route::delete('/{id}', [FollowUpController::class, 'destroy'])->name('destroy');
-            Route::get('/today', [FollowUpController::class, 'today'])->name('today');
-            Route::get('/upcoming', [FollowUpController::class, 'upcoming'])->name('upcoming');
         });
 
         // Reports
