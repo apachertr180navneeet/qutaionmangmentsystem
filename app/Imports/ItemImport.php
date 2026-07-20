@@ -3,48 +3,93 @@
 namespace App\Imports;
 
 use App\Models\Item;
-use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
-class ItemImport implements ToModel, WithHeadingRow
+class ItemImport implements ToCollection, WithHeadingRow, WithChunkReading
 {
-    public function model(array $row)
+    public function collection(Collection $rows)
     {
-        if (empty($row['name'])) {
-            return null;
+        $names = [];
+        $skus = [];
+
+        foreach ($rows as $row) {
+            if (!empty($row['name'])) {
+                $names[] = trim($row['name']);
+            }
+            if (!empty($row['sku'])) {
+                $skus[] = trim($row['sku']);
+            }
         }
 
-        $query = Item::query();
-        $query->where(function($q) use ($row) {
-            $q->where('name', $row['name']);
-            if (!empty($row['sku'])) {
-                $q->orWhere('sku', $row['sku']);
+        if (empty($names)) {
+            return;
+        }
+
+        // Fetch existing items in a batch query to optimize performance
+        $query = Item::query()->whereIn('name', $names);
+        if (!empty($skus)) {
+            $query->orWhereIn('sku', $skus);
+        }
+        $existingItems = $query->get();
+
+        // Map existing items by name and SKU for O(1) lookups
+        $existingByName = [];
+        $existingBySku = [];
+        foreach ($existingItems as $item) {
+            $existingByName[strtolower($item->name)] = $item;
+            if ($item->sku) {
+                $existingBySku[strtolower($item->sku)] = $item;
+            }
+        }
+
+        $userId = auth()->id();
+
+        DB::transaction(function () use ($rows, $existingByName, $existingBySku, $userId) {
+            foreach ($rows as $row) {
+                if (empty($row['name'])) {
+                    continue;
+                }
+
+                $name = trim($row['name']);
+                $sku = !empty($row['sku']) ? trim($row['sku']) : null;
+
+                $item = null;
+                if ($sku && isset($existingBySku[strtolower($sku)])) {
+                    $item = $existingBySku[strtolower($sku)];
+                } elseif (isset($existingByName[strtolower($name)])) {
+                    $item = $existingByName[strtolower($name)];
+                }
+
+                $data = [
+                    'name'           => $name,
+                    'sku'            => $sku,
+                    'description'    => $row['description'] ?? null,
+                    'unit'           => $row['unit'] ?? 'pcs',
+                    'rate'           => $row['rate'] ?? 0,
+                    'tax_percentage' => $row['tax_percentage'] ?? 0,
+                    'hsn_code'       => $row['hsn_code'] ?? null,
+                    'is_active'      => isset($row['is_active']) ? (strtolower($row['is_active']) == 'active' ? 1 : 0) : 1,
+                    'image'          => null,
+                ];
+
+                if ($item) {
+                    $item->update($data);
+                } else {
+                    $data['uuid'] = (string) Str::uuid();
+                    $data['created_by'] = $userId;
+                    Item::create($data);
+                }
             }
         });
+    }
 
-        $item = $query->first();
-
-        $data = [
-            'name'           => $row['name'],
-            'sku'            => $row['sku'] ?? null,
-            'description'    => $row['description'] ?? null,
-            'unit'           => $row['unit'] ?? 'pcs',
-            'rate'           => $row['rate'] ?? 0,
-            'tax_percentage' => $row['tax_percentage'] ?? 0,
-            'hsn_code'       => $row['hsn_code'] ?? null,
-            'is_active'      => isset($row['is_active']) ? (strtolower($row['is_active']) == 'active' ? 1 : 0) : 1,
-            'image'          => null, // Set image to null as requested
-        ];
-
-        if ($item) {
-            $item->fill($data);
-            return $item;
-        }
-
-        $data['uuid'] = (string) Str::uuid();
-        $data['created_by'] = auth()->id();
-        
-        return new Item($data);
+    public function chunkSize(): int
+    {
+        return 1000;
     }
 }
