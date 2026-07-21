@@ -6,6 +6,9 @@
             Item List
         </h4>
         <div class="d-flex gap-2">
+            <button type="button" class="btn btn-outline-primary" id="btn-sync-images" style="border-radius: 8px;">
+                <i class="bx bx-sync me-1"></i> Sync Images
+            </button>
             <a href="{{ route('admin.items.import_template') }}" class="btn btn-outline-secondary" style="border-radius: 8px;">
                 <i class="bx bx-download me-1"></i> Template
             </a>
@@ -214,6 +217,64 @@ $(document).ready(function(){
                     icon: 'error',
                     title: 'Error',
                     text: message
+        });
+    });
+
+    $('#btn-sync-images').on('click', function() {
+        Swal.fire({
+            title: 'Sync Product Images?',
+            text: "This will search Jaquar website by product SKUs and download missing images automatically.",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#696cff',
+            cancelButtonColor: '#8592a3',
+            confirmButtonText: 'Yes, Sync Now!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: 'Syncing Product Images...',
+                    text: 'Please wait while product images are being scraped and saved.',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                $.ajax({
+                    url: "{{ route('admin.items.sync_images') }}",
+                    type: "POST",
+                    data: {
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Sync Completed!',
+                                text: response.message,
+                                confirmButtonText: 'OK'
+                            }).then(() => {
+                                window.location.reload();
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Sync Failed',
+                                text: response.message || 'Could not complete image sync.'
+                            });
+                        }
+                    },
+                    error: function(xhr) {
+                        var message = 'An error occurred during sync.';
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            message = xhr.responseJSON.message;
+                        }
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: message
+                        });
+                    }
                 });
             }
         });

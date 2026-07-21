@@ -197,4 +197,26 @@ class ItemController extends Controller
     {
         return Excel::download(new ItemTemplateExport, 'item_import_template.xlsx');
     }
+
+    public function syncImages(Request $request)
+    {
+        try {
+            \Illuminate\Support\Facades\Artisan::call('products:sync-images', [
+                '--chunk' => 100,
+            ]);
+
+            $output = \Illuminate\Support\Facades\Artisan::output();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Product image sync completed successfully!',
+                'output' => $output,
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to sync product images: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
 }
