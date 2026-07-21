@@ -460,7 +460,7 @@
             <select class="form-select form-select-sm item-select" name="items[__INDEX__][item_id]" required>
                 <option value="">Search item...</option>
                 @foreach($items as $item)
-                    <option value="{{ $item->id }}" data-rate="{{ $item->rate }}" data-tax="{{ $item->tax_percentage }}" data-unit="{{ $item->unit }}" data-hsn="{{ $item->hsn_code }}" data-name="{{ $item->name }}" data-image="{{ $item->image }}">{{ $item->name }} ({{ $item->sku }})</option>
+                    <option value="{{ $item->id }}" data-rate="{{ $item->rate }}" data-tax="{{ $item->tax_percentage }}" data-unit="{{ $item->unit }}" data-name="{{ $item->name }}" data-image="{{ $item->image }}">{{ $item->name }} ({{ $item->sku }})</option>
                 @endforeach
             </select>
             <input type="hidden" name="items[__INDEX__][item_name]" class="item-name-input" value="">
@@ -484,7 +484,6 @@ function formatItem(item) {
     var $el = $(item.element);
     var image = $el.data('image');
     var rate = $el.data('rate') || 0;
-    var hsn = $el.data('hsn') || 'N/A';
     
     var imgHtml = image ? '<img src="' + image + '" class="rounded me-2" style="width:32px; height:32px; object-fit:cover;">' : '<div class="rounded me-2 bg-light border d-inline-block" style="width:32px; height:32px;"></div>';
     

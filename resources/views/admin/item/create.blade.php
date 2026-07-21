@@ -38,11 +38,6 @@
                         <input type="number" step="0.01" name="rate" class="custom-input no-icon @error('rate') is-invalid @enderror" value="{{ old('rate') }}" required>
                         @error('rate') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label table-dark-text">HSN Code</label>
-                        <input type="text" name="hsn_code" class="custom-input no-icon @error('hsn_code') is-invalid @enderror" value="{{ old('hsn_code') }}">
-                        @error('hsn_code') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                    </div>
                     <div class="col-md-12">
                         <label class="form-label table-dark-text">Description</label>
                         <textarea name="description" class="custom-input no-icon @error('description') is-invalid @enderror" rows="3">{{ old('description') }}</textarea>

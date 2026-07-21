@@ -32,9 +32,6 @@
                     <p><span class="table-dark-text d-block mb-1">Rate:</span><span class="text-muted">{{ number_format($item->rate, 2) }}</span></p>
                 </div>
                 <div class="col-md-6">
-                    <p><span class="table-dark-text d-block mb-1">HSN Code:</span><span class="text-muted">{{ $item->hsn_code ?? 'N/A' }}</span></p>
-                </div>
-                <div class="col-md-6">
                     <p><span class="table-dark-text d-block mb-1">Status:</span>
                         @if($item->is_active)
                             <span class="badge-custom badge-active">ACTIVE</span>

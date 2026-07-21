@@ -53,6 +53,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
             Route::post('/', [ItemController::class, 'store'])->name('store');
             Route::get('/import-template', [ItemController::class, 'downloadTemplate'])->name('import_template');
             Route::post('/import', [ItemController::class, 'import'])->name('import');
+            Route::post('/{id}/update-image', [ItemController::class, 'updateImage'])->name('update_image');
             Route::get('/search/ajax', [ItemController::class, 'search'])->name('search.ajax');
             Route::get('/{id}', [ItemController::class, 'show'])->name('show');
             Route::get('/{id}/edit', [ItemController::class, 'edit'])->name('edit');

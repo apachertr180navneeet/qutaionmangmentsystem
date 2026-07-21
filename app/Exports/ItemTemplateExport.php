@@ -16,7 +16,6 @@ class ItemTemplateExport implements FromArray, WithHeadings
             'unit',
             'rate',
             'tax_percentage',
-            'hsn_code',
             'is_active'
         ];
     }
@@ -31,7 +30,6 @@ class ItemTemplateExport implements FromArray, WithHeadings
                 'pcs',
                 '100',
                 '18',
-                'HSN1234',
                 'Active'
             ]
         ];

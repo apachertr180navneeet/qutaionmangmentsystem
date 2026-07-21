@@ -34,7 +34,6 @@ class ItemImport implements ToCollection, WithHeadingRow, WithChunkReading
                 'unit'           => $row['unit'] ?? 'pcs',
                 'rate'           => $row['rate'] ?? 0,
                 'tax_percentage' => $row['tax_percentage'] ?? 0,
-                'hsn_code'       => $row['hsn_code'] ?? null,
                 'is_active'      => isset($row['is_active']) ? (strtolower($row['is_active']) == 'active' ? 1 : 0) : 1,
                 'image'          => null,
                 'created_by'     => $userId,

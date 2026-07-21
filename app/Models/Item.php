@@ -12,12 +12,23 @@ class Item extends Model
 
     protected $fillable = [
         'uuid', 'name', 'sku', 'description', 'unit', 'rate', 'tax_percentage',
-        'hsn_code', 'is_active', 'image', 'created_by',
+        'is_active', 'image', 'created_by',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
     ];
+
+    public function getImageAttribute($value)
+    {
+        if (empty($value)) {
+            return null;
+        }
+        if (\Illuminate\Support\Str::startsWith($value, ['http://', 'https://'])) {
+            return $value;
+        }
+        return asset($value);
+    }
 
     public function creator()
     {

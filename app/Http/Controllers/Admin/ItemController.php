@@ -50,7 +50,6 @@ class ItemController extends Controller
                 'description' => 'nullable|string',
                 'unit' => 'required|string|max:50',
                 'rate' => 'required|numeric|min:0',
-                'hsn_code' => 'nullable|string|max:50',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
             
@@ -60,7 +59,7 @@ class ItemController extends Controller
                 $image = $request->file('image');
                 $filename = time() . '_' . \Illuminate\Support\Str::random(20) . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('uploads/items'), $filename);
-                $data['image'] = asset('uploads/items/' . $filename);
+                $data['image'] = 'uploads/items/' . $filename;
             }
             
             $data['created_by'] = auth()->id();
@@ -101,7 +100,6 @@ class ItemController extends Controller
                 'description' => 'nullable|string',
                 'unit' => 'required|string|max:50',
                 'rate' => 'required|numeric|min:0',
-                'hsn_code' => 'nullable|string|max:50',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
             
@@ -109,7 +107,7 @@ class ItemController extends Controller
                 $image = $request->file('image');
                 $filename = time() . '_' . \Illuminate\Support\Str::random(20) . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('uploads/items'), $filename);
-                $data['image'] = asset('uploads/items/' . $filename);
+                $data['image'] = 'uploads/items/' . $filename;
             }
             
             $item->update($data);
@@ -162,6 +160,36 @@ class ItemController extends Controller
             return redirect()->route('admin.items.index')->with('success', 'Items imported successfully.');
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function updateImage(Request $request, $id)
+    {
+        try {
+            $request->validate([
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            ]);
+
+            $item = Item::findOrFail($id);
+
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $filename = time() . '_' . \Illuminate\Support\Str::random(20) . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('uploads/items'), $filename);
+                $relativePath = 'uploads/items/' . $filename;
+
+                $item->update(['image' => $relativePath]);
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Item image updated successfully.',
+                    'image_url' => asset($relativePath)
+                ]);
+            }
+
+            return response()->json(['success' => false, 'message' => 'No image file uploaded.'], 400);
+        } catch (Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
     }
 

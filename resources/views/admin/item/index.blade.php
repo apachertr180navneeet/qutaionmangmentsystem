@@ -41,7 +41,6 @@
                             <th>SKU</th>
                             <th>Unit</th>
                             <th>Rate</th>
-                            <th>HSN Code</th>
                             <th>Status</th>
                             <th class="text-center">Actions</th>
                         </tr>
@@ -51,17 +50,23 @@
                         <tr>
                             <td>{{ $items->firstItem() + $key }}</td>
                             <td>
-                                @if($item->image)
-                                    <img src="{{ $item->image }}" alt="{{ $item->name }}" class="img-thumbnail" style="width: 40px; height: 40px; object-fit: cover;">
-                                @else
-                                    <span class="text-muted">-</span>
-                                @endif
+                                <div class="position-relative d-inline-block item-image-container" style="width: 44px; height: 44px;">
+                                    <form class="ajax-image-form" data-id="{{ $item->id }}" enctype="multipart/form-data" style="display:none;">
+                                        @csrf
+                                        <input type="file" name="image" class="item-image-input" id="item-image-input-{{ $item->id }}" accept="image/*">
+                                    </form>
+                                    <label for="item-image-input-{{ $item->id }}" class="mb-0 cursor-pointer position-relative d-block group-image-wrapper" title="Click to change image">
+                                        <img src="{{ $item->image ?? asset('assets/admin/img/avatars/1.png') }}" alt="{{ $item->name }}" class="img-thumbnail item-img-preview-{{ $item->id }}" style="width: 44px; height: 44px; object-fit: cover; border-radius: 8px;">
+                                        <div class="image-overlay d-flex align-items-center justify-content-center">
+                                            <i class="bx bx-camera text-white fs-6"></i>
+                                        </div>
+                                    </label>
+                                </div>
                             </td>
                             <td>{{ $item->name }}</td>
                             <td><span class="text-purple-custom">{{ $item->sku }}</span></td>
                             <td class="table-dark-text">{{ $item->unit }}</td>
                             <td class="table-dark-text">{{ number_format($item->rate, 2) }}</td>
-                            <td>{{ $item->hsn_code }}</td>
                             <td>
                                 @if($item->is_active)
                                     <span class="badge-custom badge-active">ACTIVE</span>
@@ -117,6 +122,24 @@
 </div>
 @endsection
 @section('script')
+<style>
+.group-image-wrapper {
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 8px;
+}
+.group-image-wrapper .image-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.45);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    border-radius: 8px;
+}
+.group-image-wrapper:hover .image-overlay {
+    opacity: 1;
+}
+</style>
 <script>
 $(document).ready(function(){
     $('.delete-item').on('click', function(){
@@ -132,6 +155,66 @@ $(document).ready(function(){
         }).then((result) => {
             if (result.isConfirmed) {
                 $('#delete-form-' + id).submit();
+            }
+        });
+    });
+
+    $(document).on('change', '.item-image-input', function() {
+        var fileInput = this;
+        if (!fileInput.files || !fileInput.files[0]) return;
+
+        var form = $(fileInput).closest('form');
+        var itemId = form.data('id');
+        var formData = new FormData();
+        formData.append('_token', '{{ csrf_token() }}');
+        formData.append('image', fileInput.files[0]);
+
+        var previewImg = $('.item-img-preview-' + itemId);
+        var originalSrc = previewImg.attr('src');
+
+        Swal.fire({
+            title: 'Uploading...',
+            text: 'Please wait while the image is updating.',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        $.ajax({
+            url: "{{ url('admin/items') }}/" + itemId + "/update-image",
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                if (response.success) {
+                    previewImg.attr('src', response.image_url);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: response.message,
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Failed',
+                        text: response.message || 'Could not update image.'
+                    });
+                }
+            },
+            error: function(xhr) {
+                var message = 'An error occurred while uploading.';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    message = xhr.responseJSON.message;
+                }
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: message
+                });
             }
         });
     });
