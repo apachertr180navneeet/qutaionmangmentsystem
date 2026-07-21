@@ -6,9 +6,9 @@
             Item List
         </h4>
         <div class="d-flex gap-2">
-            <button type="button" class="btn btn-outline-primary" id="btn-sync-images" style="border-radius: 8px;">
+            <!-- <button type="button" class="btn btn-outline-primary" id="btn-sync-images" style="border-radius: 8px;">
                 <i class="bx bx-sync me-1"></i> Sync Images
-            </button>
+            </button> -->
             <a href="{{ route('admin.items.import_template') }}" class="btn btn-outline-secondary" style="border-radius: 8px;">
                 <i class="bx bx-download me-1"></i> Template
             </a>
@@ -217,6 +217,8 @@ $(document).ready(function(){
                     icon: 'error',
                     title: 'Error',
                     text: message
+                });
+            }
         });
     });
 
