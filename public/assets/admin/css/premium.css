@@ -475,3 +475,181 @@ body {
     box-shadow: none;
 }
 
+/* ---------------------------------------------------
+   Mobile & Responsive Enhancements
+--------------------------------------------------- */
+@media (max-width: 1199.98px) {
+    .layout-navbar {
+        margin-top: 0.5rem !important;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .container-p-y {
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+    /* Header & Navbar adjustments */
+    .layout-navbar {
+        padding-left: 0.75rem !important;
+        padding-right: 0.75rem !important;
+    }
+    
+    /* Page header title & action buttons stacking */
+    .d-flex.justify-content-between.align-items-center.mb-4,
+    .d-flex.justify-content-between.align-items-center.mb-3 {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 0.75rem !important;
+    }
+
+    .page-title {
+        font-size: 1.25rem !important;
+        margin-bottom: 0 !important;
+        text-align: left;
+    }
+
+    /* Header action buttons container */
+    .d-flex.justify-content-between.align-items-center > .d-flex.gap-2,
+    .d-flex.justify-content-between.align-items-center > .d-flex.gap-3 {
+        flex-wrap: wrap !important;
+        width: 100% !important;
+    }
+
+    .d-flex.justify-content-between.align-items-center > .d-flex.gap-2 > a,
+    .d-flex.justify-content-between.align-items-center > .d-flex.gap-2 > button,
+    .d-flex.justify-content-between.align-items-center > .d-flex.gap-3 > a,
+    .d-flex.justify-content-between.align-items-center > .d-flex.gap-3 > button {
+        flex: 1 1 auto !important;
+        text-align: center !important;
+        justify-content: center !important;
+        padding: 0.5rem 0.75rem !important;
+        font-size: 0.85rem !important;
+    }
+
+    /* Custom cards & padding */
+    .custom-card, .card, .q-card {
+        padding: 1rem !important;
+        border-radius: 12px !important;
+        margin-bottom: 1rem !important;
+    }
+    .q-card .card-body {
+        padding: 1rem !important;
+    }
+    .q-card .card-header {
+        padding: 0.85rem 1rem !important;
+    }
+
+    /* Form & Input Responsiveness */
+    .custom-card form, form {
+        width: 100% !important;
+    }
+
+    /* Stacking form flex containers on mobile */
+    .d-flex.gap-3.flex-wrap, .d-flex.gap-2.flex-wrap {
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+
+    .custom-input, .custom-select, .form-control, .form-select {
+        font-size: 0.875rem !important;
+        padding: 0.5rem 0.75rem !important;
+        width: 100% !important;
+    }
+
+    /* Select2 container responsive fix */
+    .select2-container {
+        width: 100% !important;
+    }
+    .select2-container .select2-selection--single {
+        height: auto !important;
+        min-height: 38px;
+    }
+
+    /* Quotation Header & Actions */
+    .q-edit-header {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 0.75rem !important;
+    }
+    .q-edit-header .btn-group-actions {
+        width: 100% !important;
+    }
+    .q-edit-header .btn-group-actions .btn {
+        flex: 1 1 auto !important;
+        text-align: center !important;
+        justify-content: center !important;
+    }
+
+    /* Data Tables & Quotation Item Tables responsiveness */
+    .table-responsive {
+        border-radius: 8px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        width: 100% !important;
+        margin-bottom: 1rem;
+    }
+
+    .custom-table, .table {
+        min-width: 600px; /* Ensures table doesn't shrink awkwardly on narrow screens */
+    }
+
+    .custom-table th, 
+    .custom-table td,
+    .table th,
+    .table td {
+        padding: 0.6rem 0.5rem !important;
+        font-size: 0.825rem !important;
+        white-space: nowrap;
+    }
+
+    .table input.form-control,
+    .table select.form-select {
+        min-width: 80px;
+        padding: 0.35rem 0.5rem !important;
+        font-size: 0.825rem !important;
+    }
+
+    /* Pagination container stacking */
+    .d-flex.justify-content-between.align-items-center.mt-4,
+    .d-flex.justify-content-between.align-items-center.mt-3 {
+        flex-direction: column !important;
+        gap: 0.75rem !important;
+        text-align: center !important;
+    }
+
+    .pagination {
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+    }
+
+    .pagination .page-item .page-link {
+        padding: 0.35rem 0.65rem !important;
+        font-size: 0.775rem !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    body {
+        font-size: 0.875rem;
+    }
+
+    /* Modal responsiveness */
+    .modal-dialog {
+        margin: 0.5rem !important;
+    }
+
+    .modal-body {
+        padding: 1rem !important;
+    }
+
+    /* Further adjust table min-width on extra small mobile screens */
+    .custom-table, .table {
+        font-size: 0.8rem !important;
+    }
+}
+
+
