@@ -28,8 +28,13 @@ class QuotationRequest extends FormRequest
             'items' => 'required|array|min:1',
             'items.*.item_id' => 'nullable|exists:items,id',
             'items.*.item_name' => 'required|string',
+            'items.*.sku' => 'nullable|string',
+            'items.*.mrp' => 'nullable|numeric|min:0',
             'items.*.quantity' => 'required|numeric|min:0.01',
             'items.*.rate' => 'required|numeric|min:0',
+            'items.*.discount_percentage' => 'nullable|numeric|min:0|max:100',
+            'items.*.discount_amount' => 'nullable|numeric|min:0',
+            'items.*.total' => 'nullable|numeric|min:0',
         ];
     }
 }

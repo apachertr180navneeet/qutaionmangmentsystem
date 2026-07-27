@@ -341,11 +341,13 @@ function getLocalImagePath($url) {
     <table class="items-table">
         <thead>
             <tr>
-                <th class="left" style="width: 75px;">Image</th>
-                <th class="left">Item Description</th>
-                <th class="center" style="width: 50px;">Qty</th>
-                <th class="right" style="width: 100px;">Unit Price</th>
-                <th class="right" style="width: 100px;">Total</th>
+                <th class="left" style="width: 50px;">Image</th>
+                <th class="left">Item & SKU</th>
+                <th class="center" style="width: 40px;">Qty</th>
+                <th class="right" style="width: 70px;">MRP</th>
+                <th class="right" style="width: 55px;">Disc %</th>
+                <th class="right" style="width: 70px;">Net Rate</th>
+                <th class="right" style="width: 80px;">Total</th>
             </tr>
         </thead>
         <tbody>
@@ -360,17 +362,22 @@ function getLocalImagePath($url) {
                 </td>
                 <td class="left">
                     <h6 class="item-name">{{ $item->item->name ?? $item->item_name ?? 'N/A' }}</h6>
+                    @if($item->sku || ($item->item && $item->item->sku))
+                        <div style="font-size: 8.5px; color: #6c5ce7; font-weight: bold; margin-bottom: 2px;">SKU: {{ $item->sku ?: $item->item->sku }}</div>
+                    @endif
                     @if($item->item && $item->item->description)
                         <span class="item-description">{{ $item->item->description }}</span>
                     @endif
                 </td>
                 <td class="center">{{ $item->quantity }}</td>
+                <td class="right">{{ number_format($item->mrp ?: ($item->item->mrp ?? $item->rate), 2) }}</td>
+                <td class="right">{{ number_format($item->discount_percentage ?? 0, 1) }}%</td>
                 <td class="right">{{ number_format($item->rate, 2) }}</td>
                 <td class="right" style="font-weight: bold;">{{ number_format($item->total, 2) }}</td>
             </tr>
             @empty
             <tr>
-                <td colspan="5" class="center" style="color: #6c757d; padding: 20px;">No items found.</td>
+                <td colspan="7" class="center" style="color: #6c757d; padding: 20px;">No items found.</td>
             </tr>
             @endforelse
         </tbody>

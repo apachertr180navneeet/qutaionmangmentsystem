@@ -39,7 +39,7 @@
                         @error('unit') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label table-dark-text">Rate <span class="text-danger">*</span></label>
+                        <label class="form-label table-dark-text">MRP <span class="text-danger">*</span></label>
                         <input type="number" step="0.01" name="rate" class="custom-input no-icon @error('rate') is-invalid @enderror" value="{{ old('rate', $item->rate) }}" required>
                         @error('rate') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>

@@ -26,6 +26,7 @@ class ItemImport implements ToCollection, WithHeadingRow, WithChunkReading
             $sku = !empty($row['sku']) ? trim($row['sku']) : null;
             $name = !empty($row['name']) ? trim($row['name']) : null;
             $rate = isset($row['rate']) && $row['rate'] !== '' ? (float) $row['rate'] : null;
+            $mrp = isset($row['mrp']) && $row['mrp'] !== '' ? (float) $row['mrp'] : ($rate ?? 0);
 
             // Find existing item by SKU or Name
             $existingItem = null;
@@ -37,8 +38,11 @@ class ItemImport implements ToCollection, WithHeadingRow, WithChunkReading
             }
 
             if ($existingItem) {
-                // Update MRP (rate) and other provided fields for existing item
+                // Update MRP and other provided fields for existing item
                 $updateData = ['updated_at' => $now];
+                if ($mrp !== null) {
+                    $updateData['mrp'] = $mrp;
+                }
                 if ($rate !== null) {
                     $updateData['rate'] = $rate;
                 }
@@ -67,6 +71,7 @@ class ItemImport implements ToCollection, WithHeadingRow, WithChunkReading
                     'sku'            => $sku,
                     'description'    => $row['description'] ?? null,
                     'unit'           => $row['unit'] ?? 'pcs',
+                    'mrp'            => $mrp ?? 0,
                     'rate'           => $rate ?? 0,
                     'tax_percentage' => $row['tax_percentage'] ?? 0,
                     'is_active'      => isset($row['is_active']) ? (strtolower($row['is_active']) == 'active' ? 1 : 0) : 1,

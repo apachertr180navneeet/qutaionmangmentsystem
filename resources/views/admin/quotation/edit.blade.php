@@ -313,19 +313,22 @@
                     <table class="table items-table mb-0" id="itemsTable">
                         <thead>
                             <tr>
-                                <th style="width: 45px;">#</th>
-                                <th style="width: 55px;">Image</th>
-                                <th style="min-width: 200px;">Item</th>
-                                <th style="min-width: 80px;">Unit</th>
-                                <th style="min-width: 100px;">Qty</th>
-                                <th style="min-width: 110px;">Rate</th>
-                                <th style="min-width: 120px;">Total</th>
-                                <th style="width: 50px;"></th>
+                                <th style="width: 35px;">#</th>
+                                <th style="width: 45px;">Image</th>
+                                <th style="min-width: 170px;">Item</th>
+                                <th style="min-width: 90px;">SKU</th>
+                                <th style="min-width: 70px;">Unit</th>
+                                <th style="min-width: 75px;">Qty</th>
+                                <th style="min-width: 95px;">MRP</th>
+                                <th style="min-width: 85px;">Disc (%)</th>
+                                <th style="min-width: 95px;">Rate</th>
+                                <th style="min-width: 105px;">Total</th>
+                                <th style="width: 40px;"></th>
                             </tr>
                         </thead>
                         <tbody id="itemsBody">
                             <tr id="noItemsRow">
-                                <td colspan="8" class="text-center text-muted py-4">
+                                <td colspan="11" class="text-center text-muted py-4">
                                     <i class="bx bx-package" style="font-size: 2rem; color: #d4c5f9;"></i>
                                     <p class="mb-0 mt-2">Click <strong>"Add Item"</strong> to add items to this quotation.</p>
                                 </td>
@@ -356,32 +359,14 @@
                         </div>
                     </div>
                     <div class="col-lg-6">
+                        <input type="hidden" name="discount_type" value="percentage">
+                        <input type="hidden" name="discount_value" value="0">
+                        <input type="hidden" name="discount_amount" value="0">
                         <div class="table-responsive">
                             <table class="table summary-table">
                             <tr>
                                 <td class="summary-label">Subtotal</td>
                                 <td><input type="text" name="subtotal" id="subtotal" class="form-control calc-input text-end shadow-none px-3" readonly value="{{ old('subtotal', $quotation->subtotal ?? '0.00') }}" style="height: 38px; background: #f8f7ff; border: 1.5px solid #e8e5f0; border-radius: 8px;"></td>
-                            </tr>
-                            <tr>
-                                <td class="summary-label align-middle">
-                                    <div class="mb-1 fw-semibold">Discount Type</div>
-                                    <select name="discount_type" id="discount_type" class="form-select shadow-none w-100" style="border-radius: 8px; border: 1.5px solid #e8e5f0;">
-                                        <option value="percentage" {{ old('discount_type', $quotation->discount_type ?? 'percentage') == 'percentage' ? 'selected' : '' }}>Percentage (%)</option>
-                                        <option value="fixed" {{ old('discount_type', $quotation->discount_type) == 'fixed' ? 'selected' : '' }}>Fixed Amount</option>
-                                    </select>
-                                </td>
-                                <td class="align-middle">
-                                    <div class="row g-2 justify-content-end align-items-center">
-                                        <div class="col-12" id="discount_value_col">
-                                            <div class="position-relative">
-                                                <span class="position-absolute top-50 translate-middle-y text-muted" id="discount_addon_left" style="left: 15px; display:none; font-weight: 600;">₹</span>
-                                                <input type="number" step="0.01" name="discount_value" id="discount_value" class="form-control text-center calc-input shadow-none px-4" value="{{ old('discount_value', $quotation->discount_value ?? '') }}" placeholder="0" style="height: 38px; border-radius: 8px; border: 1.5px solid #e8e5f0;">
-                                                <span class="position-absolute top-50 translate-middle-y text-muted" id="discount_addon_right" style="right: 15px; font-weight: 600;">%</span>
-                                            </div>
-                                        </div>
-                                        <input type="hidden" name="discount_amount" id="discount_amount" value="{{ old('discount_amount', $quotation->discount_amount ?? '0.00') }}">
-                                    </div>
-                                </td>
                             </tr>
                             <tr>
                                 <td class="summary-label align-middle">
@@ -462,9 +447,15 @@
             </select>
             <input type="hidden" name="items[__INDEX__][item_name]" class="item-name-input" value="">
         </td>
+        <td><input type="text" name="items[__INDEX__][sku]" class="form-control form-control-sm sku-input" readonly style="background: #f8f7ff; border: 1px solid #e8e5f0;"></td>
         <td><input type="text" class="form-control form-control-sm unit-display" readonly style="background: #f8f7ff; border: 1px solid #e8e5f0;"></td>
         <td><input type="number" step="0.01" name="items[__INDEX__][quantity]" class="form-control form-control-sm quantity-input calc-input" value="1" min="0.01"></td>
-        <td><input type="number" step="0.01" name="items[__INDEX__][rate]" class="form-control form-control-sm rate-input calc-input" value="0" min="0"></td>
+        <td><input type="number" step="0.01" name="items[__INDEX__][mrp]" class="form-control form-control-sm mrp-input calc-input" value="0" min="0"></td>
+        <td><input type="number" step="0.01" name="items[__INDEX__][discount_percentage]" class="form-control form-control-sm disc-pct-input calc-input" value="0" min="0" max="100"></td>
+        <td>
+            <input type="number" step="0.01" name="items[__INDEX__][rate]" class="form-control form-control-sm rate-input calc-input" value="0" min="0">
+            <input type="hidden" name="items[__INDEX__][discount_amount]" class="disc-amt-input" value="0">
+        </td>
         <td><input type="text" name="items[__INDEX__][total]" class="form-control form-control-sm total-input calc-input fw-bold" readonly value="0.00" style="background: #f8f7ff; border: 1px solid #e8e5f0; color: #8E2DE2;"></td>
         <td class="text-center"><div class="remove-item"><i class="bx bx-trash fs-6"></i></div></td>
     </tr>
@@ -474,12 +465,14 @@
 @section('script')
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
-var itemIndex = {{ count($quotation->items ?? []) }};
+var itemIndex = 0;
 
 function formatItem(item) {
     if (!item.id) { return item.text; }
     var image = item.image || null;
     var rate = item.rate || 0;
+    var mrp = item.mrp || rate;
+    var sku = item.sku || '';
     
     var imgHtml = image ? '<img src="' + image + '" class="rounded me-2" style="width:32px; height:32px; object-fit:cover;">' : '<div class="rounded me-2 bg-light border d-inline-block" style="width:32px; height:32px;"></div>';
     
@@ -488,7 +481,7 @@ function formatItem(item) {
             imgHtml +
             '<div>' +
                 '<div class="fw-bold text-dark" style="font-size: 0.85rem; line-height: 1.2;">' + (item.name || item.text.split(' (')[0]) + '</div>' +
-                '<div class="text-muted" style="font-size: 0.75rem;">Rate: ₹' + parseFloat(rate).toFixed(2) + '</div>' +
+                '<div class="text-muted" style="font-size: 0.75rem;">' + (sku ? 'SKU: ' + sku + ' | ' : '') + 'MRP: ₹' + parseFloat(mrp).toFixed(2) + '</div>' +
             '</div>' +
         '</div>'
     );
@@ -508,11 +501,39 @@ function formatCustomer(customer) {
     );
 }
 
-function calculateRow(row) {
+function calculateRow(row, sourceField) {
     var qty = parseFloat(row.find('.quantity-input').val()) || 0;
+    var mrp = parseFloat(row.find('.mrp-input').val()) || 0;
+    var discPct = parseFloat(row.find('.disc-pct-input').val()) || 0;
     var rate = parseFloat(row.find('.rate-input').val()) || 0;
-    var amount = qty * rate;
-    row.find('.total-input').val(amount.toFixed(2));
+
+    if (sourceField === 'disc_pct' || sourceField === 'mrp') {
+        var discAmtPerUnit = (mrp * discPct) / 100;
+        rate = mrp - discAmtPerUnit;
+        if (rate < 0) rate = 0;
+        row.find('.rate-input').val(rate.toFixed(2));
+    } else if (sourceField === 'rate') {
+        if (mrp > 0) {
+            discPct = ((mrp - rate) / mrp) * 100;
+            if (discPct < 0) discPct = 0;
+            row.find('.disc-pct-input').val(discPct.toFixed(2));
+        }
+    } else {
+        if (discPct > 0 && mrp > 0) {
+            rate = mrp - ((mrp * discPct) / 100);
+            row.find('.rate-input').val(rate.toFixed(2));
+        } else if (mrp > 0 && rate === 0) {
+            rate = mrp;
+            row.find('.rate-input').val(rate.toFixed(2));
+        }
+    }
+
+    var discAmountTotal = (mrp - rate) * qty;
+    if (discAmountTotal < 0) discAmountTotal = 0;
+    row.find('.disc-amt-input').val(discAmountTotal.toFixed(2));
+
+    var total = qty * rate;
+    row.find('.total-input').val(total.toFixed(2));
     calculateSummary();
 }
 
@@ -524,17 +545,7 @@ function calculateSummary() {
     });
     $('#subtotal').val(subtotal.toFixed(2));
 
-    var discType = $('select[name="discount_type"]').val();
-    var discVal = parseFloat($('#discount_value').val()) || 0;
-    var discAmt = 0;
-    if (discType === 'percentage') {
-        discAmt = (discVal / 100) * subtotal;
-    } else {
-        discAmt = discVal;
-    }
-    $('#discount_amount').val(discAmt.toFixed(2));
-
-    var afterDiscount = subtotal - discAmt;
+    var afterDiscount = subtotal;
     
     var taxType = $('select[name="tax_type"]').val();
     var totalTax = 0;
@@ -580,10 +591,17 @@ function addItemRow(data) {
 
     var $select = row.find('.item-select');
 
-    if (data && data.item_id) {
+    if (data && (data.item_id || data.id)) {
+        var itemId = data.item_id || data.id;
         var itemName = data.item_name || (data.item ? data.item.name : '');
-        var itemText = itemName + (data.item && data.item.sku ? ' (' + data.item.sku + ')' : '');
-        var option = new Option(itemText, data.item_id, true, true);
+        var sku = data.sku || (data.item ? data.item.sku : '');
+        var unit = data.unit || (data.item ? data.item.unit : '');
+        var mrp = data.mrp !== undefined && data.mrp !== null ? data.mrp : (data.item && data.item.mrp ? data.item.mrp : (data.rate || 0));
+        var discPct = data.discount_percentage !== undefined ? data.discount_percentage : 0;
+        var rate = data.rate || 0;
+        var quantity = data.quantity || 1;
+
+        var option = new Option(itemName, itemId, true, true);
         $(option).data('itemData', data);
         $select.append(option);
 
@@ -593,9 +611,12 @@ function addItemRow(data) {
             row.find('.item-thumb-placeholder').addClass('d-none');
         }
         row.find('.item-name-input').val(itemName);
-        row.find('.unit-display').val(data.unit || (data.item ? data.item.unit : ''));
-        row.find('.quantity-input').val(data.quantity || 1);
-        row.find('.rate-input').val(data.rate || 0);
+        row.find('.sku-input').val(sku);
+        row.find('.unit-display').val(unit);
+        row.find('.quantity-input').val(quantity);
+        row.find('.mrp-input').val(mrp);
+        row.find('.disc-pct-input').val(discPct);
+        row.find('.rate-input').val(rate);
     }
 
     $select.select2({
@@ -629,6 +650,8 @@ function addItemRow(data) {
     }).on('select2:select', function(e){
         var itemData = e.params.data;
         var rate = itemData.rate || 0;
+        var mrp = itemData.mrp !== undefined ? itemData.mrp : rate;
+        var sku = itemData.sku || '';
         var unit = itemData.unit || '';
         var itemName = itemData.name || itemData.text.split(' (')[0] || '';
         var imageUrl = itemData.image || null;
@@ -642,13 +665,25 @@ function addItemRow(data) {
         }
 
         row.find('.item-name-input').val(itemName);
-        row.find('.rate-input').val(rate);
+        row.find('.sku-input').val(sku);
         row.find('.unit-display').val(unit);
+        row.find('.mrp-input').val(mrp);
+        row.find('.disc-pct-input').val(0);
+        row.find('.rate-input').val(mrp);
         calculateRow(row);
     });
 
-    row.find('.quantity-input, .rate-input').on('input', function(){
-        calculateRow(row);
+    row.find('.quantity-input').on('input', function(){
+        calculateRow(row, 'qty');
+    });
+    row.find('.mrp-input').on('input', function(){
+        calculateRow(row, 'mrp');
+    });
+    row.find('.disc-pct-input').on('input', function(){
+        calculateRow(row, 'disc_pct');
+    });
+    row.find('.rate-input').on('input', function(){
+        calculateRow(row, 'rate');
     });
 
     row.find('.remove-item').on('click', function(){
@@ -683,23 +718,6 @@ $(document).ready(function(){
 
     $('#addItemBtn').on('click', function(){
         addItemRow();
-    });
-
-    $('select[name="discount_type"]').on('change', function(){
-        var type = $(this).val();
-        if (type === 'percentage') {
-            $('#discount_addon_left').hide();
-            $('#discount_addon_right').show();
-        } else {
-            $('#discount_addon_left').show();
-            $('#discount_addon_right').hide();
-        }
-        calculateSummary();
-    });
-    $('select[name="discount_type"]').trigger('change');
-
-    $('#discount_value').on('input', function(){
-        calculateSummary();
     });
 
     $('select[name="tax_type"]').on('change', function(){

@@ -172,6 +172,7 @@ class ItemController extends Controller
                     'text' => $item->name . ($item->sku ? ' (' . $item->sku . ')' : ''),
                     'name' => $item->name,
                     'sku' => $item->sku,
+                    'mrp' => $item->rate,
                     'rate' => $item->rate,
                     'tax_percentage' => $item->tax_percentage,
                     'unit' => $item->unit,

@@ -43,7 +43,7 @@
                             <th>Name</th>
                             <th>SKU</th>
                             <th>Unit</th>
-                            <th>Rate</th>
+                            <th>MRP</th>
                             <th>Status</th>
                             <th class="text-center">Actions</th>
                         </tr>

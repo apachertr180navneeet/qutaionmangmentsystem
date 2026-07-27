@@ -77,26 +77,20 @@ class QuotationController extends Controller
             $data['created_by'] = auth()->id();
             $data['status'] = 'draft';
 
-            $data['discount_type'] = $data['discount_type'] ?? 'percentage';
-            $data['discount_value'] = $data['discount_value'] ?? 0;
+            $data['discount_type'] = 'percentage';
+            $data['discount_value'] = 0;
+            $data['discount_amount'] = 0;
             $data['cgst_percentage'] = $data['cgst_percentage'] ?? 0;
             $data['sgst_percentage'] = $data['sgst_percentage'] ?? 0;
             $data['igst_percentage'] = $data['igst_percentage'] ?? 0;
 
             $subtotal = 0;
             foreach ($data['items'] as $item) {
-                $lineTotal = $item['quantity'] * $item['rate'];
+                $lineTotal = isset($item['total']) ? (float)$item['total'] : ((float)$item['quantity'] * (float)$item['rate']);
                 $subtotal += $lineTotal;
             }
             $data['subtotal'] = $subtotal;
-
-            if ($data['discount_type'] === 'percentage') {
-                $data['discount_amount'] = ($subtotal * $data['discount_value']) / 100;
-            } else {
-                $data['discount_amount'] = $data['discount_value'];
-            }
-
-            $afterDiscount = $subtotal - $data['discount_amount'];
+            $afterDiscount = $subtotal;
             $data['tax_rate'] = 0;
 
             if ($data['tax_type'] === 'cgst_sgst') {
@@ -126,14 +120,23 @@ class QuotationController extends Controller
             $quotation = Quotation::create($data);
 
             foreach ($data['items'] as $index => $itemData) {
-                $itemSubtotal = $itemData['quantity'] * $itemData['rate'];
+                $mrp = (float)($itemData['mrp'] ?? $itemData['rate']);
+                $qty = (float)$itemData['quantity'];
+                $rate = (float)$itemData['rate'];
+                $discPerc = (float)($itemData['discount_percentage'] ?? 0);
+                $discAmt = (float)($itemData['discount_amount'] ?? (($mrp - $rate) * $qty));
+                $itemSubtotal = isset($itemData['total']) ? (float)$itemData['total'] : ($qty * $rate);
 
                 QuotationItem::create([
                     'quotation_id' => $quotation->id,
                     'item_id' => $itemData['item_id'] ?? null,
                     'item_name' => $itemData['item_name'],
-                    'quantity' => $itemData['quantity'],
-                    'rate' => $itemData['rate'],
+                    'sku' => $itemData['sku'] ?? null,
+                    'mrp' => $mrp,
+                    'quantity' => $qty,
+                    'rate' => $rate,
+                    'discount_percentage' => $discPerc,
+                    'discount_amount' => $discAmt,
                     'total' => $itemSubtotal,
                     'sort_order' => $index + 1,
                 ]);
@@ -179,26 +182,20 @@ class QuotationController extends Controller
             $quotation = Quotation::findOrFail($id);
             $data = $request->validated();
 
-            $data['discount_type'] = $data['discount_type'] ?? 'percentage';
-            $data['discount_value'] = $data['discount_value'] ?? 0;
+            $data['discount_type'] = 'percentage';
+            $data['discount_value'] = 0;
+            $data['discount_amount'] = 0;
             $data['cgst_percentage'] = $data['cgst_percentage'] ?? 0;
             $data['sgst_percentage'] = $data['sgst_percentage'] ?? 0;
             $data['igst_percentage'] = $data['igst_percentage'] ?? 0;
 
             $subtotal = 0;
             foreach ($data['items'] as $item) {
-                $lineTotal = $item['quantity'] * $item['rate'];
+                $lineTotal = isset($item['total']) ? (float)$item['total'] : ((float)$item['quantity'] * (float)$item['rate']);
                 $subtotal += $lineTotal;
             }
             $data['subtotal'] = $subtotal;
-
-            if ($data['discount_type'] === 'percentage') {
-                $data['discount_amount'] = ($subtotal * $data['discount_value']) / 100;
-            } else {
-                $data['discount_amount'] = $data['discount_value'];
-            }
-
-            $afterDiscount = $subtotal - $data['discount_amount'];
+            $afterDiscount = $subtotal;
 
             if ($data['tax_type'] === 'cgst_sgst') {
                 $cgstPerc = $data['cgst_percentage'] ?? 0;
@@ -229,14 +226,23 @@ class QuotationController extends Controller
             $quotation->items()->delete();
 
             foreach ($data['items'] as $index => $itemData) {
-                $itemSubtotal = $itemData['quantity'] * $itemData['rate'];
+                $mrp = (float)($itemData['mrp'] ?? $itemData['rate']);
+                $qty = (float)$itemData['quantity'];
+                $rate = (float)$itemData['rate'];
+                $discPerc = (float)($itemData['discount_percentage'] ?? 0);
+                $discAmt = (float)($itemData['discount_amount'] ?? (($mrp - $rate) * $qty));
+                $itemSubtotal = isset($itemData['total']) ? (float)$itemData['total'] : ($qty * $rate);
 
                 QuotationItem::create([
                     'quotation_id' => $quotation->id,
                     'item_id' => $itemData['item_id'] ?? null,
                     'item_name' => $itemData['item_name'],
-                    'quantity' => $itemData['quantity'],
-                    'rate' => $itemData['rate'],
+                    'sku' => $itemData['sku'] ?? null,
+                    'mrp' => $mrp,
+                    'quantity' => $qty,
+                    'rate' => $rate,
+                    'discount_percentage' => $discPerc,
+                    'discount_amount' => $discAmt,
                     'total' => $itemSubtotal,
                     'sort_order' => $index + 1,
                 ]);

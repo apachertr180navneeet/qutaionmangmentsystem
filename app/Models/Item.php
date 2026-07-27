@@ -11,12 +11,14 @@ class Item extends Model
     use SoftDeletes, HasUuid;
 
     protected $fillable = [
-        'uuid', 'name', 'sku', 'description', 'unit', 'rate', 'tax_percentage',
+        'uuid', 'name', 'sku', 'description', 'unit', 'mrp', 'rate', 'tax_percentage',
         'is_active', 'image', 'created_by',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
+        'mrp' => 'float',
+        'rate' => 'float',
     ];
 
     public function getImageAttribute($value)

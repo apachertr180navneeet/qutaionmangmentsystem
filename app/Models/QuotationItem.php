@@ -7,13 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 class QuotationItem extends Model
 {
     protected $fillable = [
-        'quotation_id', 'item_id', 'item_name',
-        'quantity', 'rate', 'total', 'sort_order',
+        'quotation_id', 'item_id', 'item_name', 'sku', 'mrp',
+        'quantity', 'rate', 'discount_percentage', 'discount_amount',
+        'total', 'sort_order',
     ];
 
     protected $casts = [
         'quantity' => 'float',
+        'mrp' => 'float',
         'rate' => 'float',
+        'discount_percentage' => 'float',
+        'discount_amount' => 'float',
         'total' => 'float',
     ];
 
