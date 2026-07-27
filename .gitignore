@@ -17,3 +17,7 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+# Large files / uploads
+*.zip
+public/uploads/items/*.zip
