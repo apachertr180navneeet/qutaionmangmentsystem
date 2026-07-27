@@ -30,7 +30,7 @@
         </div>
     </div>
 
-    @if(isset($quotations))
+    @if(isset($quotations) && $quotations->count() > 0)
     <div class="card mt-3">
         <div class="card-header"><strong>Results for {{ date('F', mktime(0, 0, 0, request('month', date('m')), 1)) }} {{ request('year', date('Y')) }}</strong></div>
         <div class="card-body p-0">
@@ -49,7 +49,7 @@
                     <tbody>
                         @forelse($quotations as $key => $q)
                         <tr>
-                            <td>{{ $key + 1 }}</td>
+                            <td>{{ $quotations->firstItem() + $key }}</td>
                             <td>{{ $q->quotation_number }}</td>
                             <td>{{ $q->customer->company_name ?? 'N/A' }}</td>
                             <td>{{ $q->created_at ? date('d-m-Y', strtotime($q->created_at)) : 'N/A' }}</td>
@@ -61,18 +61,23 @@
                         <tr><td colspan="6" class="text-center text-muted py-3">No quotations found for this month.</td></tr>
                         @endforelse
                     </tbody>
-                    @if($quotations->count() > 0)
                     <tfoot class="table-light">
                         <tr>
-                            <td colspan="4" class="text-end"><strong>Total:</strong></td>
-                            <td><strong>{{ number_format($quotations->sum('grand_total'), 2) }}</strong></td>
+                            <td colspan="4" class="text-end"><strong>Total (All Pages):</strong></td>
+                            <td><strong>{{ number_format($totalGrandTotal, 2) }}</strong></td>
                             <td></td>
                         </tr>
                     </tfoot>
-                    @endif
                 </table>
             </div>
+            <div class="d-flex justify-content-center mt-3 mb-3">
+                {{ $quotations->appends(request()->query())->links() }}
+            </div>
         </div>
+    </div>
+    @elseif(isset($quotations))
+    <div class="card mt-3">
+        <div class="card-body text-center text-muted py-4">No quotations found for this month.</div>
     </div>
     @endif
 </div>

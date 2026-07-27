@@ -86,6 +86,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
             Route::post('/', [FollowUpController::class, 'store'])->name('store');
             Route::get('/today', [FollowUpController::class, 'today'])->name('today');
             Route::get('/upcoming', [FollowUpController::class, 'upcoming'])->name('upcoming');
+            Route::get('/search-quotations', [FollowUpController::class, 'searchQuotations'])->name('search_quotations');
             Route::get('/{id}', [FollowUpController::class, 'show'])->name('show');
             Route::get('/{id}/edit', [FollowUpController::class, 'edit'])->name('edit');
             Route::put('/{id}', [FollowUpController::class, 'update'])->name('update');

@@ -24,7 +24,7 @@
                     <tbody>
                         @foreach($followUps as $followUp)
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $followUps->firstItem() + $loop->index }}</td>
                             <td>{{ $followUp->quotation?->quotation_number ?? 'N/A' }}</td>
                             <td>{{ $followUp->quotation?->customer?->company_name ?? 'N/A' }}</td>
                             <td>{{ $followUp->follow_up_time ? date('h:i A', strtotime($followUp->follow_up_time)) : '--' }}</td>
@@ -43,6 +43,9 @@
                         @endforeach
                     </tbody>
                 </table>
+            </div>
+            <div class="d-flex justify-content-center mt-3">
+                {{ $followUps->links() }}
             </div>
             @else
             <p class="text-muted mb-0">No follow-ups scheduled for today.</p>

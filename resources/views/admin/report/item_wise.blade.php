@@ -29,7 +29,7 @@
 
     @if(isset($quotationItems) && $quotationItems->count() > 0)
     <div class="card mt-3">
-        <div class="card-header"><strong>Results for: {{ $quotationItems->first()->item->name ?? 'N/A' }}</strong></div>
+        <div class="card-header"><strong>Results for: {{ $item->name ?? 'N/A' }}</strong></div>
         <div class="card-body p-0">
             <div class="table-responsive">
                 <table class="table table-bordered mb-0">
@@ -47,7 +47,7 @@
                     <tbody>
                         @foreach($quotationItems as $key => $qi)
                         <tr>
-                            <td>{{ $key + 1 }}</td>
+                            <td>{{ $quotationItems->firstItem() + $key }}</td>
                             <td>{{ $qi->quotation->quotation_number ?? 'N/A' }}</td>
                             <td>{{ $qi->quotation->customer->company_name ?? 'N/A' }}</td>
                             <td>{{ $qi->quotation->date ? date('d-m-Y', strtotime($qi->quotation->date)) : 'N/A' }}</td>
@@ -59,13 +59,16 @@
                     </tbody>
                     <tfoot class="table-light">
                         <tr>
-                            <td colspan="4" class="text-end"><strong>Total:</strong></td>
-                            <td><strong>{{ $quotationItems->sum('quantity') }}</strong></td>
+                            <td colspan="4" class="text-end"><strong>Total (All Pages):</strong></td>
+                            <td><strong>{{ $totalQuantity }}</strong></td>
                             <td></td>
-                            <td><strong>{{ number_format($quotationItems->sum('total'), 2) }}</strong></td>
+                            <td><strong>{{ number_format($totalAmount, 2) }}</strong></td>
                         </tr>
                     </tfoot>
                 </table>
+            </div>
+            <div class="d-flex justify-content-center mt-3 mb-3">
+                {{ $quotationItems->appends(request()->query())->links() }}
             </div>
         </div>
     </div>

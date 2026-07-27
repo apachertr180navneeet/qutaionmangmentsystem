@@ -30,16 +30,18 @@ class ReportController extends Controller
             $customers = $this->getActiveCustomers();
             $quotations = collect();
             $customer = null;
+            $totalGrandTotal = 0;
 
             if ($request->has('customer_id')) {
                 $request->validate(['customer_id' => 'required|exists:customers,id']);
                 $customer = Customer::findOrFail($request->customer_id);
-                $quotations = Quotation::with('items')
-                    ->where('customer_id', $request->customer_id)
+                $baseQuery = Quotation::where('customer_id', $request->customer_id);
+                $totalGrandTotal = (clone $baseQuery)->sum('grand_total');
+                $quotations = $baseQuery->with('items')
                     ->latest()
-                    ->get();
+                    ->paginate(25);
             }
-            return view('admin.report.customer_wise', compact('quotations', 'customer', 'customers'));
+            return view('admin.report.customer_wise', compact('quotations', 'customer', 'customers', 'totalGrandTotal'));
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage());
         }
@@ -49,6 +51,7 @@ class ReportController extends Controller
     {
         try {
             $quotations = collect();
+            $totalGrandTotal = 0;
 
             if ($request->has('from_date') && $request->has('to_date')) {
                 $request->validate([
@@ -56,14 +59,15 @@ class ReportController extends Controller
                     'to_date' => 'required|date|after_or_equal:from_date',
                 ]);
 
-                $quotations = Quotation::with('customer')
-                    ->whereDate('created_at', '>=', $request->from_date)
-                    ->whereDate('created_at', '<=', $request->to_date)
+                $baseQuery = Quotation::whereDate('created_at', '>=', $request->from_date)
+                    ->whereDate('created_at', '<=', $request->to_date);
+                $totalGrandTotal = (clone $baseQuery)->sum('grand_total');
+                $quotations = $baseQuery->with('customer')
                     ->latest()
-                    ->get();
+                    ->paginate(25);
             }
 
-            return view('admin.report.date_wise', compact('quotations'));
+            return view('admin.report.date_wise', compact('quotations', 'totalGrandTotal'));
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage());
         }
@@ -73,17 +77,19 @@ class ReportController extends Controller
     {
         try {
             $quotations = collect();
+            $totalGrandTotal = 0;
 
             if ($request->has('status')) {
                 $request->validate(['status' => 'required|in:draft,sent,approved,expired,rejected']);
 
-                $quotations = Quotation::with('customer')
-                    ->where('status', $request->status)
+                $baseQuery = Quotation::where('status', $request->status);
+                $totalGrandTotal = (clone $baseQuery)->sum('grand_total');
+                $quotations = $baseQuery->with('customer')
                     ->latest()
-                    ->get();
+                    ->paginate(25);
             }
 
-            return view('admin.report.status_wise', compact('quotations'));
+            return view('admin.report.status_wise', compact('quotations', 'totalGrandTotal'));
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage());
         }
@@ -95,16 +101,18 @@ class ReportController extends Controller
             $month = $request->input('month', now()->month);
             $year = $request->input('year', now()->year);
             $quotations = collect();
+            $totalGrandTotal = 0;
 
             if ($request->has('month') && $request->has('year')) {
-                $quotations = Quotation::with('customer')
-                    ->whereMonth('created_at', $month)
-                    ->whereYear('created_at', $year)
+                $baseQuery = Quotation::whereMonth('created_at', $month)
+                    ->whereYear('created_at', $year);
+                $totalGrandTotal = (clone $baseQuery)->sum('grand_total');
+                $quotations = $baseQuery->with('customer')
                     ->latest()
-                    ->get();
+                    ->paginate(25);
             }
 
-            return view('admin.report.monthly', compact('quotations', 'month', 'year'));
+            return view('admin.report.monthly', compact('quotations', 'month', 'year', 'totalGrandTotal'));
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage());
         }
@@ -116,18 +124,22 @@ class ReportController extends Controller
             $items = $this->getActiveItems();
             $quotationItems = collect();
             $item = null;
+            $totalQuantity = 0;
+            $totalAmount = 0;
 
             if ($request->has('item_id')) {
                 $request->validate(['item_id' => 'required|exists:items,id']);
 
                 $item = Item::findOrFail($request->item_id);
-                $quotationItems = \App\Models\QuotationItem::with('quotation.customer')
-                    ->where('item_id', $request->item_id)
+                $baseQuery = \App\Models\QuotationItem::where('item_id', $request->item_id);
+                $totalQuantity = (clone $baseQuery)->sum('quantity');
+                $totalAmount = (clone $baseQuery)->sum('total');
+                $quotationItems = $baseQuery->with('quotation.customer')
                     ->latest()
-                    ->get();
+                    ->paginate(25);
             }
 
-            return view('admin.report.item_wise', compact('quotationItems', 'item', 'items'));
+            return view('admin.report.item_wise', compact('quotationItems', 'item', 'items', 'totalQuantity', 'totalAmount'));
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage());
         }

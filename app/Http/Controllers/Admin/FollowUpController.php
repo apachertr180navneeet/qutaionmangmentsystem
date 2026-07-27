@@ -38,8 +38,7 @@ class FollowUpController extends Controller
     public function create()
     {
         try {
-            $quotations = Quotation::with('customer')->latest()->limit(500)->get();
-            return view('admin.followup.create', compact('quotations'));
+            return view('admin.followup.create');
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage());
         }
@@ -58,9 +57,8 @@ class FollowUpController extends Controller
     public function edit($id)
     {
         try {
-            $followUp = FollowUp::findOrFail($id);
-            $quotations = Quotation::with('customer')->latest()->limit(500)->get();
-            return view('admin.followup.edit', compact('followUp', 'quotations'));
+            $followUp = FollowUp::with('quotation.customer')->findOrFail($id);
+            return view('admin.followup.edit', compact('followUp'));
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage());
         }
@@ -124,7 +122,7 @@ class FollowUpController extends Controller
             $followUps = FollowUp::with(['quotation.customer', 'user'])
                 ->whereDate('follow_up_date', today())
                 ->latest()
-                ->get();
+                ->paginate(15);
 
             if (request()->wantsJson()) {
                 return response()->json($followUps);
@@ -143,11 +141,56 @@ class FollowUpController extends Controller
                 ->whereDate('follow_up_date', '>', today())
                 ->where('status', 'pending')
                 ->latest('follow_up_date')
-                ->get();
+                ->paginate(15);
 
             return view('admin.followup.upcoming', compact('followUps'));
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage());
+        }
+    }
+
+    /**
+     * AJAX search for quotations (used by Select2 dropdowns)
+     */
+    public function searchQuotations(Request $request)
+    {
+        try {
+            $search = $request->get('q', '');
+            $page = $request->get('page', 1);
+            $perPage = 15;
+
+            $query = Quotation::with('customer');
+
+            if (!empty($search)) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('quotation_number', 'like', "%{$search}%")
+                      ->orWhereHas('customer', function ($cq) use ($search) {
+                          $cq->where('company_name', 'like', "%{$search}%");
+                      });
+                });
+            }
+
+            $items = $query->latest()
+                ->skip(($page - 1) * $perPage)
+                ->take($perPage + 1)
+                ->get(['id', 'quotation_number', 'customer_id']);
+
+            $hasMore = $items->count() > $perPage;
+            $items = $items->take($perPage);
+
+            $results = $items->map(function ($q) {
+                return [
+                    'id' => $q->id,
+                    'text' => $q->quotation_number . ' - ' . ($q->customer->company_name ?? ''),
+                ];
+            });
+
+            return response()->json([
+                'results' => $results,
+                'pagination' => ['more' => $hasMore],
+            ]);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 }

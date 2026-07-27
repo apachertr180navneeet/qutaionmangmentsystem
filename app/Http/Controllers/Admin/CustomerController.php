@@ -64,7 +64,7 @@ class CustomerController extends Controller
     public function show($id)
     {
         try {
-            $customer = Customer::with('quotations')->findOrFail($id);
+            $customer = Customer::findOrFail($id);
             return view('admin.customer.show', compact('customer'));
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage());

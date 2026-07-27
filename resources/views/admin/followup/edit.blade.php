@@ -20,11 +20,10 @@
                 <div class="row g-4">
                     <div class="col-md-6">
                         <label class="form-label table-dark-text">Quotation <span class="text-danger">*</span></label>
-                        <select name="quotation_id" class="custom-select select2 @error('quotation_id') is-invalid @enderror" required>
-                            <option value="">Select Quotation</option>
-                            @foreach($quotations as $quotation)
-                                <option value="{{ $quotation->id }}" {{ old('quotation_id', $followUp->quotation_id) == $quotation->id ? 'selected' : '' }}>{{ $quotation->quotation_number }} - {{ $quotation->customer->company_name ?? '' }}</option>
-                            @endforeach
+                        <select name="quotation_id" id="quotation_select" class="custom-select @error('quotation_id') is-invalid @enderror" required>
+                            @if($followUp->quotation)
+                                <option value="{{ $followUp->quotation->id }}" selected>{{ $followUp->quotation->quotation_number }} - {{ $followUp->quotation->customer->company_name ?? '' }}</option>
+                            @endif
                         </select>
                         @error('quotation_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
@@ -66,7 +65,25 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
 $(document).ready(function(){
-    $('.select2').select2({ theme: 'bootstrap-5', width: '100%' });
+    $('#quotation_select').select2({
+        theme: 'bootstrap-5',
+        width: '100%',
+        placeholder: 'Search by quotation number or customer...',
+        minimumInputLength: 0,
+        ajax: {
+            url: '{{ route("admin.followups.search_quotations") }}',
+            dataType: 'json',
+            delay: 300,
+            data: function(params) {
+                return { q: params.term || '', page: params.page || 1 };
+            },
+            processResults: function(data) {
+                return { results: data.results, pagination: data.pagination };
+            },
+            cache: true
+        }
+    });
 });
 </script>
 @endsection
+

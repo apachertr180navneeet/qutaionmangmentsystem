@@ -46,7 +46,7 @@
                         @foreach($quotations as $key => $q)
                         @php $badge = $q->status == 'approved' ? 'success' : ($q->status == 'sent' ? 'primary' : ($q->status == 'draft' ? 'secondary' : ($q->status == 'expired' ? 'warning' : 'danger'))); @endphp
                         <tr>
-                            <td>{{ $key + 1 }}</td>
+                            <td>{{ $quotations->firstItem() + $key }}</td>
                             <td>{{ $q->quotation_number }}</td>
                             <td>{{ $q->created_at ? date('d-m-Y', strtotime($q->created_at)) : 'N/A' }}</td>
                             <td>{{ number_format($q->grand_total, 2) }}</td>
@@ -56,12 +56,15 @@
                     </tbody>
                     <tfoot class="table-light">
                         <tr>
-                            <td colspan="3" class="text-end"><strong>Total:</strong></td>
-                            <td><strong>{{ number_format($quotations->sum('grand_total'), 2) }}</strong></td>
+                            <td colspan="3" class="text-end"><strong>Total (All Pages):</strong></td>
+                            <td><strong>{{ number_format($totalGrandTotal, 2) }}</strong></td>
                             <td></td>
                         </tr>
                     </tfoot>
                 </table>
+            </div>
+            <div class="d-flex justify-content-center mt-3 mb-3">
+                {{ $quotations->appends(request()->query())->links() }}
             </div>
         </div>
     </div>
