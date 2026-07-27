@@ -461,9 +461,6 @@
         <td>
             <select class="form-select form-select-sm item-select" name="items[__INDEX__][item_id]" required>
                 <option value="">Search item...</option>
-                @foreach($items as $item)
-                    <option value="{{ $item->id }}" data-rate="{{ $item->rate }}" data-tax="{{ $item->tax_percentage }}" data-unit="{{ $item->unit }}" data-name="{{ $item->name }}" data-image="{{ $item->image }}">{{ $item->name }} ({{ $item->sku }})</option>
-                @endforeach
             </select>
             <input type="hidden" name="items[__INDEX__][item_name]" class="item-name-input" value="">
         </td>
@@ -483,9 +480,8 @@ var itemIndex = 0;
 
 function formatItem(item) {
     if (!item.id) { return item.text; }
-    var $el = $(item.element);
-    var image = $el.data('image');
-    var rate = $el.data('rate') || 0;
+    var image = item.image || null;
+    var rate = item.rate || 0;
     
     var imgHtml = image ? '<img src="' + image + '" class="rounded me-2" style="width:32px; height:32px; object-fit:cover;">' : '<div class="rounded me-2 bg-light border d-inline-block" style="width:32px; height:32px;"></div>';
     
@@ -493,7 +489,7 @@ function formatItem(item) {
         '<div class="d-flex align-items-center py-1">' +
             imgHtml +
             '<div>' +
-                '<div class="fw-bold text-dark" style="font-size: 0.85rem; line-height: 1.2;">' + item.text.split(' (')[0] + '</div>' +
+                '<div class="fw-bold text-dark" style="font-size: 0.85rem; line-height: 1.2;">' + (item.name || item.text.split(' (')[0]) + '</div>' +
                 '<div class="text-muted" style="font-size: 0.75rem;">Rate: ₹' + parseFloat(rate).toFixed(2) + '</div>' +
             '</div>' +
         '</div>'
@@ -580,44 +576,67 @@ function addItemRow(data) {
     var row = $(template.replace(/__INDEX__/g, itemIndex));
     itemIndex++;
 
-    if (data) {
-        row.find('.item-select').val(data.item_id);
-        
-        var selectedOption = row.find('.item-select option[value="'+data.item_id+'"]');
-        var imageUrl = selectedOption.data('image');
-        var itemName = selectedOption.data('name') || data.item_name || '';
-        var unit = selectedOption.data('unit') || '';
-
-        if (imageUrl) {
-            row.find('.item-image-preview').attr('src', imageUrl).removeClass('d-none');
-            row.find('.item-thumb-placeholder').addClass('d-none');
-        }
-
-        row.find('.item-name-input').val(itemName);
-        row.find('.unit-display').val(unit);
-        row.find('.quantity-input').val(data.quantity || 1);
-        row.find('.rate-input').val(data.rate || 0);
-    }
-
     $('#noItemsRow').hide();
     $('#itemsBody').append(row);
     renumberRows();
 
-    row.find('.item-select').select2({
+    var $select = row.find('.item-select');
+
+    // If editing with pre-existing data, add the option first
+    if (data && data.item_id) {
+        var itemName = data.item_name || '';
+        var itemText = itemName;
+        var option = new Option(itemText, data.item_id, true, true);
+        // Store item data on the option for later use
+        $(option).data('itemData', data);
+        $select.append(option);
+
+        // Set row fields from pre-existing data
+        var imageUrl = data.image || null;
+        if (imageUrl) {
+            row.find('.item-image-preview').attr('src', imageUrl).removeClass('d-none');
+            row.find('.item-thumb-placeholder').addClass('d-none');
+        }
+        row.find('.item-name-input').val(itemName);
+        row.find('.unit-display').val(data.unit || '');
+        row.find('.quantity-input').val(data.quantity || 1);
+        row.find('.rate-input').val(data.rate || 0);
+    }
+
+    $select.select2({
         theme: 'bootstrap-5',
         width: '100%',
         placeholder: 'Search item...',
+        minimumInputLength: 1,
+        ajax: {
+            url: '{{ route("admin.items.search.ajax") }}',
+            dataType: 'json',
+            delay: 300,
+            data: function(params) {
+                return {
+                    q: params.term,
+                    page: params.page || 1
+                };
+            },
+            processResults: function(data, params) {
+                return {
+                    results: data.results,
+                    pagination: data.pagination
+                };
+            },
+            cache: true
+        },
         templateResult: formatItem,
         templateSelection: function(item) {
             if (!item.id) return item.text;
-            return item.text.split(' (')[0];
+            return item.name || item.text.split(' (')[0];
         }
-    }).on('change', function(){
-        var selected = $(this).find(':selected');
-        var rate = selected.data('rate') || 0;
-        var unit = selected.data('unit') || '';
-        var itemName = selected.data('name') || selected.text().split(' (')[0] || '';
-        var imageUrl = selected.data('image');
+    }).on('select2:select', function(e){
+        var itemData = e.params.data;
+        var rate = itemData.rate || 0;
+        var unit = itemData.unit || '';
+        var itemName = itemData.name || itemData.text.split(' (')[0] || '';
+        var imageUrl = itemData.image || null;
 
         if (imageUrl) {
             row.find('.item-image-preview').attr('src', imageUrl).removeClass('d-none');
@@ -646,8 +665,6 @@ function addItemRow(data) {
 
     if (data) {
         calculateRow(row);
-    } else {
-        row.find('.item-select').trigger('change');
     }
 }
 

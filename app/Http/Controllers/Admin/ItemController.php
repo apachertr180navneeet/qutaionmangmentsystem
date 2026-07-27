@@ -132,15 +132,43 @@ class ItemController extends Controller
     {
         try {
             $search = $request->get('q', '');
-            $items = Item::where('is_active', true)
-                ->where(function ($query) use ($search) {
-                    $query->where('name', 'like', "%{$search}%")
-                          ->orWhere('sku', 'like', "%{$search}%");
-                })
-                ->limit(10)
-                ->get(['id', 'name', 'sku', 'rate', 'tax_percentage', 'unit']);
+            $page = $request->get('page', 1);
+            $perPage = 15;
 
-            return response()->json($items);
+            $query = Item::where('is_active', true);
+
+            if (!empty($search)) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                      ->orWhere('sku', 'like', "%{$search}%");
+                });
+            }
+
+            $total = $query->count();
+            $items = $query->orderBy('name')
+                ->skip(($page - 1) * $perPage)
+                ->take($perPage)
+                ->get(['id', 'name', 'sku', 'rate', 'tax_percentage', 'unit', 'image']);
+
+            $results = $items->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'text' => $item->name . ($item->sku ? ' (' . $item->sku . ')' : ''),
+                    'name' => $item->name,
+                    'sku' => $item->sku,
+                    'rate' => $item->rate,
+                    'tax_percentage' => $item->tax_percentage,
+                    'unit' => $item->unit,
+                    'image' => $item->image,
+                ];
+            });
+
+            return response()->json([
+                'results' => $results,
+                'pagination' => [
+                    'more' => ($page * $perPage) < $total
+                ]
+            ]);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
