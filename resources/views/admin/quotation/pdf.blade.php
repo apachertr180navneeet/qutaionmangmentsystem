@@ -343,11 +343,9 @@ function getLocalImagePath($url) {
             <tr>
                 <th class="left" style="width: 50px;">Image</th>
                 <th class="left">Item & SKU</th>
-                <th class="center" style="width: 40px;">Qty</th>
-                <th class="right" style="width: 70px;">MRP</th>
-                <th class="right" style="width: 55px;">Disc %</th>
-                <th class="right" style="width: 70px;">Net Rate</th>
-                <th class="right" style="width: 80px;">Total</th>
+                <th class="center" style="width: 50px;">Qty</th>
+                <th class="right" style="width: 90px;">Rate</th>
+                <th class="right" style="width: 90px;">Total</th>
             </tr>
         </thead>
         <tbody>
@@ -370,14 +368,12 @@ function getLocalImagePath($url) {
                     @endif
                 </td>
                 <td class="center">{{ $item->quantity }}</td>
-                <td class="right">{{ number_format($item->mrp ?: ($item->item->mrp ?? $item->rate), 2) }}</td>
-                <td class="right">{{ number_format($item->discount_percentage ?? 0, 1) }}%</td>
                 <td class="right">{{ number_format($item->rate, 2) }}</td>
                 <td class="right" style="font-weight: bold;">{{ number_format($item->total, 2) }}</td>
             </tr>
             @empty
             <tr>
-                <td colspan="7" class="center" style="color: #6c757d; padding: 20px;">No items found.</td>
+                <td colspan="5" class="center" style="color: #6c757d; padding: 20px;">No items found.</td>
             </tr>
             @endforelse
         </tbody>
