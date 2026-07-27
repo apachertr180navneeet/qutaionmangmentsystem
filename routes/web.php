@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\CustomerController;
@@ -116,5 +117,13 @@ Route::name('admin.')->prefix('admin')->group(function () {
     });
 });
 
-
+Route::get('/run-migrations', function () {
+    try {
+        Artisan::call('migrate', ['--force' => true]);
+        $output = Artisan::output();
+        return response("Migration completed successfully!\n\n" . $output, 200)->header('Content-Type', 'text/plain');
+    } catch (\Exception $e) {
+        return response("Migration failed: " . $e->getMessage(), 500)->header('Content-Type', 'text/plain');
+    }
+});
 

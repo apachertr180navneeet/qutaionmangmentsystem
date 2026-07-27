@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Item;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Exception;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\ItemImport;
@@ -52,18 +54,22 @@ class ItemController extends Controller
                 'rate' => 'required|numeric|min:0',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
-            
+
             $data['is_active'] = true;
-            
+
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
                 $filename = time() . '_' . \Illuminate\Support\Str::random(20) . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('uploads/items'), $filename);
                 $data['image'] = 'uploads/items/' . $filename;
             }
-            
+
             $data['created_by'] = auth()->id();
             Item::create($data);
+
+            Cache::forget('active_items');
+            Cache::forget('total_items_count');
+
             return redirect()->route('admin.items.index')->with('success', 'Item created successfully.');
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage())->withInput();
@@ -102,15 +108,19 @@ class ItemController extends Controller
                 'rate' => 'required|numeric|min:0',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
-            
+
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
                 $filename = time() . '_' . \Illuminate\Support\Str::random(20) . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('uploads/items'), $filename);
                 $data['image'] = 'uploads/items/' . $filename;
             }
-            
+
             $item->update($data);
+
+            Cache::forget('active_items');
+            Cache::forget('total_items_count');
+
             return redirect()->route('admin.items.index')->with('success', 'Item updated successfully.');
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage())->withInput();
@@ -122,6 +132,10 @@ class ItemController extends Controller
         try {
             $item = Item::findOrFail($id);
             $item->delete();
+
+            Cache::forget('active_items');
+            Cache::forget('total_items_count');
+
             return redirect()->route('admin.items.index')->with('success', 'Item deleted successfully.');
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage());
@@ -144,11 +158,13 @@ class ItemController extends Controller
                 });
             }
 
-            $total = $query->count();
             $items = $query->orderBy('name')
                 ->skip(($page - 1) * $perPage)
-                ->take($perPage)
+                ->take($perPage + 1)
                 ->get(['id', 'name', 'sku', 'rate', 'tax_percentage', 'unit', 'image']);
+
+            $hasMore = $items->count() > $perPage;
+            $items = $items->take($perPage);
 
             $results = $items->map(function ($item) {
                 return [
@@ -166,7 +182,7 @@ class ItemController extends Controller
             return response()->json([
                 'results' => $results,
                 'pagination' => [
-                    'more' => ($page * $perPage) < $total
+                    'more' => $hasMore
                 ]
             ]);
         } catch (Exception $e) {
@@ -185,6 +201,10 @@ class ItemController extends Controller
 
         try {
             Excel::import(new ItemImport, $request->file('file'));
+
+            Cache::forget('active_items');
+            Cache::forget('total_items_count');
+
             return redirect()->route('admin.items.index')->with('success', 'Items imported successfully.');
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage());

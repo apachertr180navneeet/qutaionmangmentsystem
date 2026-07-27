@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CustomerRequest;
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Exception;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\CustomerImport;
@@ -50,6 +51,10 @@ class CustomerController extends Controller
             $data = $request->validated();
             $data['created_by'] = auth()->id();
             Customer::create($data);
+
+            Cache::forget('active_customers');
+            Cache::forget('total_customers_count');
+
             return redirect()->route('admin.customers.index')->with('success', 'Customer created successfully.');
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage())->withInput();
@@ -81,6 +86,10 @@ class CustomerController extends Controller
         try {
             $customer = Customer::findOrFail($id);
             $customer->update($request->validated());
+
+            Cache::forget('active_customers');
+            Cache::forget('total_customers_count');
+
             return redirect()->route('admin.customers.index')->with('success', 'Customer updated successfully.');
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage())->withInput();
@@ -92,6 +101,10 @@ class CustomerController extends Controller
         try {
             $customer = Customer::findOrFail($id);
             $customer->delete();
+
+            Cache::forget('active_customers');
+            Cache::forget('total_customers_count');
+
             return redirect()->route('admin.customers.index')->with('success', 'Customer deleted successfully.');
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage());
@@ -106,6 +119,10 @@ class CustomerController extends Controller
 
         try {
             Excel::import(new CustomerImport, $request->file('file'));
+
+            Cache::forget('active_customers');
+            Cache::forget('total_customers_count');
+
             return redirect()->route('admin.customers.index')->with('success', 'Customers imported successfully.');
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage());

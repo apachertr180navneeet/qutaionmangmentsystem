@@ -1,3 +1,6 @@
+@php
+    $currentUser = Auth::user();
+@endphp
 <nav class="layout-navbar container-fluid navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
 	id="layout-navbar">
 	<div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
@@ -22,8 +25,8 @@
 				<a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
 					data-bs-toggle="dropdown">
 					<div class="avatar avatar-online">
-						@if(!empty(Auth::user()->avatar) && file_exists(public_path('/').Auth::user()->avatar))
-							<img src="{{asset(Auth::user()->avatar)}}" alt="User Image" class="w-px-40 h-auto rounded-circle">
+						@if(!empty($currentUser->avatar))
+							<img src="{{asset($currentUser->avatar)}}" alt="User Image" class="w-px-40 h-auto rounded-circle">
 						@else
 							<img src="{{asset('assets/admin/img/avatars/1.png')}}" alt="admin" class="w-px-40 h-auto rounded-circle" />
 						@endif
@@ -35,16 +38,16 @@
 							<div class="d-flex">
 								<div class="flex-shrink-0 me-3">
 									<div class="avatar avatar-online">
-										@if(!empty(Auth::user()->avatar) && file_exists(public_path('/').Auth::user()->avatar))
-											<img src="{{asset(Auth::user()->avatar)}}" alt="User Image" class="w-px-40 h-auto rounded-circle">
+										@if(!empty($currentUser->avatar))
+											<img src="{{asset($currentUser->avatar)}}" alt="User Image" class="w-px-40 h-auto rounded-circle">
 										@else
 											<img src="{{asset('assets/admin/img/avatars/1.png')}}"  alt="User Image" class="w-px-40 h-auto rounded-circle">
 										@endif
 									</div>
 								</div>
 								<div class="flex-grow-1">
-									<span class="fw-medium d-block">{{Auth::user()->full_name}}</span>
-									<small class="text-muted">{{ucfirst(Auth::user()->role)}}</small>
+									<span class="fw-medium d-block">{{$currentUser->full_name}}</span>
+									<small class="text-muted">{{ucfirst($currentUser->role)}}</small>
 								</div>
 							</div>
 						</a>

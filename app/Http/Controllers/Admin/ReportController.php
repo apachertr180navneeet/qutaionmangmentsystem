@@ -7,6 +7,7 @@ use App\Models\Quotation;
 use App\Models\Customer;
 use App\Models\Item;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Maatwebsite\Excel\Facades\Excel;
 use Exception;
@@ -16,7 +17,7 @@ class ReportController extends Controller
     public function index()
     {
         try {
-            $customers = Customer::where('status', true)->orderBy('company_name')->get();
+            $customers = $this->getActiveCustomers();
             return view('admin.report.index', compact('customers'));
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage());
@@ -26,7 +27,7 @@ class ReportController extends Controller
     public function customerWise(Request $request)
     {
         try {
-            $customers = Customer::where('status', true)->orderBy('company_name')->get();
+            $customers = $this->getActiveCustomers();
             $quotations = collect();
             $customer = null;
 
@@ -112,7 +113,7 @@ class ReportController extends Controller
     public function itemWise(Request $request)
     {
         try {
-            $items = Item::orderBy('name')->get();
+            $items = $this->getActiveItems();
             $quotationItems = collect();
             $item = null;
 
@@ -255,5 +256,19 @@ class ReportController extends Controller
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage());
         }
+    }
+
+    protected function getActiveCustomers()
+    {
+        return Cache::remember('active_customers', 600, function () {
+            return Customer::where('status', true)->orderBy('company_name')->get();
+        });
+    }
+
+    protected function getActiveItems()
+    {
+        return Cache::remember('active_items', 600, function () {
+            return Item::orderBy('name')->get();
+        });
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\FollowUp;
 use App\Models\Quotation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Exception;
 
 class FollowUpController extends Controller
@@ -37,7 +38,7 @@ class FollowUpController extends Controller
     public function create()
     {
         try {
-            $quotations = Quotation::with('customer')->latest()->get();
+            $quotations = Quotation::with('customer')->latest()->limit(500)->get();
             return view('admin.followup.create', compact('quotations'));
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage());
@@ -58,7 +59,7 @@ class FollowUpController extends Controller
     {
         try {
             $followUp = FollowUp::findOrFail($id);
-            $quotations = Quotation::with('customer')->latest()->get();
+            $quotations = Quotation::with('customer')->latest()->limit(500)->get();
             return view('admin.followup.edit', compact('followUp', 'quotations'));
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage());

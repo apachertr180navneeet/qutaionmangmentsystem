@@ -11,6 +11,7 @@ use App\Models\Item;
 use App\Models\EmailLog;
 use App\Models\CompanySetting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Mail, DB, Exception;
 
@@ -45,7 +46,7 @@ class QuotationController extends Controller
     public function create()
     {
         try {
-            $customers = Customer::where('status', true)->orderBy('company_name')->get();
+            $customers = $this->getActiveCustomers();
 
             $year = now()->format('Y');
             $lastQuotation = Quotation::where('quotation_number', 'like', "Q-{$year}-%")
@@ -139,6 +140,9 @@ class QuotationController extends Controller
             }
 
             DB::commit();
+
+            Cache::forget('dashboard_data');
+
             return redirect()->route('admin.quotations.index')->with('success', 'Quotation created successfully.');
         } catch (Exception $e) {
             DB::rollBack();
@@ -160,7 +164,7 @@ class QuotationController extends Controller
     {
         try {
             $quotation = Quotation::with('items.item')->findOrFail($id);
-            $customers = Customer::where('status', true)->orderBy('company_name')->get();
+            $customers = $this->getActiveCustomers();
             return view('admin.quotation.edit', compact('quotation', 'customers'));
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage());
@@ -239,6 +243,9 @@ class QuotationController extends Controller
             }
 
             DB::commit();
+
+            Cache::forget('dashboard_data');
+
             return redirect()->route('admin.quotations.index')->with('success', 'Quotation updated successfully.');
         } catch (Exception $e) {
             DB::rollBack();
@@ -251,6 +258,9 @@ class QuotationController extends Controller
         try {
             $quotation = Quotation::findOrFail($id);
             $quotation->delete();
+
+            Cache::forget('dashboard_data');
+
             return redirect()->route('admin.quotations.index')->with('success', 'Quotation deleted successfully.');
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage());
@@ -279,6 +289,9 @@ class QuotationController extends Controller
             }
 
             DB::commit();
+
+            Cache::forget('dashboard_data');
+
             return redirect()->route('admin.quotations.index')->with('success', 'Quotation duplicated successfully.');
         } catch (Exception $e) {
             DB::rollBack();
@@ -297,7 +310,7 @@ class QuotationController extends Controller
             ]);
 
             $quotation = Quotation::with(['customer', 'items'])->findOrFail($id);
-            $company = CompanySetting::first();
+            $company = $this->getCompanySettings();
 
             $pdf = Pdf::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])
                 ->loadView('admin.quotation.pdf', compact('quotation', 'company'));
@@ -335,7 +348,7 @@ class QuotationController extends Controller
     {
         try {
             $quotation = Quotation::with(['customer', 'items'])->findOrFail($id);
-            $company = CompanySetting::first();
+            $company = $this->getCompanySettings();
 
             $pdf = Pdf::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])
                 ->loadView('admin.quotation.pdf', compact('quotation', 'company'));
@@ -357,6 +370,8 @@ class QuotationController extends Controller
             $quotation->status = $request->status;
             $quotation->save();
 
+            Cache::forget('dashboard_data');
+
             return response()->json([
                 'success' => true,
                 'message' => 'Status updated successfully.',
@@ -368,5 +383,19 @@ class QuotationController extends Controller
                 'message' => $e->getMessage()
             ], 500);
         }
+    }
+
+    protected function getActiveCustomers()
+    {
+        return Cache::remember('active_customers', 600, function () {
+            return Customer::where('status', true)->orderBy('company_name')->get();
+        });
+    }
+
+    protected function getCompanySettings()
+    {
+        return Cache::remember('company_settings', 3600, function () {
+            return CompanySetting::first();
+        });
     }
 }
