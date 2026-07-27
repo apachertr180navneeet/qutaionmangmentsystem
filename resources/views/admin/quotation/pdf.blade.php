@@ -236,20 +236,44 @@ function getLocalImagePath($url) {
         .footer-section td {
             vertical-align: top;
         }
-        
+
+        .terms-box {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 12px 14px;
+        }
         .terms-title {
             font-size: 10px;
             font-weight: bold;
-            color: #6c757d;
+            color: #495057;
             text-transform: uppercase;
-            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 5px;
+        }
+        .terms-content {
+            font-size: 9px;
+            color: #495057;
+            line-height: 1.7;
+        }
+        .terms-content ol {
+            margin: 0;
+            padding-left: 16px;
+        }
+        .terms-content ol li {
+            margin-bottom: 3px;
         }
         .terms-list {
             font-size: 9px;
-            color: #6c757d;
-            line-height: 1.5;
-            padding-left: 15px;
+            color: #495057;
+            line-height: 1.7;
+            padding-left: 16px;
             margin: 0;
+        }
+        .terms-list li {
+            margin-bottom: 3px;
         }
         
         .signature-container {
@@ -425,17 +449,27 @@ function getLocalImagePath($url) {
     <table class="footer-section">
         <tr>
             <td style="width: 60%; padding-top: 15px;">
-                <h6 class="terms-title">Terms & Conditions:</h6>
-                @if($quotation->terms_conditions || $company?->terms_conditions)
-                    <div style="font-size: 9px; color: #6c757d; line-height: 1.5; white-space: pre-wrap;">
-                        {{ $quotation->terms_conditions ?: $company?->terms_conditions }}
+                <div class="terms-box">
+                    <h6 class="terms-title">Terms & Conditions</h6>
+                    <div class="terms-content">
+                        @if($quotation->terms_conditions || $company?->terms_conditions)
+                            @php
+                                $termsText = $quotation->terms_conditions ?: $company?->terms_conditions;
+                                $termsLines = array_filter(array_map('trim', preg_split('/\r?\n/', $termsText)));
+                            @endphp
+                            <ol>
+                                @foreach($termsLines as $line)
+                                    <li>{{ preg_replace('/^\d+[\.\)\-]\s*/', '', $line) }}</li>
+                                @endforeach
+                            </ol>
+                        @else
+                            <ol>
+                                <li>Payment is due within 15 days from the date of invoice.</li>
+                                <li>Items will be delivered within 5–7 business days upon quote acceptance.</li>
+                            </ol>
+                        @endif
                     </div>
-                @else
-                    <ul class="terms-list">
-                        <li>Payment is due within 15 days from the date of invoice.</li>
-                        <li>Items will be delivered within 5–7 business days upon quote acceptance.</li>
-                    </ul>
-                @endif
+                </div>
             </td>
             <td style="width: 40%; padding-top: 15px;">
                 <div class="signature-container">
