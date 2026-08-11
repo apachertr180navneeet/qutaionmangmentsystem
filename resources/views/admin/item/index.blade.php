@@ -69,7 +69,7 @@
                             <td>{{ $item->name }}</td>
                             <td><span class="text-purple-custom">{{ $item->sku }}</span></td>
                             <td class="table-dark-text">{{ $item->unit }}</td>
-                            <td class="table-dark-text">{{ number_format($item->rate, 2) }}</td>
+                            <td class="table-dark-text">{{ formatNumber($item->rate) }}</td>
                             <td>
                                 @if($item->is_active)
                                     <span class="badge-custom badge-active">ACTIVE</span>

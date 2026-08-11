@@ -33,7 +33,7 @@
             <div class="quote-details">
                 <p><strong>Quotation #:</strong> {{ $quotation->quotation_number }}</p>
                 <p><strong>Date:</strong> {{ $quotation->created_at ? date('d-m-Y', strtotime($quotation->created_at)) : 'N/A' }}</p>
-                <p><strong>Grand Total:</strong> {{ number_format($quotation->grand_total, 2) }}</p>
+                <p><strong>Grand Total:</strong> {{ formatNumber($quotation->grand_total) }}</p>
             </div>
             <p>
                 <a href="{{ url('/quotation/' . $quotation->uuid) }}" class="btn">View Quotation</a>

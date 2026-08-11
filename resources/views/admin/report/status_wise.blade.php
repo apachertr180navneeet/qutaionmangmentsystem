@@ -48,7 +48,7 @@
                             <td>{{ $q->quotation_number }}</td>
                             <td>{{ $q->customer->company_name ?? 'N/A' }}</td>
                             <td>{{ $q->created_at ? date('d-m-Y', strtotime($q->created_at)) : 'N/A' }}</td>
-                            <td>{{ number_format($q->grand_total, 2) }}</td>
+                            <td>{{ formatNumber($q->grand_total) }}</td>
                             <td>@php $badge = $q->status == 'approved' ? 'success' : ($q->status == 'sent' ? 'primary' : ($q->status == 'draft' ? 'secondary' : ($q->status == 'expired' ? 'warning' : 'danger'))); @endphp
                             <span class="badge bg-label-{{ $badge }}">{{ ucfirst($q->status) }}</span></td>
                         </tr>
@@ -57,7 +57,7 @@
                     <tfoot class="table-light">
                         <tr>
                             <td colspan="4" class="text-end"><strong>Total (All Pages):</strong></td>
-                            <td><strong>{{ number_format($totalGrandTotal, 2) }}</strong></td>
+                            <td><strong>{{ formatNumber($totalGrandTotal) }}</strong></td>
                             <td></td>
                         </tr>
                     </tfoot>

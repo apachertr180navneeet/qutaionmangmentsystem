@@ -171,7 +171,7 @@
                                     <td>{{ $key + 1 }}</td>
                                     <td><a href="{{ route('admin.quotations.show', $q->id) }}">{{ $q->quotation_number }}</a></td>
                                     <td>{{ $q->customer->company_name ?? 'N/A' }}</td>
-                                    <td>{{ number_format($q->grand_total, 2) }}</td>
+                                    <td>{{ formatNumber($q->grand_total) }}</td>
                                     @php $badge = $q->status == 'approved' ? 'success' : ($q->status == 'sent' ? 'primary' : ($q->status == 'draft' ? 'secondary' : ($q->status == 'expired' ? 'warning' : 'danger'))); @endphp
                                     <td><span class="badge bg-label-{{ $badge }}">{{ ucfirst($q->status) }}</span></td>
                                 </tr>

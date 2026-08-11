@@ -62,7 +62,7 @@
                             </div>
                         </td>
                         <td class="date-text">{{ $quotation->created_at ? date('d-m-Y', strtotime($quotation->created_at)) : 'N/A' }}</td>
-                        <td class="table-dark-text">₹{{ number_format($quotation->grand_total, 2) }}</td>
+                        <td class="table-dark-text">₹{{ formatNumber($quotation->grand_total) }}</td>
                         <td>
                             @php
                                 $statusClass = match(strtolower($quotation->status)) {

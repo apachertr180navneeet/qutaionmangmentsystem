@@ -51,18 +51,18 @@
                             <td>{{ $qi->quotation->quotation_number ?? 'N/A' }}</td>
                             <td>{{ $qi->quotation->customer->company_name ?? 'N/A' }}</td>
                             <td>{{ $qi->quotation->date ? date('d-m-Y', strtotime($qi->quotation->date)) : 'N/A' }}</td>
-                            <td>{{ $qi->quantity }}</td>
-                            <td>{{ number_format($qi->rate, 2) }}</td>
-                            <td>{{ number_format($qi->total, 2) }}</td>
+                            <td>{{ formatNumber($qi->quantity) }}</td>
+                            <td>{{ formatNumber($qi->rate) }}</td>
+                            <td>{{ formatNumber($qi->total) }}</td>
                         </tr>
                         @endforeach
                     </tbody>
                     <tfoot class="table-light">
                         <tr>
                             <td colspan="4" class="text-end"><strong>Total (All Pages):</strong></td>
-                            <td><strong>{{ $totalQuantity }}</strong></td>
+                            <td><strong>{{ formatNumber($totalQuantity) }}</strong></td>
                             <td></td>
-                            <td><strong>{{ number_format($totalAmount, 2) }}</strong></td>
+                            <td><strong>{{ formatNumber($totalAmount) }}</strong></td>
                         </tr>
                     </tfoot>
                 </table>

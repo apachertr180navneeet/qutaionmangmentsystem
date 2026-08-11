@@ -391,9 +391,9 @@ function getLocalImagePath($url) {
                         <span class="item-description">{{ $item->item->description }}</span>
                     @endif
                 </td>
-                <td class="center">{{ $item->quantity }}</td>
-                <td class="right">{{ number_format($item->rate, 2) }}</td>
-                <td class="right" style="font-weight: bold;">{{ number_format($item->total, 2) }}</td>
+                <td class="center">{{ formatNumber($item->quantity) }}</td>
+                <td class="right">{{ formatNumber($item->rate) }}</td>
+                <td class="right" style="font-weight: bold;">{{ formatNumber($item->total) }}</td>
             </tr>
             @empty
             <tr>
@@ -413,12 +413,12 @@ function getLocalImagePath($url) {
                 <table class="totals-table">
                     <tr>
                         <td class="label">Subtotal</td>
-                        <td class="value">{{ number_format($quotation->subtotal, 2) }}</td>
+                        <td class="value">{{ formatNumber($quotation->subtotal) }}</td>
                     </tr>
                     @if($quotation->discount_amount > 0)
                     <tr>
-                        <td class="label">Discount ({{ $quotation->discount_type == 'percentage' ? $quotation->discount_value.'%' : 'Fixed' }})</td>
-                        <td class="value" style="color: #dc3545;">- {{ number_format($quotation->discount_amount, 2) }}</td>
+                        <td class="label">Discount ({{ $quotation->discount_type == 'percentage' ? formatNumber($quotation->discount_value).'%' : 'Fixed' }})</td>
+                        <td class="value" style="color: #dc3545;">- {{ formatNumber($quotation->discount_amount) }}</td>
                     </tr>
                     @endif
                     @php
@@ -427,18 +427,18 @@ function getLocalImagePath($url) {
                     @if($totalTax > 0)
                     <tr>
                         <td class="label">Tax</td>
-                        <td class="value">{{ number_format($totalTax, 2) }}</td>
+                        <td class="value">{{ formatNumber($totalTax) }}</td>
                     </tr>
                     @endif
                     @if($quotation->round_off != 0)
                     <tr>
                         <td class="label">Round Off</td>
-                        <td class="value">{{ number_format($quotation->round_off, 2) }}</td>
+                        <td class="value">{{ formatNumber($quotation->round_off) }}</td>
                     </tr>
                     @endif
                     <tr class="grand-total-row">
                         <td class="label">Grand Total</td>
-                        <td class="value">{{ number_format($quotation->grand_total, 2) }}</td>
+                        <td class="value">{{ formatNumber($quotation->grand_total) }}</td>
                     </tr>
                 </table>
             </td>

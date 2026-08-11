@@ -366,7 +366,7 @@
                             <table class="table summary-table">
                             <tr>
                                 <td class="summary-label">Subtotal</td>
-                                <td><input type="text" name="subtotal" id="subtotal" class="form-control calc-input text-end shadow-none px-3" readonly value="{{ old('subtotal', $quotation->subtotal ?? '0.00') }}" style="height: 38px; background: #f8f7ff; border: 1.5px solid #e8e5f0; border-radius: 8px;"></td>
+                                <td><input type="text" name="subtotal" id="subtotal" class="form-control calc-input text-end shadow-none px-3" readonly value="{{ formatNumber(old('subtotal', $quotation->subtotal ?? 0), 2, false) }}" style="height: 38px; background: #f8f7ff; border: 1.5px solid #e8e5f0; border-radius: 8px;"></td>
                             </tr>
                             <tr>
                                 <td class="summary-label align-middle">
@@ -382,21 +382,21 @@
                                         <div class="col-6" id="cgst_col">
                                             <label class="form-label text-center d-block small fw-bold mb-1" style="color: #8E2DE2;">CGST</label>
                                             <div class="position-relative">
-                                                <input type="number" step="0.01" name="cgst_percentage" id="cgst_percentage" class="form-control text-center calc-input px-3" value="{{ old('cgst_percentage', $quotation->cgst_percentage ?? 9) }}" style="height: 38px; border-radius: 8px; border: 1.5px solid #e8e5f0;">
+                                                <input type="number" step="any" name="cgst_percentage" id="cgst_percentage" class="form-control text-center calc-input px-3" value="{{ formatNumber(old('cgst_percentage', $quotation->cgst_percentage ?? 9), 2, false) }}" style="height: 38px; border-radius: 8px; border: 1.5px solid #e8e5f0;">
                                                 <span class="position-absolute top-50 translate-middle-y text-muted" style="right: 10px; font-size: 0.75rem; font-weight: 600;">%</span>
                                             </div>
                                         </div>
                                         <div class="col-6" id="sgst_col">
                                             <label class="form-label text-center d-block small fw-bold mb-1" style="color: #8E2DE2;">SGST</label>
                                             <div class="position-relative">
-                                                <input type="number" step="0.01" name="sgst_percentage" id="sgst_percentage" class="form-control text-center calc-input px-3" value="{{ old('sgst_percentage', $quotation->sgst_percentage ?? 9) }}" style="height: 38px; border-radius: 8px; border: 1.5px solid #e8e5f0;">
+                                                <input type="number" step="any" name="sgst_percentage" id="sgst_percentage" class="form-control text-center calc-input px-3" value="{{ formatNumber(old('sgst_percentage', $quotation->sgst_percentage ?? 9), 2, false) }}" style="height: 38px; border-radius: 8px; border: 1.5px solid #e8e5f0;">
                                                 <span class="position-absolute top-50 translate-middle-y text-muted" style="right: 10px; font-size: 0.75rem; font-weight: 600;">%</span>
                                             </div>
                                         </div>
                                         <div class="col-12" id="igst_col" style="display:none;">
                                             <label class="form-label text-center d-block small fw-bold mb-1" style="color: #8E2DE2;">IGST</label>
                                             <div class="position-relative">
-                                                <input type="number" step="0.01" name="igst_percentage" id="igst_percentage" class="form-control text-center calc-input px-3" value="{{ old('igst_percentage', $quotation->igst_percentage ?? 18) }}" style="height: 38px; border-radius: 8px; border: 1.5px solid #e8e5f0;">
+                                                <input type="number" step="any" name="igst_percentage" id="igst_percentage" class="form-control text-center calc-input px-3" value="{{ formatNumber(old('igst_percentage', $quotation->igst_percentage ?? 18), 2, false) }}" style="height: 38px; border-radius: 8px; border: 1.5px solid #e8e5f0;">
                                                 <span class="position-absolute top-50 translate-middle-y text-muted" style="right: 10px; font-size: 0.75rem; font-weight: 600;">%</span>
                                             </div>
                                         </div>
@@ -412,15 +412,15 @@
                             </tr>
                             <tr>
                                 <td class="summary-label">Total Tax</td>
-                                <td><input type="text" name="total_tax" id="total_tax" class="form-control calc-input text-end shadow-none px-3" readonly value="{{ old('total_tax', ($quotation->cgst_amount + $quotation->sgst_amount + $quotation->igst_amount)) }}" style="height: 38px; background: #f8f7ff; border: 1.5px solid #e8e5f0; border-radius: 8px;"></td>
+                                <td><input type="text" name="total_tax" id="total_tax" class="form-control calc-input text-end shadow-none px-3" readonly value="{{ formatNumber(old('total_tax', ($quotation->cgst_amount + $quotation->sgst_amount + $quotation->igst_amount)), 2, false) }}" style="height: 38px; background: #f8f7ff; border: 1.5px solid #e8e5f0; border-radius: 8px;"></td>
                             </tr>
                             <tr>
                                 <td class="summary-label">Round Off</td>
-                                <td><input type="text" name="round_off" id="round_off" class="form-control calc-input text-end shadow-none px-3" readonly value="{{ old('round_off', $quotation->round_off ?? '0.00') }}" style="height: 38px; background: #f8f7ff; border: 1.5px solid #e8e5f0; border-radius: 8px;"></td>
+                                <td><input type="text" name="round_off" id="round_off" class="form-control calc-input text-end shadow-none px-3" readonly value="{{ formatNumber(old('round_off', $quotation->round_off ?? 0), 2, false) }}" style="height: 38px; background: #f8f7ff; border: 1.5px solid #e8e5f0; border-radius: 8px;"></td>
                             </tr>
                             <tr class="grand-total-row">
                                 <td class="grand-total-label">Grand Total</td>
-                                <td class="grand-total-value"><input type="text" name="grand_total" id="grand_total" class="form-control calc-input fw-bold text-end shadow-none px-3" readonly value="{{ old('grand_total', $quotation->grand_total ?? '0.00') }}" style="height: 42px; background: #fff; border: 2px solid #8E2DE2; border-radius: 8px;"></td>
+                                <td class="grand-total-value"><input type="text" name="grand_total" id="grand_total" class="form-control calc-input fw-bold text-end shadow-none px-3" readonly value="{{ formatNumber(old('grand_total', $quotation->grand_total ?? 0), 2, false) }}" style="height: 42px; background: #fff; border: 2px solid #8E2DE2; border-radius: 8px;"></td>
                             </tr>
                         </table>
                         </div>
@@ -449,15 +449,15 @@
         </td>
         <td><input type="text" name="items[__INDEX__][sku]" class="form-control form-control-sm sku-input" readonly style="background: #f8f7ff; border: 1px solid #e8e5f0;"></td>
         <td><input type="text" class="form-control form-control-sm unit-display" readonly style="background: #f8f7ff; border: 1px solid #e8e5f0;"></td>
-        <td><input type="number" step="0.01" name="items[__INDEX__][quantity]" class="form-control form-control-sm quantity-input calc-input" value="1" min="0.01"></td>
-        <td><input type="number" step="0.01" name="items[__INDEX__][mrp]" class="form-control form-control-sm mrp-input calc-input" value="0" min="0"></td>
-        <td><input type="number" step="0.01" name="items[__INDEX__][discount_percentage]" class="form-control form-control-sm disc-pct-input calc-input" value="0" min="0" max="100"></td>
+        <td><input type="number" step="any" name="items[__INDEX__][quantity]" class="form-control form-control-sm quantity-input text-center" value="1" min="0.01" required style="border: 1px solid #e8e5f0;"></td>
+        <td><input type="number" step="any" name="items[__INDEX__][mrp]" class="form-control form-control-sm mrp-input text-end" value="0" min="0" required style="border: 1px solid #e8e5f0;"></td>
+        <td><input type="number" step="any" name="items[__INDEX__][discount_percentage]" class="form-control form-control-sm disc-pct-input text-end" value="0" min="0" max="100" style="border: 1px solid #e8e5f0;"></td>
+        <td><input type="number" step="any" name="items[__INDEX__][rate]" class="form-control form-control-sm rate-input text-end" value="0" min="0" required style="border: 1px solid #e8e5f0;"></td>
         <td>
-            <input type="number" step="0.01" name="items[__INDEX__][rate]" class="form-control form-control-sm rate-input calc-input" value="0" min="0">
             <input type="hidden" name="items[__INDEX__][discount_amount]" class="disc-amt-input" value="0">
+            <input type="text" name="items[__INDEX__][total]" class="form-control form-control-sm total-input text-end fw-bold" readonly style="background: #f8f7ff; border: 1px solid #e8e5f0; color: #8E2DE2;" value="0">
         </td>
-        <td><input type="text" name="items[__INDEX__][total]" class="form-control form-control-sm total-input calc-input fw-bold" readonly value="0.00" style="background: #f8f7ff; border: 1px solid #e8e5f0; color: #8E2DE2;"></td>
-        <td class="text-center"><div class="remove-item"><i class="bx bx-trash fs-6"></i></div></td>
+        <td class="text-center"><button type="button" class="btn btn-sm text-danger p-0 remove-row-btn" title="Remove"><i class="bx bx-trash" style="font-size: 1.1rem;"></i></button></td>
     </tr>
 </template>
 @endsection
@@ -466,6 +466,14 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
 var itemIndex = 0;
+
+function formatNum(val) {
+    var num = parseFloat(val) || 0;
+    if (Number.isInteger(num) || Math.abs(num - Math.round(num)) < 0.00001) {
+        return Math.round(num).toString();
+    }
+    return num.toFixed(2);
+}
 
 function formatItem(item) {
     if (!item.id) { return item.text; }
@@ -481,7 +489,7 @@ function formatItem(item) {
             imgHtml +
             '<div>' +
                 '<div class="fw-bold text-dark" style="font-size: 0.85rem; line-height: 1.2;">' + (item.name || item.text.split(' (')[0]) + '</div>' +
-                '<div class="text-muted" style="font-size: 0.75rem;">' + (sku ? 'SKU: ' + sku + ' | ' : '') + 'MRP: ₹' + parseFloat(mrp).toFixed(2) + '</div>' +
+                '<div class="text-muted" style="font-size: 0.75rem;">' + (sku ? 'SKU: ' + sku + ' | ' : '') + 'MRP: ₹' + formatNum(mrp) + '</div>' +
             '</div>' +
         '</div>'
     );
@@ -511,29 +519,29 @@ function calculateRow(row, sourceField) {
         var discAmtPerUnit = (mrp * discPct) / 100;
         rate = mrp - discAmtPerUnit;
         if (rate < 0) rate = 0;
-        row.find('.rate-input').val(rate.toFixed(2));
+        row.find('.rate-input').val(formatNum(rate));
     } else if (sourceField === 'rate') {
         if (mrp > 0) {
             discPct = ((mrp - rate) / mrp) * 100;
             if (discPct < 0) discPct = 0;
-            row.find('.disc-pct-input').val(discPct.toFixed(2));
+            row.find('.disc-pct-input').val(formatNum(discPct));
         }
     } else {
         if (discPct > 0 && mrp > 0) {
             rate = mrp - ((mrp * discPct) / 100);
-            row.find('.rate-input').val(rate.toFixed(2));
+            row.find('.rate-input').val(formatNum(rate));
         } else if (mrp > 0 && rate === 0) {
             rate = mrp;
-            row.find('.rate-input').val(rate.toFixed(2));
+            row.find('.rate-input').val(formatNum(rate));
         }
     }
 
     var discAmountTotal = (mrp - rate) * qty;
     if (discAmountTotal < 0) discAmountTotal = 0;
-    row.find('.disc-amt-input').val(discAmountTotal.toFixed(2));
+    row.find('.disc-amt-input').val(formatNum(discAmountTotal));
 
     var total = qty * rate;
-    row.find('.total-input').val(total.toFixed(2));
+    row.find('.total-input').val(formatNum(total));
     calculateSummary();
 }
 
@@ -543,7 +551,7 @@ function calculateSummary() {
         var total = parseFloat($(this).find('.total-input').val()) || 0;
         subtotal += total;
     });
-    $('#subtotal').val(subtotal.toFixed(2));
+    $('#subtotal').val(formatNum(subtotal));
 
     var afterDiscount = subtotal;
     
@@ -559,14 +567,13 @@ function calculateSummary() {
         totalTax = ((cgstPct + sgstPct) / 100) * afterDiscount;
     }
 
-    $('#total_tax').val(totalTax.toFixed(2));
+    $('#total_tax').val(formatNum(totalTax));
 
     var grandTotal = afterDiscount + totalTax;
-    var roundOff = Math.round(grandTotal) - grandTotal;
-    grandTotal = Math.round(grandTotal);
+    var roundOff = 0;
 
-    $('#round_off').val(roundOff.toFixed(2));
-    $('#grand_total').val(grandTotal.toFixed(2));
+    $('#round_off').val(formatNum(roundOff));
+    $('#grand_total').val(formatNum(grandTotal));
 }
 
 function renumberRows() {

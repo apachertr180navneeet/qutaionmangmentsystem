@@ -75,4 +75,23 @@ class Helper
         return $regex;
     }
 
+    public static function formatNumber($value, $decimals = 2, $useCommas = true)
+    {
+        if ($value === null || $value === '') {
+            return '0';
+        }
+        $floatVal = (float)$value;
+        if (floor($floatVal) == $floatVal) {
+            return $useCommas ? number_format($floatVal, 0) : (string)(int)$floatVal;
+        }
+        return $useCommas ? number_format($floatVal, $decimals) : number_format($floatVal, $decimals, '.', '');
+    }
+
 }
+
+if (!function_exists('formatNumber')) {
+    function formatNumber($value, $decimals = 2, $useCommas = true) {
+        return \App\Helpers\Helper::formatNumber($value, $decimals, $useCommas);
+    }
+}
+

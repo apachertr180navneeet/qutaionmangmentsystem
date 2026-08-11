@@ -114,8 +114,8 @@ class QuotationController extends Controller
 
             $totalTax = $data['cgst_amount'] + $data['sgst_amount'] + $data['igst_amount'];
             $grandTotal = $afterDiscount + $totalTax;
-            $data['round_off'] = round($grandTotal) - $grandTotal;
-            $data['grand_total'] = round($grandTotal);
+            $data['round_off'] = round($grandTotal, 2) - $grandTotal;
+            $data['grand_total'] = round($grandTotal, 2);
 
             $quotation = Quotation::create($data);
 
@@ -218,8 +218,8 @@ class QuotationController extends Controller
 
             $totalTax = $data['cgst_amount'] + $data['sgst_amount'] + $data['igst_amount'];
             $grandTotal = $afterDiscount + $totalTax;
-            $data['round_off'] = round($grandTotal) - $grandTotal;
-            $data['grand_total'] = round($grandTotal);
+            $data['round_off'] = round($grandTotal, 2) - $grandTotal;
+            $data['grand_total'] = round($grandTotal, 2);
 
             $quotation->update($data);
 

@@ -47,7 +47,7 @@
                 <td>{{ $quotation->quotation_number }}</td>
                 <td>{{ $quotation->customer->company_name ?? 'N/A' }}</td>
                 <td>{{ $quotation->created_at ? date('d-m-Y', strtotime($quotation->created_at)) : 'N/A' }}</td>
-                <td>{{ number_format($quotation->grand_total, 2) }}</td>
+                <td>{{ formatNumber($quotation->grand_total) }}</td>
                 <td><span class="badge badge-{{ $quotation->status }}">{{ ucfirst($quotation->status) }}</span></td>
             </tr>
             @empty
@@ -57,7 +57,7 @@
         <tfoot>
             <tr class="summary-row">
                 <td colspan="4" style="text-align:right;">Total Quotations: {{ $quotations->count() }}</td>
-                <td>{{ number_format($quotations->sum('grand_total'), 2) }}</td>
+                <td>{{ formatNumber($quotations->sum('grand_total')) }}</td>
                 <td></td>
             </tr>
         </tfoot>

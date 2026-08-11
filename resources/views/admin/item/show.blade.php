@@ -29,7 +29,7 @@
                     <p><span class="table-dark-text d-block mb-1">Unit:</span><span class="text-muted">{{ $item->unit ?? 'N/A' }}</span></p>
                 </div>
                 <div class="col-md-6">
-                    <p><span class="table-dark-text d-block mb-1">Rate:</span><span class="text-muted">{{ number_format($item->rate, 2) }}</span></p>
+                    <p><span class="table-dark-text d-block mb-1">Rate:</span><span class="text-muted">{{ formatNumber($item->rate) }}</span></p>
                 </div>
                 <div class="col-md-6">
                     <p><span class="table-dark-text d-block mb-1">Status:</span>

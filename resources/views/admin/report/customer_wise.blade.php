@@ -49,7 +49,7 @@
                             <td>{{ $quotations->firstItem() + $key }}</td>
                             <td>{{ $q->quotation_number }}</td>
                             <td>{{ $q->created_at ? date('d-m-Y', strtotime($q->created_at)) : 'N/A' }}</td>
-                            <td>{{ number_format($q->grand_total, 2) }}</td>
+                            <td>{{ formatNumber($q->grand_total) }}</td>
                             <td><span class="badge bg-label-{{ $badge }}">{{ ucfirst($q->status) }}</span></td>
                         </tr>
                         @endforeach
@@ -57,7 +57,7 @@
                     <tfoot class="table-light">
                         <tr>
                             <td colspan="3" class="text-end"><strong>Total (All Pages):</strong></td>
-                            <td><strong>{{ number_format($totalGrandTotal, 2) }}</strong></td>
+                            <td><strong>{{ formatNumber($totalGrandTotal) }}</strong></td>
                             <td></td>
                         </tr>
                     </tfoot>

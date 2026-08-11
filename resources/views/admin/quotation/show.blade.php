@@ -375,7 +375,7 @@
                 <div class="col-md-3 col-6">
                     <div class="q-detail-item">
                         <div class="label"><i class="bx bx-money"></i> Grand Total</div>
-                        <div class="value" style="color: #8E2DE2; font-size: 1.1rem;">₹{{ number_format($quotation->grand_total, 2) }}</div>
+                        <div class="value" style="color: #8E2DE2; font-size: 1.1rem;">₹{{ formatNumber($quotation->grand_total) }}</div>
                     </div>
                 </div>
             </div>
@@ -421,11 +421,11 @@
                             </td>
                             <td><span class="badge bg-label-primary">{{ $item->sku ?: ($item->item->sku ?? '—') }}</span></td>
                             <td>{{ $item->item->unit ?? '—' }}</td>
-                            <td class="text-center">{{ $item->quantity }}</td>
-                            <td class="text-end">{{ number_format($item->mrp ?: ($item->item->mrp ?? $item->rate), 2) }}</td>
-                            <td class="text-end">{{ number_format($item->discount_percentage ?? 0, 2) }}%</td>
-                            <td class="text-end">{{ number_format($item->rate, 2) }}</td>
-                            <td class="text-end item-total">{{ number_format($item->total, 2) }}</td>
+                            <td class="text-center">{{ formatNumber($item->quantity) }}</td>
+                            <td class="text-end">{{ formatNumber($item->mrp ?: ($item->item->mrp ?? $item->rate)) }}</td>
+                            <td class="text-end">{{ formatNumber($item->discount_percentage ?? 0) }}%</td>
+                            <td class="text-end">{{ formatNumber($item->rate) }}</td>
+                            <td class="text-end item-total">{{ formatNumber($item->total) }}</td>
                         </tr>
                         @empty
                         <tr>
@@ -466,7 +466,7 @@
                     <table class="table summary-table">
                         <tr>
                             <td class="summary-label">Subtotal</td>
-                            <td class="text-end summary-value">{{ number_format($quotation->subtotal, 2) }}</td>
+                            <td class="text-end summary-value">{{ formatNumber($quotation->subtotal) }}</td>
                         </tr>
                         @if($quotation->discount_amount > 0)
                         <tr>
@@ -474,20 +474,20 @@
                                 Discount
                                 <span class="text-muted">({{ $quotation->discount_type == 'percentage' ? $quotation->discount_value.'%' : 'Fixed' }})</span>
                             </td>
-                            <td class="text-end discount-value">-{{ number_format($quotation->discount_amount, 2) }}</td>
+                            <td class="text-end discount-value">-{{ formatNumber($quotation->discount_amount) }}</td>
                         </tr>
                         @endif
                         <tr>
                             <td class="summary-label">Total Tax</td>
-                            <td class="text-end tax-value">{{ number_format($quotation->cgst_amount + $quotation->sgst_amount + $quotation->igst_amount, 2) }}</td>
+                            <td class="text-end tax-value">{{ formatNumber($quotation->cgst_amount + $quotation->sgst_amount + $quotation->igst_amount) }}</td>
                         </tr>
                         <tr>
                             <td class="summary-label">Round Off</td>
-                            <td class="text-end summary-value">{{ number_format($quotation->round_off, 2) }}</td>
+                            <td class="text-end summary-value">{{ formatNumber($quotation->round_off) }}</td>
                         </tr>
                         <tr class="grand-total-row">
                             <td class="grand-total-label">Grand Total</td>
-                            <td class="text-end grand-total-value">₹{{ number_format($quotation->grand_total, 2) }}</td>
+                            <td class="text-end grand-total-value">₹{{ formatNumber($quotation->grand_total) }}</td>
                         </tr>
                     </table>
                 </div>
