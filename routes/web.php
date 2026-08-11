@@ -53,6 +53,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
             Route::get('/create', [ItemController::class, 'create'])->name('create');
             Route::post('/', [ItemController::class, 'store'])->name('store');
             Route::get('/import-template', [ItemController::class, 'downloadTemplate'])->name('import_template');
+            Route::get('/export-excel', [ItemController::class, 'exportExcel'])->name('export_excel');
             Route::post('/import', [ItemController::class, 'import'])->name('import');
             Route::post('/sync-images', [ItemController::class, 'syncImages'])->name('sync_images');
             Route::post('/{id}/update-image', [ItemController::class, 'updateImage'])->name('update_image');

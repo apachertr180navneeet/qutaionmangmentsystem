@@ -19,18 +19,24 @@ class ItemImport implements ToCollection, WithHeadingRow, WithChunkReading
         $insertData = [];
 
         foreach ($rows as $row) {
-            if (empty($row['name']) && empty($row['sku'])) {
+            $id = !empty($row['id']) ? trim($row['id']) : null;
+            $sku = !empty($row['sku']) ? trim($row['sku']) : null;
+            $name = !empty($row['name']) ? trim($row['name']) : null;
+
+            if (empty($id) && empty($name) && empty($sku)) {
                 continue;
             }
 
-            $sku = !empty($row['sku']) ? trim($row['sku']) : null;
-            $name = !empty($row['name']) ? trim($row['name']) : null;
             $rate = isset($row['rate']) && $row['rate'] !== '' ? (float) $row['rate'] : null;
             $mrp = isset($row['mrp']) && $row['mrp'] !== '' ? (float) $row['mrp'] : ($rate ?? 0);
+            $sdp = isset($row['sdp']) && $row['sdp'] !== '' ? (float) $row['sdp'] : null;
 
-            // Find existing item by SKU or Name
+            // Find existing item by ID, SKU or Name
             $existingItem = null;
-            if ($sku) {
+            if ($id) {
+                $existingItem = Item::find($id);
+            }
+            if (!$existingItem && $sku) {
                 $existingItem = Item::where('sku', $sku)->first();
             }
             if (!$existingItem && $name) {
@@ -38,10 +44,19 @@ class ItemImport implements ToCollection, WithHeadingRow, WithChunkReading
             }
 
             if ($existingItem) {
-                // Update MRP and other provided fields for existing item
+                // Update MRP, SDP and other provided fields for existing item
                 $updateData = ['updated_at' => $now];
+                if ($name !== null) {
+                    $updateData['name'] = $name;
+                }
+                if ($sku !== null) {
+                    $updateData['sku'] = $sku;
+                }
                 if ($mrp !== null) {
                     $updateData['mrp'] = $mrp;
+                }
+                if ($sdp !== null) {
+                    $updateData['sdp'] = $sdp;
                 }
                 if ($rate !== null) {
                     $updateData['rate'] = $rate;
@@ -72,6 +87,7 @@ class ItemImport implements ToCollection, WithHeadingRow, WithChunkReading
                     'description'    => $row['description'] ?? null,
                     'unit'           => $row['unit'] ?? 'pcs',
                     'mrp'            => $mrp ?? 0,
+                    'sdp'            => $sdp ?? 0,
                     'rate'           => $rate ?? 0,
                     'tax_percentage' => $row['tax_percentage'] ?? 0,
                     'is_active'      => isset($row['is_active']) ? (strtolower($row['is_active']) == 'active' ? 1 : 0) : 1,

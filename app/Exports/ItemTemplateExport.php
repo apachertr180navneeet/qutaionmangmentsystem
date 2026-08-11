@@ -12,9 +12,11 @@ class ItemTemplateExport implements FromArray, WithHeadings
         return [
             'name',
             'sku',
+            'mrp',
+            'sdp',
+            'rate',
             'description',
             'unit',
-            'rate',
             'tax_percentage',
             'is_active'
         ];
@@ -26,9 +28,11 @@ class ItemTemplateExport implements FromArray, WithHeadings
             [
                 'Sample Item',
                 'SKU001',
+                '120',
+                '95',
+                '100',
                 'Sample description',
                 'pcs',
-                '100',
                 '18',
                 'Active'
             ]

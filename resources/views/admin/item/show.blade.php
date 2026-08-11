@@ -28,7 +28,13 @@
                 <div class="col-md-6">
                     <p><span class="table-dark-text d-block mb-1">Unit:</span><span class="text-muted">{{ $item->unit ?? 'N/A' }}</span></p>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
+                    <p><span class="table-dark-text d-block mb-1">MRP:</span><span class="text-muted">{{ formatNumber($item->mrp ?? $item->rate) }}</span></p>
+                </div>
+                <div class="col-md-4">
+                    <p><span class="table-dark-text d-block mb-1">SDP:</span><span class="text-muted">{{ formatNumber($item->sdp ?? 0) }}</span></p>
+                </div>
+                <div class="col-md-4">
                     <p><span class="table-dark-text d-block mb-1">Rate:</span><span class="text-muted">{{ formatNumber($item->rate) }}</span></p>
                 </div>
                 <div class="col-md-6">

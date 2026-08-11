@@ -9,6 +9,9 @@
             <!-- <button type="button" class="btn btn-outline-primary" id="btn-sync-images" style="border-radius: 8px;">
                 <i class="bx bx-sync me-1"></i> Sync Images
             </button> -->
+            <a href="{{ route('admin.items.export_excel') }}" class="btn btn-outline-success" style="border-radius: 8px;">
+                <i class="bx bx-file me-1"></i> Export Excel
+            </a>
             <a href="{{ route('admin.items.import_template') }}" class="btn btn-outline-secondary" style="border-radius: 8px;">
                 <i class="bx bx-download me-1"></i> Template
             </a>
@@ -44,6 +47,8 @@
                             <th>SKU</th>
                             <th>Unit</th>
                             <th>MRP</th>
+                            <th>SDP</th>
+                            <th>Rate</th>
                             <th>Status</th>
                             <th class="text-center">Actions</th>
                         </tr>
@@ -69,6 +74,8 @@
                             <td>{{ $item->name }}</td>
                             <td><span class="text-purple-custom">{{ $item->sku }}</span></td>
                             <td class="table-dark-text">{{ $item->unit }}</td>
+                            <td class="table-dark-text">{{ formatNumber($item->mrp ?? $item->rate) }}</td>
+                            <td class="table-dark-text">{{ formatNumber($item->sdp ?? 0) }}</td>
                             <td class="table-dark-text">{{ formatNumber($item->rate) }}</td>
                             <td>
                                 @if($item->is_active)

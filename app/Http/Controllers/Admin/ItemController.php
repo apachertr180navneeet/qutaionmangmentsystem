@@ -11,6 +11,7 @@ use Exception;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\ItemImport;
 use App\Exports\ItemTemplateExport;
+use App\Exports\ItemExport;
 
 class ItemController extends Controller
 {
@@ -51,6 +52,8 @@ class ItemController extends Controller
                 'sku' => 'nullable|string|max:100|unique:items,sku',
                 'description' => 'nullable|string',
                 'unit' => 'required|string|max:50',
+                'mrp' => 'nullable|numeric|min:0',
+                'sdp' => 'nullable|numeric|min:0',
                 'rate' => 'required|numeric|min:0',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
@@ -105,6 +108,8 @@ class ItemController extends Controller
                 'sku' => 'nullable|string|max:100|unique:items,sku,' . $item->id,
                 'description' => 'nullable|string',
                 'unit' => 'required|string|max:50',
+                'mrp' => 'nullable|numeric|min:0',
+                'sdp' => 'nullable|numeric|min:0',
                 'rate' => 'required|numeric|min:0',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
@@ -161,7 +166,7 @@ class ItemController extends Controller
             $items = $query->orderBy('name')
                 ->skip(($page - 1) * $perPage)
                 ->take($perPage + 1)
-                ->get(['id', 'name', 'sku', 'rate', 'tax_percentage', 'unit', 'image']);
+                ->get(['id', 'name', 'sku', 'mrp', 'sdp', 'rate', 'tax_percentage', 'unit', 'image']);
 
             $hasMore = $items->count() > $perPage;
             $items = $items->take($perPage);
@@ -172,7 +177,8 @@ class ItemController extends Controller
                     'text' => $item->name . ($item->sku ? ' (' . $item->sku . ')' : ''),
                     'name' => $item->name,
                     'sku' => $item->sku,
-                    'mrp' => $item->rate,
+                    'mrp' => $item->mrp ?? $item->rate,
+                    'sdp' => $item->sdp ?? 0,
                     'rate' => $item->rate,
                     'tax_percentage' => $item->tax_percentage,
                     'unit' => $item->unit,
@@ -245,6 +251,11 @@ class ItemController extends Controller
     public function downloadTemplate()
     {
         return Excel::download(new ItemTemplateExport, 'item_import_template.xlsx');
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new ItemExport, 'items_list_' . date('Y-m-d') . '.xlsx');
     }
 
     public function syncImages(Request $request)

@@ -38,8 +38,18 @@
                         <input type="text" name="unit" class="custom-input no-icon @error('unit') is-invalid @enderror" value="{{ old('unit', $item->unit) }}" placeholder="e.g. Pcs, Kg, Box">
                         @error('unit') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label table-dark-text">MRP <span class="text-danger">*</span></label>
+                    <div class="col-md-4">
+                        <label class="form-label table-dark-text">MRP</label>
+                        <input type="number" step="any" name="mrp" class="custom-input no-icon @error('mrp') is-invalid @enderror" value="{{ old('mrp', $item->mrp ?? $item->rate) }}">
+                        @error('mrp') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label table-dark-text">SDP</label>
+                        <input type="number" step="any" name="sdp" class="custom-input no-icon @error('sdp') is-invalid @enderror" value="{{ old('sdp', $item->sdp ?? 0) }}">
+                        @error('sdp') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label table-dark-text">Rate (Price) <span class="text-danger">*</span></label>
                         <input type="number" step="any" name="rate" class="custom-input no-icon @error('rate') is-invalid @enderror" value="{{ old('rate', $item->rate) }}" required>
                         @error('rate') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
