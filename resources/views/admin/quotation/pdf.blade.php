@@ -446,6 +446,7 @@ $logoImg = $company?->logo ? getLocalImagePath($company->logo) : '';
 
     <!-- Top Accent Bar -->
     <div class="top-accent-bar"></div>
+    <!-- DEBUG: company_logo=[{{ $company?->logo }}] company_name=[{{ $company?->company_name }}] logoImg_len=[{{ strlen($logoImg) }}] -->
 
     <!-- Background Watermark Logo -->
     @if($logoImg)
