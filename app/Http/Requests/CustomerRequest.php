@@ -15,19 +15,19 @@ class CustomerRequest extends FormRequest
     {
         return [
             'company_name' => 'required|string|max:255',
-            'contact_person' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'phone' => 'required|string|max:20',
+            'contact_person' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:20',
             'alt_phone' => 'nullable|string|max:20',
             'gst_number' => 'nullable|string|max:50',
-            'billing_address' => 'required|string',
+            'billing_address' => 'nullable|string',
             'shipping_address' => 'nullable|string',
-            'city' => 'required|string|max:100',
-            'state' => 'required|string|max:100',
-            'zip_code' => 'required|string|max:20',
-            'country' => 'required|string|max:100',
+            'city' => 'nullable|string|max:100',
+            'state' => 'nullable|string|max:100',
+            'zip_code' => 'nullable|string|max:20',
+            'country' => 'nullable|string|max:100',
             'notes' => 'nullable|string',
-            'status' => 'required|boolean',
+            'status' => 'nullable|boolean',
         ];
     }
 }

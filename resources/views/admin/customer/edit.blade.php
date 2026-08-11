@@ -19,18 +19,18 @@
                         @error('company_name') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label custom-form-label">Contact Person <span class="text-danger">*</span></label>
-                        <input type="text" name="contact_person" class="custom-input no-icon @error('contact_person') is-invalid @enderror" value="{{ old('contact_person', $customer->contact_person) }}" required>
+                        <label class="form-label custom-form-label">Contact Person</label>
+                        <input type="text" name="contact_person" class="custom-input no-icon @error('contact_person') is-invalid @enderror" value="{{ old('contact_person', $customer->contact_person) }}">
                         @error('contact_person') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label custom-form-label">Email <span class="text-danger">*</span></label>
-                        <input type="email" name="email" class="custom-input no-icon @error('email') is-invalid @enderror" value="{{ old('email', $customer->email) }}" required>
+                        <label class="form-label custom-form-label">Email</label>
+                        <input type="email" name="email" class="custom-input no-icon @error('email') is-invalid @enderror" value="{{ old('email', $customer->email) }}">
                         @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label custom-form-label">Phone <span class="text-danger">*</span></label>
-                        <input type="text" name="phone" class="custom-input no-icon @error('phone') is-invalid @enderror" value="{{ old('phone', $customer->phone) }}" required>
+                        <label class="form-label custom-form-label">Phone</label>
+                        <input type="text" name="phone" class="custom-input no-icon @error('phone') is-invalid @enderror" value="{{ old('phone', $customer->phone) }}">
                         @error('phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-md-6">
