@@ -40,11 +40,14 @@ if (!function_exists('getLocalImagePath')) {
 }
 
 // Logo from company settings with reliable fallback
-$logoPath = $company?->logo ?: 'uploads/company/logo.png';
+$logoPath = $company?->logo ?: 'uploads/company/logo_header.png';
 $logoImg = getLocalImagePath($logoPath);
-if (!$logoImg && file_exists(public_path('uploads/company/logo.png'))) {
-    $logoImg = getLocalImagePath('uploads/company/logo.png');
+if (!$logoImg && file_exists(public_path('uploads/company/logo_header.png.png'))) {
+    $logoImg = getLocalImagePath('uploads/company/logo_header.png');
 }
+
+$wmPath = 'uploads/company/logo_watermark.png';
+$watermarkImg = file_exists(public_path($wmPath)) ? getLocalImagePath($wmPath) : $logoImg;
 @endphp
 <head>
     <meta charset="utf-8">
@@ -76,16 +79,16 @@ if (!$logoImg && file_exists(public_path('uploads/company/logo.png'))) {
         /* Watermark */
         .watermark {
             position: fixed;
-            top: 22%;
-            left: 12%;
-            width: 76%;
+            top: 25%;
+            left: 20%;
+            width: 60%;
             text-align: center;
-            opacity: 0.05;
+            opacity: 0.08;
             z-index: -1000;
         }
         .watermark img {
-            max-width: 440px;
-            max-height: 440px;
+            max-width: 320px;
+            max-height: 320px;
         }
 
         /* Header Table */
@@ -98,9 +101,9 @@ if (!$logoImg && file_exists(public_path('uploads/company/logo.png'))) {
             vertical-align: top;
         }
         .company-logo-img {
-            max-height: 75px;
-            max-width: 240px;
-            margin-bottom: 6px;
+            max-height: 85px;
+            max-width: 190px;
+            margin-bottom: 4px;
         }
         .company-logo-text {
             font-size: 20px;
@@ -452,9 +455,9 @@ if (!$logoImg && file_exists(public_path('uploads/company/logo.png'))) {
     <div class="top-accent-bar"></div>
 
     <!-- Background Watermark Logo -->
-    @if($logoImg)
+    @if($watermarkImg)
     <div class="watermark">
-        <img src="{{ $logoImg }}" alt="Watermark Logo">
+        <img src="{{ $watermarkImg }}" alt="Watermark Logo">
     </div>
     @endif
 
@@ -462,8 +465,8 @@ if (!$logoImg && file_exists(public_path('uploads/company/logo.png'))) {
     <table class="header-table">
         <tr>
             <td style="width: 58%;">
-                @if($logoImg)
-                    <img src="{{ $logoImg }}" alt="Logo" class="company-logo-img">
+                @if($watermarkImg)
+                    <img src="{{ $watermarkImg }}" alt="Logo" class="company-logo-img">
                 @else
                     <div class="company-logo-text">{{ $company?->company_name ?? config('app.name') }}</div>
                     <div class="company-name-subtitle">{{ $company?->company_name ?? 'BHAGYASHREE SANITARYWARE' }}</div>

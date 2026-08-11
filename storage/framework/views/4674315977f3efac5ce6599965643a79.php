@@ -45,6 +45,9 @@ $logoImg = getLocalImagePath($logoPath);
 if (!$logoImg && file_exists(public_path('uploads/company/logo.png'))) {
     $logoImg = getLocalImagePath('uploads/company/logo.png');
 }
+
+$wmPath = 'uploads/company/logo_watermark.png';
+$watermarkImg = file_exists(public_path($wmPath)) ? getLocalImagePath($wmPath) : $logoImg;
 ?>
 <head>
     <meta charset="utf-8">
@@ -76,16 +79,16 @@ if (!$logoImg && file_exists(public_path('uploads/company/logo.png'))) {
         /* Watermark */
         .watermark {
             position: fixed;
-            top: 22%;
-            left: 12%;
-            width: 76%;
+            top: 25%;
+            left: 20%;
+            width: 60%;
             text-align: center;
-            opacity: 0.05;
+            opacity: 0.08;
             z-index: -1000;
         }
         .watermark img {
-            max-width: 440px;
-            max-height: 440px;
+            max-width: 320px;
+            max-height: 320px;
         }
 
         /* Header Table */
@@ -98,9 +101,9 @@ if (!$logoImg && file_exists(public_path('uploads/company/logo.png'))) {
             vertical-align: top;
         }
         .company-logo-img {
-            max-height: 75px;
-            max-width: 240px;
-            margin-bottom: 6px;
+            max-height: 85px;
+            max-width: 190px;
+            margin-bottom: 4px;
         }
         .company-logo-text {
             font-size: 20px;
@@ -452,9 +455,9 @@ if (!$logoImg && file_exists(public_path('uploads/company/logo.png'))) {
     <div class="top-accent-bar"></div>
 
     <!-- Background Watermark Logo -->
-    <?php if($logoImg): ?>
+    <?php if($watermarkImg): ?>
     <div class="watermark">
-        <img src="<?php echo e($logoImg); ?>" alt="Watermark Logo">
+        <img src="<?php echo e($watermarkImg); ?>" alt="Watermark Logo">
     </div>
     <?php endif; ?>
 
