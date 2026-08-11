@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-@php
+<?php
 if (!function_exists('getLocalImagePath')) {
     function getLocalImagePath($url) {
         if (!$url) return '';
@@ -45,10 +45,10 @@ $logoImg = getLocalImagePath($logoPath);
 if (!$logoImg && file_exists(public_path('uploads/company/logo.png'))) {
     $logoImg = getLocalImagePath('uploads/company/logo.png');
 }
-@endphp
+?>
 <head>
     <meta charset="utf-8">
-    <title>Quotation #{{ $quotation->quotation_number }}</title>
+    <title>Quotation #<?php echo e($quotation->quotation_number); ?></title>
     <style>
         @page {
             size: A4;
@@ -452,51 +452,52 @@ if (!$logoImg && file_exists(public_path('uploads/company/logo.png'))) {
     <div class="top-accent-bar"></div>
 
     <!-- Background Watermark Logo -->
-    @if($logoImg)
+    <?php if($logoImg): ?>
     <div class="watermark">
-        <img src="{{ $logoImg }}" alt="Watermark Logo">
+        <img src="<?php echo e($logoImg); ?>" alt="Watermark Logo">
     </div>
-    @endif
+    <?php endif; ?>
 
     <!-- Header / Branding -->
     <table class="header-table">
         <tr>
             <td style="width: 58%;">
-                @if($logoImg)
-                    <img src="{{ $logoImg }}" alt="Logo" class="company-logo-img">
-                @else
-                    <div class="company-logo-text">{{ $company?->company_name ?? config('app.name') }}</div>
-                    <div class="company-name-subtitle">{{ $company?->company_name ?? 'BHAGYASHREE SANITARYWARE' }}</div>
-                @endif
+                <?php if($logoImg): ?>
+                    <img src="<?php echo e($logoImg); ?>" alt="Logo" class="company-logo-img">
+                <?php else: ?>
+                    <div class="company-logo-text"><?php echo e($company?->company_name ?? config('app.name')); ?></div>
+                    <div class="company-name-subtitle"><?php echo e($company?->company_name ?? 'BHAGYASHREE SANITARYWARE'); ?></div>
+                <?php endif; ?>
                 <div class="company-details">
-                    {{ $company?->address }}{{ $company?->city ? ', '.$company?->city : '' }}{{ $company?->state ? ', '.$company?->state : '' }}{{ $company?->zip_code ? ' - '.$company?->zip_code : '' }}
-                    @if($company?->email)<br><span class="detail-label">Email:</span> {{ $company?->email }}@endif
-                    @if($company?->phone) | <span class="detail-label">Phone:</span> {{ $company?->phone }}@endif
-                    @if($company?->gst_number)<br><span class="detail-label">GSTIN:</span> <strong>{{ $company?->gst_number }}</strong>@endif
+                    <?php echo e($company?->address); ?><?php echo e($company?->city ? ', '.$company?->city : ''); ?><?php echo e($company?->state ? ', '.$company?->state : ''); ?><?php echo e($company?->zip_code ? ' - '.$company?->zip_code : ''); ?>
+
+                    <?php if($company?->email): ?><br><span class="detail-label">Email:</span> <?php echo e($company?->email); ?><?php endif; ?>
+                    <?php if($company?->phone): ?> | <span class="detail-label">Phone:</span> <?php echo e($company?->phone); ?><?php endif; ?>
+                    <?php if($company?->gst_number): ?><br><span class="detail-label">GSTIN:</span> <strong><?php echo e($company?->gst_number); ?></strong><?php endif; ?>
                 </div>
             </td>
             <td style="width: 42%; text-align: right;">
                 <div class="quote-title-box">
                     <div class="quote-title">PRICE QUOTATION</div>
-                    <div class="quote-number-badge"># {{ $quotation->quotation_number }}</div>
+                    <div class="quote-number-badge"># <?php echo e($quotation->quotation_number); ?></div>
                     
                     <table class="quote-meta-table">
                         <tr>
                             <td class="meta-label">Date:</td>
-                            <td class="meta-val">{{ $quotation->created_at ? date('d M, Y', strtotime($quotation->created_at)) : 'N/A' }}</td>
+                            <td class="meta-val"><?php echo e($quotation->created_at ? date('d M, Y', strtotime($quotation->created_at)) : 'N/A'); ?></td>
                         </tr>
                         <tr>
                             <td class="meta-label">Valid Until:</td>
-                            <td class="meta-val">{{ $quotation->valid_until ? date('d M, Y', strtotime($quotation->valid_until)) : 'N/A' }}</td>
+                            <td class="meta-val"><?php echo e($quotation->valid_until ? date('d M, Y', strtotime($quotation->valid_until)) : 'N/A'); ?></td>
                         </tr>
-                        @if($quotation->status)
+                        <?php if($quotation->status): ?>
                         <tr>
                             <td class="meta-label">Status:</td>
                             <td class="meta-val">
-                                <span class="status-pill status-{{ $quotation->status }}">{{ strtoupper($quotation->status) }}</span>
+                                <span class="status-pill status-<?php echo e($quotation->status); ?>"><?php echo e(strtoupper($quotation->status)); ?></span>
                             </td>
                         </tr>
-                        @endif
+                        <?php endif; ?>
                     </table>
                 </div>
             </td>
@@ -506,17 +507,17 @@ if (!$logoImg && file_exists(public_path('uploads/company/logo.png'))) {
     <!-- Client Info Card -->
     <div class="client-card">
         <div class="client-subtitle">PREPARED FOR:</div>
-        <div class="client-name">{{ $quotation->customer->company_name ?? 'N/A' }}</div>
+        <div class="client-name"><?php echo e($quotation->customer->company_name ?? 'N/A'); ?></div>
         <div class="client-details">
-            @if($quotation->customer?->contact_person)
-                <strong>Attn:</strong> {{ $quotation->customer->contact_person }}<br>
-            @endif
-            @if($quotation->customer?->address)
-                {{ $quotation->customer->address }}<br>
-            @endif
-            @if($quotation->customer?->gst_number)
-                <span class="gstin-badge">GSTIN: {{ $quotation->customer->gst_number }}</span>
-            @endif
+            <?php if($quotation->customer?->contact_person): ?>
+                <strong>Attn:</strong> <?php echo e($quotation->customer->contact_person); ?><br>
+            <?php endif; ?>
+            <?php if($quotation->customer?->address): ?>
+                <?php echo e($quotation->customer->address); ?><br>
+            <?php endif; ?>
+            <?php if($quotation->customer?->gst_number): ?>
+                <span class="gstin-badge">GSTIN: <?php echo e($quotation->customer->gst_number); ?></span>
+            <?php endif; ?>
         </div>
     </div>
 
@@ -534,35 +535,35 @@ if (!$logoImg && file_exists(public_path('uploads/company/logo.png'))) {
             </tr>
         </thead>
         <tbody>
-            @forelse($quotation->items as $key => $item)
+            <?php $__empty_1 = true; $__currentLoopData = $quotation->items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
             <tr>
-                <td class="center" style="color: #64748b; font-weight: 500;">{{ $key + 1 }}</td>
+                <td class="center" style="color: #64748b; font-weight: 500;"><?php echo e($key + 1); ?></td>
                 <td class="left">
-                    @if($item->item && $item->item->image)
-                        <img src="{{ getLocalImagePath($item->item->image) }}" class="item-img-preview" alt="Product">
-                    @else
+                    <?php if($item->item && $item->item->image): ?>
+                        <img src="<?php echo e(getLocalImagePath($item->item->image)); ?>" class="item-img-preview" alt="Product">
+                    <?php else: ?>
                         <div class="item-img-placeholder">📦</div>
-                    @endif
+                    <?php endif; ?>
                 </td>
                 <td class="left">
-                    <span class="item-name">{{ $item->item->name ?? $item->item_name ?? 'N/A' }}</span>
-                    @if($item->sku || ($item->item && $item->item->sku))
-                        <span class="sku-badge">SKU: {{ $item->sku ?: $item->item->sku }}</span>
-                    @endif
-                    @if($item->item && $item->item->description)
-                        <div class="item-description">{{ $item->item->description }}</div>
-                    @endif
+                    <span class="item-name"><?php echo e($item->item->name ?? $item->item_name ?? 'N/A'); ?></span>
+                    <?php if($item->sku || ($item->item && $item->item->sku)): ?>
+                        <span class="sku-badge">SKU: <?php echo e($item->sku ?: $item->item->sku); ?></span>
+                    <?php endif; ?>
+                    <?php if($item->item && $item->item->description): ?>
+                        <div class="item-description"><?php echo e($item->item->description); ?></div>
+                    <?php endif; ?>
                 </td>
-                <td class="center" style="font-weight: bold;">{{ formatNumber($item->quantity) }}</td>
-                <td class="right" style="color: #64748b;">{{ formatNumber($item->mrp ?: ($item->item->mrp ?? $item->rate)) }}</td>
-                <td class="right">{{ formatNumber($item->rate) }}</td>
-                <td class="right item-total-val">{{ formatNumber($item->total) }}</td>
+                <td class="center" style="font-weight: bold;"><?php echo e(formatNumber($item->quantity)); ?></td>
+                <td class="right" style="color: #64748b;"><?php echo e(formatNumber($item->mrp ?: ($item->item->mrp ?? $item->rate))); ?></td>
+                <td class="right"><?php echo e(formatNumber($item->rate)); ?></td>
+                <td class="right item-total-val"><?php echo e(formatNumber($item->total)); ?></td>
             </tr>
-            @empty
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
             <tr>
                 <td colspan="7" class="center" style="color: #64748b; padding: 25px;">No items found in this quotation.</td>
             </tr>
-            @endforelse
+            <?php endif; ?>
         </tbody>
     </table>
 
@@ -576,52 +577,52 @@ if (!$logoImg && file_exists(public_path('uploads/company/logo.png'))) {
                 <table class="totals-table">
                     <tr>
                         <td class="label">Subtotal</td>
-                        <td class="value">Rs. {{ formatNumber($quotation->subtotal) }}</td>
+                        <td class="value">Rs. <?php echo e(formatNumber($quotation->subtotal)); ?></td>
                     </tr>
-                    @if($quotation->discount_amount > 0)
+                    <?php if($quotation->discount_amount > 0): ?>
                     <tr>
-                        <td class="label">Discount @if($quotation->discount_type == 'percentage')({{ formatNumber($quotation->discount_value) }}%)@endif</td>
-                        <td class="value discount-text">- Rs. {{ formatNumber($quotation->discount_amount) }}</td>
+                        <td class="label">Discount <?php if($quotation->discount_type == 'percentage'): ?>(<?php echo e(formatNumber($quotation->discount_value)); ?>%)<?php endif; ?></td>
+                        <td class="value discount-text">- Rs. <?php echo e(formatNumber($quotation->discount_amount)); ?></td>
                     </tr>
-                    @endif
+                    <?php endif; ?>
                     
-                    @if($quotation->cgst_amount > 0)
+                    <?php if($quotation->cgst_amount > 0): ?>
                     <tr>
                         <td class="label">CGST</td>
-                        <td class="value">Rs. {{ formatNumber($quotation->cgst_amount) }}</td>
+                        <td class="value">Rs. <?php echo e(formatNumber($quotation->cgst_amount)); ?></td>
                     </tr>
-                    @endif
-                    @if($quotation->sgst_amount > 0)
+                    <?php endif; ?>
+                    <?php if($quotation->sgst_amount > 0): ?>
                     <tr>
                         <td class="label">SGST</td>
-                        <td class="value">Rs. {{ formatNumber($quotation->sgst_amount) }}</td>
+                        <td class="value">Rs. <?php echo e(formatNumber($quotation->sgst_amount)); ?></td>
                     </tr>
-                    @endif
-                    @if($quotation->igst_amount > 0)
+                    <?php endif; ?>
+                    <?php if($quotation->igst_amount > 0): ?>
                     <tr>
                         <td class="label">IGST</td>
-                        <td class="value">Rs. {{ formatNumber($quotation->igst_amount) }}</td>
+                        <td class="value">Rs. <?php echo e(formatNumber($quotation->igst_amount)); ?></td>
                     </tr>
-                    @endif
-                    @php
+                    <?php endif; ?>
+                    <?php
                         $totalTax = $quotation->cgst_amount + $quotation->sgst_amount + $quotation->igst_amount;
-                    @endphp
-                    @if($totalTax > 0 && $quotation->cgst_amount == 0 && $quotation->sgst_amount == 0 && $quotation->igst_amount == 0)
+                    ?>
+                    <?php if($totalTax > 0 && $quotation->cgst_amount == 0 && $quotation->sgst_amount == 0 && $quotation->igst_amount == 0): ?>
                     <tr>
                         <td class="label">Tax</td>
-                        <td class="value">Rs. {{ formatNumber($totalTax) }}</td>
+                        <td class="value">Rs. <?php echo e(formatNumber($totalTax)); ?></td>
                     </tr>
-                    @endif
+                    <?php endif; ?>
                     
-                    @if($quotation->round_off != 0)
+                    <?php if($quotation->round_off != 0): ?>
                     <tr>
                         <td class="label">Round Off</td>
-                        <td class="value">Rs. {{ formatNumber($quotation->round_off) }}</td>
+                        <td class="value">Rs. <?php echo e(formatNumber($quotation->round_off)); ?></td>
                     </tr>
-                    @endif
+                    <?php endif; ?>
                     <tr class="grand-total-row">
                         <td class="label">Grand Total</td>
-                        <td class="value">Rs. {{ formatNumber($quotation->grand_total) }}</td>
+                        <td class="value">Rs. <?php echo e(formatNumber($quotation->grand_total)); ?></td>
                     </tr>
                 </table>
             </td>
@@ -635,36 +636,36 @@ if (!$logoImg && file_exists(public_path('uploads/company/logo.png'))) {
                 <div class="terms-box">
                     <div class="terms-title">TERMS & CONDITIONS</div>
                     <div class="terms-content">
-                        @if($quotation->terms_conditions || $company?->terms_conditions)
-                            @php
+                        <?php if($quotation->terms_conditions || $company?->terms_conditions): ?>
+                            <?php
                                 $termsText = $quotation->terms_conditions ?: $company?->terms_conditions;
                                 $termsLines = array_filter(array_map('trim', preg_split('/\r?\n/', $termsText)));
-                            @endphp
+                            ?>
                             <ol>
-                                @foreach($termsLines as $line)
-                                    <li>{{ preg_replace('/^\d+[\.\)\-]\s*/', '', $line) }}</li>
-                                @endforeach
+                                <?php $__currentLoopData = $termsLines; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $line): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <li><?php echo e(preg_replace('/^\d+[\.\)\-]\s*/', '', $line)); ?></li>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </ol>
-                        @else
+                        <?php else: ?>
                             <ol>
                                 <li>Quotation is valid for 30 days from the issue date.</li>
                                 <li>Delivery schedule will be confirmed upon purchase order confirmation.</li>
                             </ol>
-                        @endif
+                        <?php endif; ?>
                     </div>
                 </div>
             </td>
             <td style="width: 42%; text-align: right; vertical-align: bottom;">
                 <div class="signature-container">
-                    @if($company?->signature)
-                        <img src="{{ getLocalImagePath($company?->signature) }}" alt="Signature" class="signature-img">
+                    <?php if($company?->signature): ?>
+                        <img src="<?php echo e(getLocalImagePath($company?->signature)); ?>" alt="Signature" class="signature-img">
                         <br>
-                    @else
+                    <?php else: ?>
                         <div style="height: 45px;"></div>
-                    @endif
+                    <?php endif; ?>
                     <div class="signature-line"></div>
                     <div class="signature-label">AUTHORISED SIGNATORY</div>
-                    <div class="signature-company">{{ $company?->company_name ?? 'BHAGYASHREE SANITARYWARE' }}</div>
+                    <div class="signature-company"><?php echo e($company?->company_name ?? 'BHAGYASHREE SANITARYWARE'); ?></div>
                 </div>
             </td>
         </tr>
@@ -672,7 +673,8 @@ if (!$logoImg && file_exists(public_path('uploads/company/logo.png'))) {
 
     <!-- Page Number Footer -->
     <div class="page-number-footer">
-        Page {PAGE_NUM} of {PAGE_COUNT} &mdash; {{ $company?->company_name ?? 'BHAGYASHREE SANITARYWARE' }}
+        Page {PAGE_NUM} of {PAGE_COUNT} &mdash; <?php echo e($company?->company_name ?? 'BHAGYASHREE SANITARYWARE'); ?>
+
     </div>
 
     <script type="text/php">
@@ -683,3 +685,4 @@ if (!$logoImg && file_exists(public_path('uploads/company/logo.png'))) {
     </script>
 </body>
 </html>
+<?php /**PATH C:\xampp\htdocs\laravel_project\qutaionmangmentsystem\resources\views/admin/quotation/pdf.blade.php ENDPATH**/ ?>
