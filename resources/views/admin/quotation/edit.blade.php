@@ -320,6 +320,7 @@
                                 <th style="min-width: 70px;">Unit</th>
                                 <th style="min-width: 75px;">Qty</th>
                                 <th style="min-width: 95px;">MRP</th>
+                                <th style="min-width: 95px;">SDP</th>
                                 <th style="min-width: 85px;">Disc (%)</th>
                                 <th style="min-width: 95px;">Rate</th>
                                 <th style="min-width: 105px;">Total</th>
@@ -328,7 +329,7 @@
                         </thead>
                         <tbody id="itemsBody">
                             <tr id="noItemsRow">
-                                <td colspan="11" class="text-center text-muted py-4">
+                                <td colspan="12" class="text-center text-muted py-4">
                                     <i class="bx bx-package" style="font-size: 2rem; color: #d4c5f9;"></i>
                                     <p class="mb-0 mt-2">Click <strong>"Add Item"</strong> to add items to this quotation.</p>
                                 </td>
@@ -451,6 +452,7 @@
         <td><input type="text" class="form-control form-control-sm unit-display" readonly style="background: #f8f7ff; border: 1px solid #e8e5f0;"></td>
         <td><input type="number" step="any" name="items[__INDEX__][quantity]" class="form-control form-control-sm quantity-input text-center" value="1" min="0.01" required style="border: 1px solid #e8e5f0;"></td>
         <td><input type="number" step="any" name="items[__INDEX__][mrp]" class="form-control form-control-sm mrp-input text-end" value="0" min="0" required style="border: 1px solid #e8e5f0;"></td>
+        <td><input type="number" step="any" name="items[__INDEX__][sdp]" class="form-control form-control-sm sdp-input text-end" value="0" min="0" style="border: 1px solid #e8e5f0;"></td>
         <td><input type="number" step="any" name="items[__INDEX__][discount_percentage]" class="form-control form-control-sm disc-pct-input text-end" value="0" min="0" max="100" style="border: 1px solid #e8e5f0;"></td>
         <td><input type="number" step="any" name="items[__INDEX__][rate]" class="form-control form-control-sm rate-input text-end" value="0" min="0" required style="border: 1px solid #e8e5f0;"></td>
         <td>
@@ -480,6 +482,7 @@ function formatItem(item) {
     var image = item.image || null;
     var rate = item.rate || 0;
     var mrp = item.mrp || rate;
+    var sdp = item.sdp || 0;
     var sku = item.sku || '';
     
     var imgHtml = image ? '<img src="' + image + '" class="rounded me-2" style="width:32px; height:32px; object-fit:cover;">' : '<div class="rounded me-2 bg-light border d-inline-block" style="width:32px; height:32px;"></div>';
@@ -489,7 +492,7 @@ function formatItem(item) {
             imgHtml +
             '<div>' +
                 '<div class="fw-bold text-dark" style="font-size: 0.85rem; line-height: 1.2;">' + (item.name || item.text.split(' (')[0]) + '</div>' +
-                '<div class="text-muted" style="font-size: 0.75rem;">' + (sku ? 'SKU: ' + sku + ' | ' : '') + 'MRP: ₹' + formatNum(mrp) + '</div>' +
+                '<div class="text-muted" style="font-size: 0.75rem;">' + (sku ? 'SKU: ' + sku + ' | ' : '') + 'MRP: ₹' + formatNum(mrp) + ' | SDP: ₹' + formatNum(sdp) + '</div>' +
             '</div>' +
         '</div>'
     );
@@ -604,6 +607,7 @@ function addItemRow(data) {
         var sku = data.sku || (data.item ? data.item.sku : '');
         var unit = data.unit || (data.item ? data.item.unit : '');
         var mrp = data.mrp !== undefined && data.mrp !== null ? data.mrp : (data.item && data.item.mrp ? data.item.mrp : (data.rate || 0));
+        var sdp = data.sdp !== undefined && data.sdp !== null ? data.sdp : (data.item && data.item.sdp ? data.item.sdp : 0);
         var discPct = data.discount_percentage !== undefined ? data.discount_percentage : 0;
         var rate = data.rate || 0;
         var quantity = data.quantity || 1;
@@ -622,6 +626,7 @@ function addItemRow(data) {
         row.find('.unit-display').val(unit);
         row.find('.quantity-input').val(quantity);
         row.find('.mrp-input').val(mrp);
+        row.find('.sdp-input').val(sdp);
         row.find('.disc-pct-input').val(discPct);
         row.find('.rate-input').val(rate);
     }
@@ -658,6 +663,7 @@ function addItemRow(data) {
         var itemData = e.params.data;
         var rate = itemData.rate || 0;
         var mrp = itemData.mrp !== undefined ? itemData.mrp : rate;
+        var sdp = itemData.sdp !== undefined ? itemData.sdp : 0;
         var sku = itemData.sku || '';
         var unit = itemData.unit || '';
         var itemName = itemData.name || itemData.text.split(' (')[0] || '';
@@ -675,6 +681,7 @@ function addItemRow(data) {
         row.find('.sku-input').val(sku);
         row.find('.unit-display').val(unit);
         row.find('.mrp-input').val(mrp);
+        row.find('.sdp-input').val(sdp);
         row.find('.disc-pct-input').val(0);
         row.find('.rate-input').val(mrp);
         calculateRow(row);

@@ -30,6 +30,7 @@ class QuotationRequest extends FormRequest
             'items.*.item_name' => 'required|string',
             'items.*.sku' => 'nullable|string',
             'items.*.mrp' => 'nullable|numeric|min:0',
+            'items.*.sdp' => 'nullable|numeric|min:0',
             'items.*.quantity' => 'required|numeric|min:0.01',
             'items.*.rate' => 'required|numeric|min:0',
             'items.*.discount_percentage' => 'nullable|numeric|min:0|max:100',

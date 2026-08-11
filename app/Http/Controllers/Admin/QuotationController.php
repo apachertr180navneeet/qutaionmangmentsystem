@@ -121,6 +121,7 @@ class QuotationController extends Controller
 
             foreach ($data['items'] as $index => $itemData) {
                 $mrp = (float)($itemData['mrp'] ?? $itemData['rate']);
+                $sdp = (float)($itemData['sdp'] ?? 0);
                 $qty = (float)$itemData['quantity'];
                 $rate = (float)$itemData['rate'];
                 $discPerc = (float)($itemData['discount_percentage'] ?? 0);
@@ -133,6 +134,7 @@ class QuotationController extends Controller
                     'item_name' => $itemData['item_name'],
                     'sku' => $itemData['sku'] ?? null,
                     'mrp' => $mrp,
+                    'sdp' => $sdp,
                     'quantity' => $qty,
                     'rate' => $rate,
                     'discount_percentage' => $discPerc,
@@ -227,6 +229,7 @@ class QuotationController extends Controller
 
             foreach ($data['items'] as $index => $itemData) {
                 $mrp = (float)($itemData['mrp'] ?? $itemData['rate']);
+                $sdp = (float)($itemData['sdp'] ?? 0);
                 $qty = (float)$itemData['quantity'];
                 $rate = (float)$itemData['rate'];
                 $discPerc = (float)($itemData['discount_percentage'] ?? 0);
@@ -239,6 +242,7 @@ class QuotationController extends Controller
                     'item_name' => $itemData['item_name'],
                     'sku' => $itemData['sku'] ?? null,
                     'mrp' => $mrp,
+                    'sdp' => $sdp,
                     'quantity' => $qty,
                     'rate' => $rate,
                     'discount_percentage' => $discPerc,
