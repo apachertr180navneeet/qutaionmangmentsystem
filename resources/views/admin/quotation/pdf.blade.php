@@ -7,16 +7,29 @@ if (!function_exists('getLocalImagePath')) {
         if (str_starts_with($url, 'data:image')) return $url;
         
         $path = '';
+        
+        // Try to find 'uploads/' in URL (handles full URLs like http://localhost/uploads/...)
         $pos = strpos($url, 'uploads/');
         if ($pos !== false) {
             $path = public_path(substr($url, $pos));
-        } else {
+        }
+        // Try 'storage/' path
+        if ((!$path || !file_exists($path)) && strpos($url, 'storage/') !== false) {
+            $storagePos = strpos($url, 'storage/');
+            $path = public_path(substr($url, $storagePos));
+        }
+        // Try as direct relative path from public
+        if ((!$path || !file_exists($path)) && !str_starts_with($url, 'http')) {
             $path = public_path($url);
+        }
+        // Try as absolute path
+        if ((!$path || !file_exists($path)) && file_exists($url)) {
+            $path = $url;
         }
 
         if ($path && file_exists($path)) {
-            $type = pathinfo($path, PATHINFO_EXTENSION);
-            if (in_array(strtolower($type), ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp'])) {
+            $type = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+            if (in_array($type, ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp'])) {
                 $data = file_get_contents($path);
                 return 'data:image/' . ($type === 'svg' ? 'svg+xml' : $type) . ';base64,' . base64_encode($data);
             }
@@ -26,7 +39,8 @@ if (!function_exists('getLocalImagePath')) {
     }
 }
 
-$logoImg = getLocalImagePath($company?->logo ?: 'uploads/company/logo.png');
+// Dynamic logo from company settings - no hardcoded fallback
+$logoImg = $company?->logo ? getLocalImagePath($company->logo) : '';
 @endphp
 <head>
     <meta charset="utf-8">

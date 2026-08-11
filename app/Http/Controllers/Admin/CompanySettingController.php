@@ -47,7 +47,7 @@ class CompanySettingController extends Controller
                     File::makeDirectory($path, $mode = 0755, true, true);
                 }
                 $file->move($path, $filename);
-                $data['logo'] = url($folder . $filename);
+                $data['logo'] = $folder . $filename;
             }
 
             $setting = CompanySetting::first();
@@ -56,6 +56,8 @@ class CompanySettingController extends Controller
             } else {
                 CompanySetting::create($data);
             }
+
+            \Illuminate\Support\Facades\Cache::forget('company_settings');
 
             return redirect()->back()->with('success', 'Settings updated successfully.');
         } catch (Exception $e) {
