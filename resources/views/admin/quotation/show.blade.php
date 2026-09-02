@@ -369,26 +369,9 @@
             <a href="{{ route('admin.quotations.edit', $quotation->id) }}" class="btn btn-edit-q">
                 <i class="bx bx-edit me-1"></i> Edit Quotation
             </a>
-            <div class="btn-group">
-                <a href="{{ route('admin.quotations.pdf', $quotation->id) }}" class="btn btn-download-q" target="_blank" id="mainPdfBtn">
-                    <i class="bx bx-file-blank me-1"></i> Generate PDF
-                </a>
-                <button type="button" class="btn btn-download-q dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false" style="padding-left: 10px; padding-right: 10px; border-left: 1px solid rgba(255,255,255,0.3);">
-                    <span class="visually-hidden">Toggle Dropdown</span>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end shadow border-0" style="border-radius: 10px; min-width: 220px; padding: 6px;">
-                    <li>
-                        <a class="dropdown-item py-2 d-flex align-items-center gap-2 fw-semibold text-dark" href="{{ route('admin.quotations.pdf', ['id' => $quotation->id, 'show_mrp' => 1]) }}" target="_blank">
-                            <i class="bx bx-check-circle text-success fs-5"></i> Download PDF (With MRP)
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item py-2 d-flex align-items-center gap-2 fw-semibold text-dark" href="{{ route('admin.quotations.pdf', ['id' => $quotation->id, 'show_mrp' => 0]) }}" target="_blank">
-                            <i class="bx bx-x-circle text-secondary fs-5"></i> Download PDF (No MRP)
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            <a href="{{ route('admin.quotations.pdf', $quotation->id) }}" class="btn btn-download-q" target="_blank">
+                <i class="bx bx-file-blank me-1"></i> Generate PDF
+            </a>
         </div>
     </div>
 

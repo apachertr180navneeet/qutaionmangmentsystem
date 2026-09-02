@@ -116,7 +116,7 @@ class QuotationController extends Controller
             $grandTotal = $afterDiscount + $totalTax;
             $data['round_off'] = round($grandTotal, 2) - $grandTotal;
             $data['grand_total'] = round($grandTotal, 2);
-            $data['show_mrp'] = $request->has('show_mrp') ? $request->boolean('show_mrp') : true;
+            $data['show_mrp'] = $request->boolean('show_mrp');
 
             $quotation = Quotation::create($data);
 
@@ -223,7 +223,7 @@ class QuotationController extends Controller
             $grandTotal = $afterDiscount + $totalTax;
             $data['round_off'] = round($grandTotal, 2) - $grandTotal;
             $data['grand_total'] = round($grandTotal, 2);
-            $data['show_mrp'] = $request->has('show_mrp') ? $request->boolean('show_mrp') : false;
+            $data['show_mrp'] = $request->boolean('show_mrp');
 
             $quotation->update($data);
 

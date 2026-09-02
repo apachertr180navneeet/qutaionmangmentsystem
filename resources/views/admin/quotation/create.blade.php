@@ -358,6 +358,7 @@
                 <div class="d-flex align-items-center gap-2 bg-light px-3 py-1 rounded-3 border" style="border-color: #e8e5f0 !important;">
                     <span class="small fw-bold text-uppercase" style="font-size: 0.72rem; letter-spacing: 0.5px; color: #4A00E0;">MRP IN PDF:</span>
                     <label class="custom-mrp-switch mb-0" for="show_mrp">
+                        <input type="hidden" name="show_mrp" value="0">
                         <input type="checkbox" name="show_mrp" id="show_mrp" value="1" {{ old('show_mrp', '1') == '1' ? 'checked' : '' }}>
                         <span class="mrp-slider"></span>
                     </label>
