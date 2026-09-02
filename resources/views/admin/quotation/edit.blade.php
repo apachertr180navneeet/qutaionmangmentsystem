@@ -146,22 +146,24 @@
     }
     .items-table tbody td {
         vertical-align: middle;
-        padding: 10px;
+        padding: 10px 8px;
         border-bottom: 1px solid #f5f3ff;
     }
     .items-table tbody tr:hover {
         background: #faf8ff;
     }
     .item-row .form-control, .item-row .form-select {
-        font-size: 0.85rem;
+        font-size: 0.88rem;
+        height: 38px;
         border-radius: 8px;
+        padding: 6px 10px;
     }
     .items-table .select2-container {
         width: 100% !important;
     }
     .items-table .select2-selection--single {
         min-height: 38px !important;
-        height: auto !important;
+        height: 38px !important;
         padding: 4px 8px !important;
         border: 1px solid #e8e5f0 !important;
         border-radius: 8px !important;
@@ -169,8 +171,10 @@
     .items-table .select2-selection__rendered {
         padding-left: 0 !important;
         padding-right: 20px !important;
-        white-space: normal !important;
-        line-height: 1.35 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        line-height: 28px !important;
         font-size: 0.85rem !important;
         color: #2d2d3f !important;
     }
@@ -217,6 +221,7 @@
         background: #fee2e2;
         color: #dc2626;
         transition: all 0.2s ease;
+        margin: 0 auto;
     }
     .remove-item:hover {
         background: #dc2626;
@@ -358,16 +363,16 @@
                     <table class="table items-table mb-0" id="itemsTable">
                         <thead>
                             <tr>
-                                <th style="width: 35px;">#</th>
-                                <th style="width: 45px;">Image</th>
-                                <th style="min-width: 220px;">Item</th>
-                                <th style="min-width: 80px; width: 85px;" class="text-center">Qty</th>
-                                <th style="min-width: 95px; width: 100px;" class="text-end">MRP</th>
-                                <th style="min-width: 95px; width: 100px;" class="text-end">SDP</th>
-                                <th style="min-width: 85px; width: 90px;" class="text-end">Disc (%)</th>
-                                <th style="min-width: 95px; width: 100px;" class="text-end">Rate</th>
-                                <th style="min-width: 105px; width: 110px;" class="text-end">Total</th>
-                                <th style="width: 40px;"></th>
+                                <th style="width: 40px;" class="text-center">#</th>
+                                <th style="width: 55px;" class="text-center">Image</th>
+                                <th style="width: 25%; min-width: 200px;">Item</th>
+                                <th style="width: 9%; min-width: 80px;" class="text-center">Qty</th>
+                                <th style="width: 12%; min-width: 100px;" class="text-end">MRP</th>
+                                <th style="width: 12%; min-width: 100px;" class="text-end">SDP</th>
+                                <th style="width: 10%; min-width: 85px;" class="text-end">Disc (%)</th>
+                                <th style="width: 12%; min-width: 100px;" class="text-end">Rate</th>
+                                <th style="width: 14%; min-width: 110px;" class="text-end">Total</th>
+                                <th style="width: 45px;" class="text-center"></th>
                             </tr>
                         </thead>
                         <tbody id="itemsBody">
@@ -514,6 +519,11 @@
 <script>
 var itemIndex = 0;
 
+function cleanItemName(text) {
+    if (!text) return '';
+    return text.replace(/\s*\([^\)]*\)$/, '').trim();
+}
+
 function formatItem(item) {
     if (!item.id) { return item.text; }
     var image = item.image || null;
@@ -521,14 +531,15 @@ function formatItem(item) {
     var mrp = item.mrp || rate;
     var sdp = item.sdp || 0;
     var sku = item.sku || '';
+    var displayName = item.name || cleanItemName(item.text);
     
     var imgHtml = image ? '<img src="' + image + '" class="rounded me-2" style="width:32px; height:32px; object-fit:cover;">' : '<div class="rounded me-2 bg-light border d-inline-block" style="width:32px; height:32px;"></div>';
     
     return $(
         '<div class="d-flex align-items-center py-1">' +
             imgHtml +
-            '<div>' +
-                '<div class="fw-bold text-dark" style="font-size: 0.85rem; line-height: 1.2;">' + (item.name || item.text.split(' (')[0]) + '</div>' +
+            '<div style="overflow: hidden;">' +
+                '<div class="fw-bold text-dark text-truncate" style="font-size: 0.85rem; line-height: 1.2;">' + displayName + '</div>' +
                 '<div class="text-muted" style="font-size: 0.75rem;">' + (sku ? 'SKU: ' + sku + ' | ' : '') + 'MRP: ₹' + formatNum(mrp) + ' | SDP: ₹' + formatNum(sdp) + '</div>' +
             '</div>' +
         '</div>'
@@ -648,7 +659,7 @@ function addItemRow(data) {
 
     if (data && (data.item_id || data.id || data.item_name)) {
         var itemId = data.item_id || '';
-        var itemName = data.item_name || (data.item ? data.item.name : '');
+        var itemName = data.item_name || (data.item ? data.item.name : (data.name || cleanItemName(data.text)));
         var sku = data.sku || (data.item ? data.item.sku : '');
         var mrp = data.mrp !== undefined && data.mrp !== null ? data.mrp : (data.item && data.item.mrp ? data.item.mrp : (data.rate || 0));
         var sdp = data.sdp !== undefined && data.sdp !== null ? data.sdp : (data.item && data.item.sdp ? data.item.sdp : 0);
@@ -715,7 +726,7 @@ function addItemRow(data) {
         templateResult: formatItem,
         templateSelection: function(item) {
             if (!item.id && !item.text) return 'Search item...';
-            return item.name || item.text || 'Search item...';
+            return item.name || cleanItemName(item.text) || 'Search item...';
         }
     }).on('select2:select', function(e){
         var itemData = e.params.data;
@@ -723,7 +734,7 @@ function addItemRow(data) {
         var mrp = itemData.mrp !== undefined && itemData.mrp !== null ? itemData.mrp : rate;
         var sdp = itemData.sdp !== undefined && itemData.sdp !== null ? itemData.sdp : 0;
         var sku = itemData.sku || '';
-        var itemName = itemData.name || itemData.text || '';
+        var itemName = itemData.name || cleanItemName(itemData.text);
         var imageUrl = itemData.image || null;
 
         if (imageUrl) {
