@@ -84,6 +84,52 @@
         padding: 24px;
     }
 
+    /* ── Custom MRP Toggle Switch ── */
+    .custom-mrp-switch {
+        position: relative;
+        display: inline-block;
+        width: 44px;
+        height: 22px;
+        vertical-align: middle;
+        cursor: pointer;
+    }
+    .custom-mrp-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+        position: absolute;
+    }
+    .custom-mrp-switch .mrp-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #cbd5e1;
+        transition: 0.25s ease;
+        border-radius: 22px;
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.15);
+    }
+    .custom-mrp-switch .mrp-slider:before {
+        position: absolute;
+        content: "";
+        height: 16px;
+        width: 16px;
+        left: 3px;
+        bottom: 3px;
+        background-color: #ffffff;
+        transition: 0.25s ease;
+        border-radius: 50%;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    }
+    .custom-mrp-switch input:checked + .mrp-slider {
+        background: linear-gradient(135deg, #10b981, #059669);
+    }
+    .custom-mrp-switch input:checked + .mrp-slider:before {
+        transform: translateX(22px);
+    }
+
     /* ── Form Styles ── */
     .form-label {
         font-size: 0.75rem;
@@ -310,11 +356,12 @@
             <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
                 <strong><i class="bx bx-detail"></i> Quotation Details</strong>
                 <div class="d-flex align-items-center gap-2 bg-light px-3 py-1 rounded-3 border" style="border-color: #e8e5f0 !important;">
-                    <label class="form-check-label small fw-bold mb-0 text-muted" for="show_mrp">MRP IN PDF:</label>
-                    <div class="form-check form-switch mb-0 d-flex align-items-center gap-1">
-                        <input class="form-check-input" type="checkbox" name="show_mrp" id="show_mrp" value="1" {{ old('show_mrp', '1') == '1' ? 'checked' : '' }} style="cursor: pointer; width: 2.2em; height: 1.15em;">
-                        <span class="badge {{ old('show_mrp', '1') == '1' ? 'bg-success' : 'bg-secondary' }}" id="mrpBadge" style="font-size: 0.72rem; letter-spacing: 0.5px;">{{ old('show_mrp', '1') == '1' ? 'SHOW MRP' : 'NO MRP' }}</span>
-                    </div>
+                    <span class="small fw-bold text-uppercase" style="font-size: 0.72rem; letter-spacing: 0.5px; color: #4A00E0;">MRP IN PDF:</span>
+                    <label class="custom-mrp-switch mb-0" for="show_mrp">
+                        <input type="checkbox" name="show_mrp" id="show_mrp" value="1" {{ old('show_mrp', '1') == '1' ? 'checked' : '' }}>
+                        <span class="mrp-slider"></span>
+                    </label>
+                    <span class="badge {{ old('show_mrp', '1') == '1' ? 'bg-success' : 'bg-secondary' }}" id="mrpBadge" style="font-size: 0.72rem; letter-spacing: 0.5px; min-width: 65px; text-align: center;">{{ old('show_mrp', '1') == '1' ? 'SHOW MRP' : 'NO MRP' }}</span>
                 </div>
             </div>
             <div class="card-body">

@@ -300,6 +300,53 @@
         margin-bottom: 0;
     }
 
+    /* ── Custom MRP Toggle Switch ── */
+    .custom-mrp-switch {
+        position: relative;
+        display: inline-block;
+        width: 44px;
+        height: 22px;
+        vertical-align: middle;
+        cursor: pointer;
+    }
+    .custom-mrp-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+        position: absolute;
+    }
+    .custom-mrp-switch .mrp-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(255, 255, 255, 0.35);
+        transition: 0.25s ease;
+        border-radius: 22px;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+    .custom-mrp-switch .mrp-slider:before {
+        position: absolute;
+        content: "";
+        height: 16px;
+        width: 16px;
+        left: 2px;
+        bottom: 2px;
+        background-color: #ffffff;
+        transition: 0.25s ease;
+        border-radius: 50%;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.35);
+    }
+    .custom-mrp-switch input:checked + .mrp-slider {
+        background-color: #10b981;
+        border-color: #10b981;
+    }
+    .custom-mrp-switch input:checked + .mrp-slider:before {
+        transform: translateX(22px);
+    }
+
     @keyframes fadeSlideUp {
         from { opacity: 0; transform: translateY(15px); }
         to { opacity: 1; transform: translateY(0); }
@@ -361,14 +408,15 @@
             @endphp
             <div class="d-flex align-items-center flex-wrap gap-3">
                 {{-- ── MRP In PDF Toggle ── --}}
-                <div class="d-flex align-items-center gap-2 bg-white bg-opacity-25 px-2 py-1 rounded-pill" title="Toggle whether MRP appears in the generated PDF">
-                    <span class="text-white small fw-bold text-uppercase ms-1" style="font-size: 0.72rem; letter-spacing: 0.5px;">MRP IN PDF:</span>
-                    <div class="form-check form-switch mb-0 d-flex align-items-center gap-1 pe-1">
-                        <input class="form-check-input show-mrp-ajax-toggle" type="checkbox" id="showMrpAjaxToggle" data-id="{{ $quotation->id }}" {{ $isMrpActive ? 'checked' : '' }} style="cursor: pointer; width: 2.2em; height: 1.15em;">
-                        <span class="badge {{ $isMrpActive ? 'bg-success' : 'bg-light text-dark' }}" id="showMrpBadge" style="font-size: 0.72rem; letter-spacing: 0.4px;">
-                            {{ $isMrpActive ? 'SHOW MRP' : 'NO MRP' }}
-                        </span>
-                    </div>
+                <div class="d-flex align-items-center gap-2 bg-white px-3 py-1 rounded-pill shadow-sm" title="Toggle whether MRP appears in the generated PDF">
+                    <span class="small fw-bold text-uppercase ms-1" style="font-size: 0.72rem; letter-spacing: 0.5px; color: #4A00E0;">MRP IN PDF:</span>
+                    <label class="custom-mrp-switch mb-0" for="showMrpAjaxToggle">
+                        <input type="checkbox" class="show-mrp-ajax-toggle" id="showMrpAjaxToggle" data-id="{{ $quotation->id }}" {{ $isMrpActive ? 'checked' : '' }}>
+                        <span class="mrp-slider"></span>
+                    </label>
+                    <span class="badge {{ $isMrpActive ? 'bg-success' : 'bg-secondary text-white' }}" id="showMrpBadge" style="font-size: 0.72rem; letter-spacing: 0.4px; min-width: 65px; text-align: center;">
+                        {{ $isMrpActive ? 'SHOW MRP' : 'NO MRP' }}
+                    </span>
                 </div>
 
                 {{-- ── Status Select ── --}}
@@ -547,9 +595,9 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.success) {
                     if (response.show_mrp) {
-                        $('#showMrpBadge').removeClass('bg-light text-dark').addClass('bg-success').text('SHOW MRP');
+                        $('#showMrpBadge').removeClass('bg-secondary text-white').addClass('bg-success').text('SHOW MRP');
                     } else {
-                        $('#showMrpBadge').removeClass('bg-success').addClass('bg-light text-dark').text('NO MRP');
+                        $('#showMrpBadge').removeClass('bg-success').addClass('bg-secondary text-white').text('NO MRP');
                     }
                     if (typeof Swal !== 'undefined') {
                         const Toast = Swal.mixin({
