@@ -322,9 +322,26 @@
             <a href="{{ route('admin.quotations.edit', $quotation->id) }}" class="btn btn-edit-q">
                 <i class="bx bx-edit me-1"></i> Edit Quotation
             </a>
-            <a href="{{ route('admin.quotations.pdf', $quotation->id) }}" class="btn btn-download-q" target="_blank">
-                <i class="bx bx-file-blank me-1"></i> Generate PDF
-            </a>
+            <div class="btn-group">
+                <a href="{{ route('admin.quotations.pdf', $quotation->id) }}" class="btn btn-download-q" target="_blank" id="mainPdfBtn">
+                    <i class="bx bx-file-blank me-1"></i> Generate PDF
+                </a>
+                <button type="button" class="btn btn-download-q dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false" style="padding-left: 10px; padding-right: 10px; border-left: 1px solid rgba(255,255,255,0.3);">
+                    <span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow border-0" style="border-radius: 10px; min-width: 220px; padding: 6px;">
+                    <li>
+                        <a class="dropdown-item py-2 d-flex align-items-center gap-2 fw-semibold text-dark" href="{{ route('admin.quotations.pdf', ['id' => $quotation->id, 'show_mrp' => 1]) }}" target="_blank">
+                            <i class="bx bx-check-circle text-success fs-5"></i> Download PDF (With MRP)
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item py-2 d-flex align-items-center gap-2 fw-semibold text-dark" href="{{ route('admin.quotations.pdf', ['id' => $quotation->id, 'show_mrp' => 0]) }}" target="_blank">
+                            <i class="bx bx-x-circle text-secondary fs-5"></i> Download PDF (No MRP)
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 
@@ -340,16 +357,31 @@
                     'expired'  => 'status-expired',
                     'rejected' => 'status-rejected',
                 ];
+                $isMrpActive = isset($quotation->show_mrp) ? (bool)$quotation->show_mrp : true;
             @endphp
-            <div class="d-flex align-items-center gap-2">
-                <span class="text-white" style="font-size: 0.75rem; font-weight: 700; letter-spacing: 1px;">STATUS:</span>
-                <select id="statusAjaxSelect" class="form-select form-select-sm q-status-badge {{ $statusMap[$quotation->status] ?? 'status-draft' }} fw-bold" style="cursor: pointer; width: 140px;" data-id="{{ $quotation->id }}" {{ in_array($quotation->status, ['approved', 'rejected', 'expired']) ? 'disabled' : '' }}>
-                    <option value="draft" class="text-dark bg-white" {{ $quotation->status == 'draft' ? 'selected' : '' }}>Draft</option>
-                    <option value="sent" class="text-dark bg-white" {{ $quotation->status == 'sent' ? 'selected' : '' }}>Sent</option>
-                    <option value="approved" class="text-dark bg-white" {{ $quotation->status == 'approved' ? 'selected' : '' }}>Approved</option>
-                    <option value="rejected" class="text-dark bg-white" {{ $quotation->status == 'rejected' ? 'selected' : '' }}>Rejected</option>
-                    <option value="expired" class="text-dark bg-white" {{ $quotation->status == 'expired' ? 'selected' : '' }}>Expired</option>
-                </select>
+            <div class="d-flex align-items-center flex-wrap gap-3">
+                {{-- ── MRP In PDF Toggle ── --}}
+                <div class="d-flex align-items-center gap-2 bg-white bg-opacity-25 px-2 py-1 rounded-pill" title="Toggle whether MRP appears in the generated PDF">
+                    <span class="text-white small fw-bold text-uppercase ms-1" style="font-size: 0.72rem; letter-spacing: 0.5px;">MRP IN PDF:</span>
+                    <div class="form-check form-switch mb-0 d-flex align-items-center gap-1 pe-1">
+                        <input class="form-check-input show-mrp-ajax-toggle" type="checkbox" id="showMrpAjaxToggle" data-id="{{ $quotation->id }}" {{ $isMrpActive ? 'checked' : '' }} style="cursor: pointer; width: 2.2em; height: 1.15em;">
+                        <span class="badge {{ $isMrpActive ? 'bg-success' : 'bg-light text-dark' }}" id="showMrpBadge" style="font-size: 0.72rem; letter-spacing: 0.4px;">
+                            {{ $isMrpActive ? 'SHOW MRP' : 'NO MRP' }}
+                        </span>
+                    </div>
+                </div>
+
+                {{-- ── Status Select ── --}}
+                <div class="d-flex align-items-center gap-2">
+                    <span class="text-white" style="font-size: 0.75rem; font-weight: 700; letter-spacing: 1px;">STATUS:</span>
+                    <select id="statusAjaxSelect" class="form-select form-select-sm q-status-badge {{ $statusMap[$quotation->status] ?? 'status-draft' }} fw-bold" style="cursor: pointer; width: 140px;" data-id="{{ $quotation->id }}" {{ in_array($quotation->status, ['approved', 'rejected', 'expired']) ? 'disabled' : '' }}>
+                        <option value="draft" class="text-dark bg-white" {{ $quotation->status == 'draft' ? 'selected' : '' }}>Draft</option>
+                        <option value="sent" class="text-dark bg-white" {{ $quotation->status == 'sent' ? 'selected' : '' }}>Sent</option>
+                        <option value="approved" class="text-dark bg-white" {{ $quotation->status == 'approved' ? 'selected' : '' }}>Approved</option>
+                        <option value="rejected" class="text-dark bg-white" {{ $quotation->status == 'rejected' ? 'selected' : '' }}>Rejected</option>
+                        <option value="expired" class="text-dark bg-white" {{ $quotation->status == 'expired' ? 'selected' : '' }}>Expired</option>
+                    </select>
+                </div>
             </div>
         </div>
         <div class="q-info-body">
@@ -501,6 +533,53 @@
 @section('script')
 <script>
 $(document).ready(function() {
+    $('#showMrpAjaxToggle').on('change', function() {
+        var isChecked = $(this).is(':checked');
+        var qId = $(this).data('id');
+        
+        $.ajax({
+            url: "{{ url('admin/quotations') }}/" + qId + "/toggle-mrp",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+                show_mrp: isChecked ? 1 : 0
+            },
+            success: function(response) {
+                if (response.success) {
+                    if (response.show_mrp) {
+                        $('#showMrpBadge').removeClass('bg-light text-dark').addClass('bg-success').text('SHOW MRP');
+                    } else {
+                        $('#showMrpBadge').removeClass('bg-success').addClass('bg-light text-dark').text('NO MRP');
+                    }
+                    if (typeof Swal !== 'undefined') {
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 2500,
+                            timerProgressBar: true
+                        });
+                        Toast.fire({
+                            icon: 'success',
+                            title: response.message
+                        });
+                    }
+                }
+            },
+            error: function(xhr) {
+                if (typeof Swal !== 'undefined') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Failed to update MRP visibility setting!'
+                    });
+                } else {
+                    alert('Failed to update MRP visibility setting.');
+                }
+            }
+        });
+    });
+
     $('#statusAjaxSelect').on('change', function() {
         var $select = $(this);
         var status = $select.val();

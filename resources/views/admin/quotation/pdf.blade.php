@@ -48,6 +48,8 @@ if (!$logoImg && file_exists(public_path('uploads/company/logo_header.png.png'))
 
 $wmPath = 'uploads/company/logo_watermark.png';
 $watermarkImg = file_exists(public_path($wmPath)) ? getLocalImagePath($wmPath) : $logoImg;
+
+$showMrp = isset($show_mrp) ? (bool)$show_mrp : (isset($quotation->show_mrp) ? (bool)$quotation->show_mrp : true);
 @endphp
 <head>
     <meta charset="utf-8">
@@ -530,10 +532,12 @@ $watermarkImg = file_exists(public_path($wmPath)) ? getLocalImagePath($wmPath) :
                 <th class="center" style="width: 25px;">#</th>
                 <th class="left" style="width: 45px;">Image</th>
                 <th class="left">Item & Description</th>
-                <th class="center" style="width: 35px;">Qty</th>
-                <th class="right" style="width: 70px;">MRP</th>
-                <th class="right" style="width: 70px;">Rate</th>
-                <th class="right" style="width: 80px;">Total</th>
+                <th class="center" style="width: {{ $showMrp ? '35px' : '45px' }};">Qty</th>
+                @if($showMrp)
+                    <th class="right" style="width: 70px;">MRP</th>
+                @endif
+                <th class="right" style="width: {{ $showMrp ? '70px' : '85px' }};">Rate</th>
+                <th class="right" style="width: {{ $showMrp ? '80px' : '95px' }};">Total</th>
             </tr>
         </thead>
         <tbody>
@@ -557,13 +561,15 @@ $watermarkImg = file_exists(public_path($wmPath)) ? getLocalImagePath($wmPath) :
                     @endif
                 </td>
                 <td class="center" style="font-weight: bold;">{{ formatNumber($item->quantity) }}</td>
-                <td class="right" style="color: #64748b;">{{ formatNumber($item->mrp ?: ($item->item->mrp ?? $item->rate)) }}</td>
+                @if($showMrp)
+                    <td class="right" style="color: #64748b;">{{ formatNumber($item->mrp ?: ($item->item->mrp ?? $item->rate)) }}</td>
+                @endif
                 <td class="right">{{ formatNumber($item->rate) }}</td>
                 <td class="right item-total-val">{{ formatNumber($item->total) }}</td>
             </tr>
             @empty
             <tr>
-                <td colspan="7" class="center" style="color: #64748b; padding: 25px;">No items found in this quotation.</td>
+                <td colspan="{{ $showMrp ? 7 : 6 }}" class="center" style="color: #64748b; padding: 25px;">No items found in this quotation.</td>
             </tr>
             @endforelse
         </tbody>

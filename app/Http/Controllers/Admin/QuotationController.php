@@ -116,6 +116,7 @@ class QuotationController extends Controller
             $grandTotal = $afterDiscount + $totalTax;
             $data['round_off'] = round($grandTotal, 2) - $grandTotal;
             $data['grand_total'] = round($grandTotal, 2);
+            $data['show_mrp'] = $request->has('show_mrp') ? $request->boolean('show_mrp') : true;
 
             $quotation = Quotation::create($data);
 
@@ -222,6 +223,7 @@ class QuotationController extends Controller
             $grandTotal = $afterDiscount + $totalTax;
             $data['round_off'] = round($grandTotal, 2) - $grandTotal;
             $data['grand_total'] = round($grandTotal, 2);
+            $data['show_mrp'] = $request->has('show_mrp') ? $request->boolean('show_mrp') : false;
 
             $quotation->update($data);
 
@@ -319,11 +321,15 @@ class QuotationController extends Controller
                 'message' => 'nullable|string',
             ]);
 
-            $quotation = Quotation::with(['customer', 'items'])->findOrFail($id);
+            $quotation = Quotation::with(['customer', 'items.item'])->findOrFail($id);
             $company = $this->getCompanySettings();
 
+            $show_mrp = $request->has('show_mrp')
+                ? $request->boolean('show_mrp')
+                : (isset($quotation->show_mrp) ? (bool)$quotation->show_mrp : true);
+
             $pdf = Pdf::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])
-                ->loadView('admin.quotation.pdf', compact('quotation', 'company'));
+                ->loadView('admin.quotation.pdf', compact('quotation', 'company', 'show_mrp'));
 
             $data = [
                 'quotation' => $quotation,
@@ -354,18 +360,49 @@ class QuotationController extends Controller
         }
     }
 
-    public function pdf($id)
+    public function pdf(Request $request, $id)
     {
         try {
-            $quotation = Quotation::with(['customer', 'items'])->findOrFail($id);
+            $quotation = Quotation::with(['customer', 'items.item'])->findOrFail($id);
             $company = $this->getCompanySettings();
 
-            $pdf = Pdf::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])
-                ->loadView('admin.quotation.pdf', compact('quotation', 'company'));
+            $show_mrp = $request->has('show_mrp')
+                ? $request->boolean('show_mrp')
+                : (isset($quotation->show_mrp) ? (bool)$quotation->show_mrp : true);
 
-            return $pdf->download('quotation-' . $quotation->quotation_number . '.pdf');
+            $pdf = Pdf::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])
+                ->loadView('admin.quotation.pdf', compact('quotation', 'company', 'show_mrp'));
+
+            $filename = 'quotation-' . $quotation->quotation_number . ($show_mrp ? '' : '-no-mrp') . '.pdf';
+            return $pdf->download($filename);
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function toggleMrp(Request $request, $id)
+    {
+        try {
+            $quotation = Quotation::findOrFail($id);
+            $show_mrp = $request->has('show_mrp')
+                ? $request->boolean('show_mrp')
+                : !(bool)($quotation->show_mrp ?? true);
+            
+            $quotation->show_mrp = $show_mrp;
+            $quotation->save();
+
+            Cache::forget('dashboard_data');
+
+            return response()->json([
+                'success' => true,
+                'message' => 'MRP visibility in PDF updated successfully.',
+                'show_mrp' => (bool)$quotation->show_mrp
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
         }
     }
 

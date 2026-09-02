@@ -22,6 +22,7 @@ class QuotationRequest extends FormRequest
             'sgst_percentage' => 'nullable|numeric|min:0|max:100',
             'igst_percentage' => 'nullable|numeric|min:0|max:100',
             'valid_until' => 'nullable|date',
+            'show_mrp' => 'nullable|boolean',
             'notes' => 'nullable|string',
             'terms_conditions' => 'nullable|string',
             'status' => 'required|in:draft,sent,approved,expired,rejected',

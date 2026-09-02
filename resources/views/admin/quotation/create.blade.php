@@ -307,8 +307,15 @@
 
         {{-- ── Quotation Details ── --}}
         <div class="card q-card mb-4">
-            <div class="card-header">
+            <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
                 <strong><i class="bx bx-detail"></i> Quotation Details</strong>
+                <div class="d-flex align-items-center gap-2 bg-light px-3 py-1 rounded-3 border" style="border-color: #e8e5f0 !important;">
+                    <label class="form-check-label small fw-bold mb-0 text-muted" for="show_mrp">MRP IN PDF:</label>
+                    <div class="form-check form-switch mb-0 d-flex align-items-center gap-1">
+                        <input class="form-check-input" type="checkbox" name="show_mrp" id="show_mrp" value="1" {{ old('show_mrp', '1') == '1' ? 'checked' : '' }} style="cursor: pointer; width: 2.2em; height: 1.15em;">
+                        <span class="badge {{ old('show_mrp', '1') == '1' ? 'bg-success' : 'bg-secondary' }}" id="mrpBadge" style="font-size: 0.72rem; letter-spacing: 0.5px;">{{ old('show_mrp', '1') == '1' ? 'SHOW MRP' : 'NO MRP' }}</span>
+                    </div>
+                </div>
             </div>
             <div class="card-body">
                 <div class="row g-3">
@@ -864,6 +871,14 @@ $(document).ready(function(){
     if (!$('input[name="valid_until"]').val()) {
         updateValidUntil();
     }
+
+    $('#show_mrp').on('change', function() {
+        if ($(this).is(':checked')) {
+            $('#mrpBadge').removeClass('bg-secondary').addClass('bg-success').text('SHOW MRP');
+        } else {
+            $('#mrpBadge').removeClass('bg-success').addClass('bg-secondary').text('NO MRP');
+        }
+    });
 
     @if(old('items'))
         var oldItems = @json(old('items'));

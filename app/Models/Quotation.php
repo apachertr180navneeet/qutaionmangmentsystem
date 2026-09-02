@@ -15,11 +15,12 @@ class Quotation extends Model
         'parent_id', 'subtotal', 'discount_type', 'discount_value', 'discount_amount',
         'tax_type', 'tax_rate', 'cgst_percentage', 'sgst_percentage', 'igst_percentage',
         'cgst_amount', 'sgst_amount', 'igst_amount', 'round_off', 'grand_total',
-        'status', 'valid_until', 'notes', 'terms_conditions', 'created_by',
+        'status', 'show_mrp', 'valid_until', 'notes', 'terms_conditions', 'created_by',
     ];
 
     protected $casts = [
         'valid_until' => 'date',
+        'show_mrp' => 'boolean',
         'subtotal' => 'float',
         'discount_value' => 'float',
         'discount_amount' => 'float',
