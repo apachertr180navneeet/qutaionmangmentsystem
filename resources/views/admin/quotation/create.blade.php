@@ -98,6 +98,17 @@
         box-shadow: 0 0 0 0.15rem rgba(142, 45, 226, 0.15);
     }
 
+    /* Hide number input spinners (increase/decrease arrows) */
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+        -webkit-appearance: none; 
+        margin: 0; 
+    }
+    input[type=number] {
+        -moz-appearance: textfield;
+        appearance: textfield;
+    }
+
     /* ── Items Table ── */
     .q-items-card { animation-delay: 0.1s; }
     .q-items-card .card-header {
@@ -144,6 +155,38 @@
     .item-row .form-control, .item-row .form-select {
         font-size: 0.85rem;
         border-radius: 8px;
+    }
+    .items-table .select2-container {
+        width: 100% !important;
+    }
+    .items-table .select2-selection--single {
+        min-height: 38px !important;
+        height: auto !important;
+        padding: 4px 8px !important;
+        border: 1px solid #e8e5f0 !important;
+        border-radius: 8px !important;
+    }
+    .items-table .select2-selection__rendered {
+        padding-left: 0 !important;
+        padding-right: 20px !important;
+        white-space: normal !important;
+        line-height: 1.35 !important;
+        font-size: 0.85rem !important;
+        color: #2d2d3f !important;
+    }
+    .item-sku-display {
+        font-size: 0.75rem;
+        color: #6c757d;
+        line-height: 1.2;
+    }
+    .item-sku-display .sku-badge {
+        background: #f0ebff;
+        color: #6c5ce7;
+        font-weight: 600;
+        padding: 2px 7px;
+        border-radius: 4px;
+        font-size: 0.72rem;
+        display: inline-block;
     }
     .item-thumb-edit {
         width: 42px;
@@ -316,21 +359,19 @@
                             <tr>
                                 <th style="width: 35px;">#</th>
                                 <th style="width: 45px;">Image</th>
-                                <th style="min-width: 170px;">Item</th>
-                                <th style="min-width: 90px;">SKU</th>
-                                <th style="min-width: 70px;">Unit</th>
-                                <th style="min-width: 75px;">Qty</th>
-                                <th style="min-width: 95px;">MRP</th>
-                                <th style="min-width: 95px;">SDP</th>
-                                <th style="min-width: 85px;">Disc (%)</th>
-                                <th style="min-width: 95px;">Rate</th>
-                                <th style="min-width: 105px;">Total</th>
+                                <th style="min-width: 220px;">Item</th>
+                                <th style="min-width: 80px; width: 85px;" class="text-center">Qty</th>
+                                <th style="min-width: 95px; width: 100px;" class="text-end">MRP</th>
+                                <th style="min-width: 95px; width: 100px;" class="text-end">SDP</th>
+                                <th style="min-width: 85px; width: 90px;" class="text-end">Disc (%)</th>
+                                <th style="min-width: 95px; width: 100px;" class="text-end">Rate</th>
+                                <th style="min-width: 105px; width: 110px;" class="text-end">Total</th>
                                 <th style="width: 40px;"></th>
                             </tr>
                         </thead>
                         <tbody id="itemsBody">
                             <tr id="noItemsRow">
-                                <td colspan="12" class="text-center text-muted py-4">
+                                <td colspan="10" class="text-center text-muted py-4">
                                     <i class="bx bx-package" style="font-size: 2rem; color: #d4c5f9;"></i>
                                     <p class="mb-0 mt-2">Click <strong>"Add Item"</strong> to add items to this quotation.</p>
                                 </td>
@@ -356,8 +397,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="notes-label"><i class="bx bx-file"></i> Terms & Conditions</label>
-                            <textarea name="terms_conditions" class="form-control @error('terms_conditions') is-invalid @enderror" rows="3" placeholder="Add terms & conditions...">{{ old('terms_conditions', '1. Valid for 30 days.
-2. Payment terms as agreed.') }}</textarea>
+                            <textarea name="terms_conditions" class="form-control @error('terms_conditions') is-invalid @enderror" rows="3" placeholder="Add terms & conditions...">{{ old('terms_conditions', "1. Valid for 30 days.\n2. Payment terms as agreed.") }}</textarea>
                             @error('terms_conditions') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                     </div>
@@ -449,18 +489,20 @@
                 <option value="">Search item...</option>
             </select>
             <input type="hidden" name="items[__INDEX__][item_name]" class="item-name-input" value="">
+            <input type="hidden" name="items[__INDEX__][sku]" class="sku-input" value="">
+            <div class="item-sku-display mt-1" style="display: none;">
+                <span class="sku-badge">SKU: <span class="sku-text"></span></span>
+            </div>
         </td>
-        <td><input type="text" name="items[__INDEX__][sku]" class="form-control form-control-sm sku-input" readonly style="background: #f8f7ff; border: 1px solid #e8e5f0;"></td>
-        <td><input type="text" class="form-control form-control-sm unit-display" readonly style="background: #f8f7ff; border: 1px solid #e8e5f0;"></td>
-        <td><input type="number" step="any" name="items[__INDEX__][quantity]" class="form-control form-control-sm quantity-input calc-input" value="1" min="0.01"></td>
-        <td><input type="number" step="any" name="items[__INDEX__][mrp]" class="form-control form-control-sm mrp-input calc-input" value="0" min="0"></td>
-        <td><input type="number" step="any" name="items[__INDEX__][sdp]" class="form-control form-control-sm sdp-input calc-input" value="0" min="0"></td>
-        <td><input type="number" step="any" name="items[__INDEX__][discount_percentage]" class="form-control form-control-sm disc-pct-input calc-input" value="0" min="0" max="100"></td>
+        <td><input type="number" step="any" name="items[__INDEX__][quantity]" class="form-control form-control-sm quantity-input text-center" value="1" min="0.01" required style="border: 1px solid #e8e5f0;"></td>
+        <td><input type="number" step="any" name="items[__INDEX__][mrp]" class="form-control form-control-sm mrp-input calc-input text-end" value="0" min="0" style="border: 1px solid #e8e5f0;"></td>
+        <td><input type="number" step="any" name="items[__INDEX__][sdp]" class="form-control form-control-sm sdp-input calc-input text-end" value="0" min="0" style="border: 1px solid #e8e5f0;"></td>
+        <td><input type="number" step="any" name="items[__INDEX__][discount_percentage]" class="form-control form-control-sm disc-pct-input calc-input text-end" value="0" min="0" max="100" style="border: 1px solid #e8e5f0;"></td>
         <td>
-            <input type="number" step="any" name="items[__INDEX__][rate]" class="form-control form-control-sm rate-input calc-input" value="0" min="0">
+            <input type="number" step="any" name="items[__INDEX__][rate]" class="form-control form-control-sm rate-input calc-input text-end" value="0" min="0" required style="border: 1px solid #e8e5f0;">
             <input type="hidden" name="items[__INDEX__][discount_amount]" class="disc-amt-input" value="0">
         </td>
-        <td><input type="text" name="items[__INDEX__][total]" class="form-control form-control-sm total-input calc-input fw-bold" readonly value="0.00" style="background: #f8f7ff; border: 1px solid #e8e5f0; color: #8E2DE2;"></td>
+        <td><input type="text" name="items[__INDEX__][total]" class="form-control form-control-sm total-input calc-input text-end fw-bold" readonly value="0.00" style="background: #f8f7ff; border: 1px solid #e8e5f0; color: #8E2DE2;"></td>
         <td class="text-center"><div class="remove-item"><i class="bx bx-trash fs-6"></i></div></td>
     </tr>
 </template>
@@ -603,26 +645,47 @@ function addItemRow(data) {
 
     var $select = row.find('.item-select');
 
-    if (data && data.item_id) {
-        var itemName = data.item_name || '';
-        var itemText = itemName;
-        var option = new Option(itemText, data.item_id, true, true);
-        $(option).data('itemData', data);
-        $select.append(option);
+    if (data && (data.item_id || data.id || data.item_name)) {
+        var itemId = data.item_id || '';
+        var itemName = data.item_name || (data.item ? data.item.name : '');
+        var sku = data.sku || (data.item ? data.item.sku : '');
+        var mrp = data.mrp !== undefined && data.mrp !== null ? data.mrp : (data.item && data.item.mrp ? data.item.mrp : (data.rate || 0));
+        var sdp = data.sdp !== undefined && data.sdp !== null ? data.sdp : (data.item && data.item.sdp ? data.item.sdp : 0);
+        var discPct = data.discount_percentage !== undefined && data.discount_percentage !== null ? data.discount_percentage : 0;
+        var rate = data.rate !== undefined && data.rate !== null ? data.rate : 0;
+        var quantity = data.quantity !== undefined && data.quantity !== null ? data.quantity : 1;
+        var total = data.total !== undefined && data.total !== null ? data.total : (quantity * rate);
 
-        var imageUrl = data.image || null;
+        if (itemId || itemName) {
+            var option = new Option(itemName, itemId, true, true);
+            $(option).data('itemData', data);
+            $select.append(option);
+        }
+
+        var imageUrl = data.image || (data.item ? (data.item.image || null) : null);
         if (imageUrl) {
             row.find('.item-image-preview').attr('src', imageUrl).removeClass('d-none');
             row.find('.item-thumb-placeholder').addClass('d-none');
+        } else {
+            row.find('.item-image-preview').addClass('d-none').attr('src', '');
+            row.find('.item-thumb-placeholder').removeClass('d-none');
         }
+
         row.find('.item-name-input').val(itemName);
-        row.find('.sku-input').val(data.sku || '');
-        row.find('.unit-display').val(data.unit || '');
-        row.find('.quantity-input').val(data.quantity || 1);
-        row.find('.mrp-input').val(data.mrp !== undefined ? data.mrp : (data.rate || 0));
-        row.find('.sdp-input').val(data.sdp !== undefined ? data.sdp : 0);
-        row.find('.disc-pct-input').val(data.discount_percentage || 0);
-        row.find('.rate-input').val(data.rate || 0);
+        row.find('.sku-input').val(sku);
+        if (sku) {
+            row.find('.sku-text').text(sku);
+            row.find('.item-sku-display').show();
+        } else {
+            row.find('.item-sku-display').hide();
+        }
+        row.find('.quantity-input').val(formatNum(quantity));
+        row.find('.mrp-input').val(formatNum(mrp));
+        row.find('.sdp-input').val(formatNum(sdp));
+        row.find('.disc-pct-input').val(formatNum(discPct));
+        row.find('.rate-input').val(formatNum(rate));
+        row.find('.disc-amt-input').val(formatNum(data.discount_amount || 0));
+        row.find('.total-input').val(formatNum(total));
     }
 
     $select.select2({
@@ -650,17 +713,16 @@ function addItemRow(data) {
         },
         templateResult: formatItem,
         templateSelection: function(item) {
-            if (!item.id) return item.text;
-            return item.name || item.text.split(' (')[0];
+            if (!item.id && !item.text) return 'Search item...';
+            return item.name || item.text || 'Search item...';
         }
     }).on('select2:select', function(e){
         var itemData = e.params.data;
         var rate = itemData.rate || 0;
-        var mrp = itemData.mrp !== undefined ? itemData.mrp : rate;
-        var sdp = itemData.sdp !== undefined ? itemData.sdp : 0;
+        var mrp = itemData.mrp !== undefined && itemData.mrp !== null ? itemData.mrp : rate;
+        var sdp = itemData.sdp !== undefined && itemData.sdp !== null ? itemData.sdp : 0;
         var sku = itemData.sku || '';
-        var unit = itemData.unit || '';
-        var itemName = itemData.name || itemData.text.split(' (')[0] || '';
+        var itemName = itemData.name || itemData.text || '';
         var imageUrl = itemData.image || null;
 
         if (imageUrl) {
@@ -673,11 +735,16 @@ function addItemRow(data) {
 
         row.find('.item-name-input').val(itemName);
         row.find('.sku-input').val(sku);
-        row.find('.unit-display').val(unit);
-        row.find('.mrp-input').val(mrp);
-        row.find('.sdp-input').val(sdp);
+        if (sku) {
+            row.find('.sku-text').text(sku);
+            row.find('.item-sku-display').show();
+        } else {
+            row.find('.item-sku-display').hide();
+        }
+        row.find('.mrp-input').val(formatNum(mrp));
+        row.find('.sdp-input').val(formatNum(sdp));
         row.find('.disc-pct-input').val(0);
-        row.find('.rate-input').val(mrp);
+        row.find('.rate-input').val(formatNum(mrp));
         calculateRow(row);
     });
 
@@ -686,6 +753,9 @@ function addItemRow(data) {
     });
     row.find('.mrp-input').on('input', function(){
         calculateRow(row, 'mrp');
+    });
+    row.find('.sdp-input').on('input', function(){
+        calculateRow(row, 'sdp');
     });
     row.find('.disc-pct-input').on('input', function(){
         calculateRow(row, 'disc_pct');
@@ -783,6 +853,15 @@ $(document).ready(function(){
     if (!$('input[name="valid_until"]').val()) {
         updateValidUntil();
     }
+
+    @if(old('items'))
+        var oldItems = @json(old('items'));
+        $.each(oldItems, function(idx, item){
+            addItemRow(item);
+        });
+    @else
+        addItemRow();
+    @endif
 });
 </script>
 @endsection
