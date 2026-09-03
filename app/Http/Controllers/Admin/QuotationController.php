@@ -113,9 +113,10 @@ class QuotationController extends Controller
             }
 
             $totalTax = $data['cgst_amount'] + $data['sgst_amount'] + $data['igst_amount'];
-            $grandTotal = $afterDiscount + $totalTax;
-            $data['round_off'] = round($grandTotal, 2) - $grandTotal;
-            $data['grand_total'] = round($grandTotal, 2);
+            $rawGrandTotal = $afterDiscount + $totalTax;
+            $roundedGrandTotal = round($rawGrandTotal);
+            $data['round_off'] = round($roundedGrandTotal - $rawGrandTotal, 2);
+            $data['grand_total'] = $roundedGrandTotal;
             $data['show_mrp'] = $request->boolean('show_mrp');
 
             $quotation = Quotation::create($data);
@@ -220,9 +221,10 @@ class QuotationController extends Controller
             }
 
             $totalTax = $data['cgst_amount'] + $data['sgst_amount'] + $data['igst_amount'];
-            $grandTotal = $afterDiscount + $totalTax;
-            $data['round_off'] = round($grandTotal, 2) - $grandTotal;
-            $data['grand_total'] = round($grandTotal, 2);
+            $rawGrandTotal = $afterDiscount + $totalTax;
+            $roundedGrandTotal = round($rawGrandTotal);
+            $data['round_off'] = round($roundedGrandTotal - $rawGrandTotal, 2);
+            $data['grand_total'] = $roundedGrandTotal;
             $data['show_mrp'] = $request->boolean('show_mrp');
 
             $quotation->update($data);

@@ -625,7 +625,7 @@ $showMrp = isset($show_mrp) ? (bool)$show_mrp : (isset($quotation->show_mrp) ? (
                     @if($quotation->round_off != 0)
                     <tr>
                         <td class="label">Round Off</td>
-                        <td class="value">Rs. {{ formatNumber($quotation->round_off) }}</td>
+                        <td class="value">{{ ($quotation->round_off > 0 ? '+ ' : '') }}Rs. {{ formatNumber($quotation->round_off) }}</td>
                     </tr>
                     @endif
                     <tr class="grand-total-row">

@@ -546,7 +546,7 @@
                         </tr>
                         <tr>
                             <td class="summary-label">Round Off</td>
-                            <td class="text-end summary-value">{{ formatNumber($quotation->round_off) }}</td>
+                            <td class="text-end summary-value">{{ ($quotation->round_off > 0 ? '+' : '') . formatNumber($quotation->round_off) }}</td>
                         </tr>
                         <tr class="grand-total-row">
                             <td class="grand-total-label">Grand Total</td>

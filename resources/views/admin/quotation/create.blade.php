@@ -682,11 +682,13 @@ function calculateSummary() {
 
     $('#total_tax').val(formatNum(totalTax));
 
-    var grandTotal = afterDiscount + totalTax;
-    var roundOff = 0;
+    var rawGrandTotal = afterDiscount + totalTax;
+    var roundedGrandTotal = Math.round(rawGrandTotal);
+    var roundOff = roundedGrandTotal - rawGrandTotal;
 
-    $('#round_off').val(formatNum(roundOff));
-    $('#grand_total').val(formatNum(grandTotal));
+    var roundOffFormatted = (roundOff > 0 ? '+' : '') + roundOff.toFixed(2);
+    $('#round_off').val(roundOffFormatted);
+    $('#grand_total').val(formatNum(roundedGrandTotal));
 }
 
 function renumberRows() {
