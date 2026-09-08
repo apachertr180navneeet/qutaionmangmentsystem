@@ -34,7 +34,7 @@ class CompanySettingController extends Controller
                 'country' => 'nullable|string|max:100',
                 'gst_number' => 'nullable|string|max:50',
                 'pan_number' => 'nullable|string|max:50',
-                'discount_amount' => 'nullable|numeric|min:0',
+                'discount_amount' => 'nullable|numeric|min:0|max:100',
                 'terms_conditions' => 'nullable|string',
                 'signature' => 'nullable|string',
                 'logo' => 'nullable|image|mimes:jpeg,jpg,png,gif,webp,svg|max:4096',

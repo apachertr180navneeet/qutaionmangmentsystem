@@ -47,6 +47,7 @@ class QuotationController extends Controller
     {
         try {
             $customers = $this->getActiveCustomers();
+            $company = $this->getCompanySettings();
 
             $year = now()->format('Y');
             $lastQuotation = Quotation::where('quotation_number', 'like', "Q-{$year}-%")
@@ -61,7 +62,7 @@ class QuotationController extends Controller
             }
             $quotation_number = "Q-{$year}-{$newNumber}";
 
-            return view('admin.quotation.create', compact('customers', 'quotation_number'));
+            return view('admin.quotation.create', compact('customers', 'quotation_number', 'company'));
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage());
         }
@@ -172,7 +173,8 @@ class QuotationController extends Controller
         try {
             $quotation = Quotation::with('items.item')->findOrFail($id);
             $customers = $this->getActiveCustomers();
-            return view('admin.quotation.edit', compact('quotation', 'customers'));
+            $company = $this->getCompanySettings();
+            return view('admin.quotation.edit', compact('quotation', 'customers', 'company'));
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage());
         }

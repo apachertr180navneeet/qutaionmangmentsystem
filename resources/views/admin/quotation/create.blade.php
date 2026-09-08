@@ -557,7 +557,7 @@
         <td><input type="number" step="any" name="items[__INDEX__][quantity]" class="form-control form-control-sm quantity-input text-center" value="1" min="0.01" required style="border: 1px solid #e8e5f0;"></td>
         <td><input type="number" step="any" name="items[__INDEX__][mrp]" class="form-control form-control-sm mrp-input calc-input text-end" value="0" min="0" style="border: 1px solid #e8e5f0;"></td>
         <td><input type="number" step="any" name="items[__INDEX__][sdp]" class="form-control form-control-sm sdp-input calc-input text-end" value="0" min="0" style="border: 1px solid #e8e5f0;"></td>
-        <td><input type="number" step="any" name="items[__INDEX__][discount_percentage]" class="form-control form-control-sm disc-pct-input calc-input text-end" value="0" min="0" max="100" style="border: 1px solid #e8e5f0;"></td>
+        <td><input type="number" step="any" name="items[__INDEX__][discount_percentage]" class="form-control form-control-sm disc-pct-input calc-input text-end" value="{{ (float)($company->discount_amount ?? 0) }}" min="0" max="100" style="border: 1px solid #e8e5f0;"></td>
         <td>
             <input type="number" step="any" name="items[__INDEX__][rate]" class="form-control form-control-sm rate-input calc-input text-end" value="0" min="0" required style="border: 1px solid #e8e5f0;">
             <input type="hidden" name="items[__INDEX__][discount_amount]" class="disc-amt-input" value="0">
@@ -571,6 +571,7 @@
 @section('script')
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
+var defaultDiscountPct = {{ (float)($company->discount_amount ?? 0) }};
 var itemIndex = 0;
 
 function cleanItemName(text) {
@@ -719,7 +720,7 @@ function addItemRow(data) {
         var sku = data.sku || (data.item ? data.item.sku : '');
         var mrp = data.mrp !== undefined && data.mrp !== null ? data.mrp : (data.item && data.item.mrp ? data.item.mrp : (data.rate || 0));
         var sdp = data.sdp !== undefined && data.sdp !== null ? data.sdp : (data.item && data.item.sdp ? data.item.sdp : 0);
-        var discPct = data.discount_percentage !== undefined && data.discount_percentage !== null ? data.discount_percentage : 0;
+        var discPct = data.discount_percentage !== undefined && data.discount_percentage !== null ? data.discount_percentage : defaultDiscountPct;
         var rate = data.rate !== undefined && data.rate !== null ? data.rate : 0;
         var quantity = data.quantity !== undefined && data.quantity !== null ? data.quantity : 1;
         var total = data.total !== undefined && data.total !== null ? data.total : (quantity * rate);
@@ -811,9 +812,14 @@ function addItemRow(data) {
         }
         row.find('.mrp-input').val(formatNum(mrp));
         row.find('.sdp-input').val(formatNum(sdp));
-        row.find('.disc-pct-input').val(0);
-        row.find('.rate-input').val(formatNum(mrp));
-        calculateRow(row);
+        
+        var discPct = defaultDiscountPct;
+        var existingDiscInput = row.find('.disc-pct-input').val();
+        if (existingDiscInput !== '' && !isNaN(parseFloat(existingDiscInput)) && parseFloat(existingDiscInput) !== 0) {
+            discPct = parseFloat(existingDiscInput);
+        }
+        row.find('.disc-pct-input').val(formatNum(discPct));
+        calculateRow(row, 'disc_pct');
     });
 
     row.find('.quantity-input').on('input', function(){

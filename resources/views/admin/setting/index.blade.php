@@ -62,8 +62,8 @@
                         @error('country') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label table-dark-text">Discount Amount</label>
-                        <input type="number" step="any" min="0" name="discount_amount" class="custom-input no-icon @error('discount_amount') is-invalid @enderror" value="{{ old('discount_amount', $setting->discount_amount ?? '') }}" placeholder="0.00">
+                        <label class="form-label table-dark-text">Discount (%)</label>
+                        <input type="number" step="any" min="0" max="100" name="discount_amount" class="custom-input no-icon @error('discount_amount') is-invalid @enderror" value="{{ old('discount_amount', $setting->discount_amount ?? '') }}" placeholder="0.00">
                         @error('discount_amount') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-md-6">
