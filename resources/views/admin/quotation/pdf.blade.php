@@ -507,18 +507,6 @@ $showMrp = isset($show_mrp) ? (bool)$show_mrp : (isset($quotation->show_mrp) ? (
                             <td class="meta-label">Date:</td>
                             <td class="meta-val">{{ $quotation->created_at ? date('d M, Y', strtotime($quotation->created_at)) : 'N/A' }}</td>
                         </tr>
-                        <tr>
-                            <td class="meta-label">Valid Until:</td>
-                            <td class="meta-val">{{ $quotation->valid_until ? date('d M, Y', strtotime($quotation->valid_until)) : 'N/A' }}</td>
-                        </tr>
-                        @if($quotation->status)
-                        <tr>
-                            <td class="meta-label">Status:</td>
-                            <td class="meta-val">
-                                <span class="status-pill status-{{ $quotation->status }}">{{ strtoupper($quotation->status) }}</span>
-                            </td>
-                        </tr>
-                        @endif
                     </table>
                 </div>
             </td>
