@@ -49,6 +49,9 @@ if (!$logoImg && file_exists(public_path('uploads/company/logo_header.png.png'))
 $wmPath = 'uploads/company/logo_watermark.png';
 $watermarkImg = file_exists(public_path($wmPath)) ? getLocalImagePath($wmPath) : $logoImg;
 
+$jgLogoPath = $company?->jg_logo ?: '';
+$jgLogoImg = $jgLogoPath ? getLocalImagePath($jgLogoPath) : '';
+
 $showMrp = isset($show_mrp) ? (bool)$show_mrp : (isset($quotation->show_mrp) ? (bool)$quotation->show_mrp : true);
 @endphp
 <head>
@@ -467,11 +470,25 @@ $showMrp = isset($show_mrp) ? (bool)$show_mrp : (isset($quotation->show_mrp) ? (
     <table class="header-table">
         <tr>
             <td style="width: 58%;">
-                @if($watermarkImg)
-                    <img src="{{ $watermarkImg }}" alt="Logo" class="company-logo-img">
+                @if($watermarkImg || $jgLogoImg)
+                    <div style="margin-bottom: 4px;">
+                        @if($watermarkImg)
+                            <img src="{{ $watermarkImg }}" alt="Logo" class="company-logo-img" style="vertical-align: middle;">
+                        @endif
+                        @if($jgLogoImg)
+                            <img src="{{ $jgLogoImg }}" alt="JG Logo" class="company-logo-img" style="vertical-align: middle; margin-left: 12px; max-height: 48px;">
+                        @endif
+                    </div>
+                    @if(!empty($company?->slogan))
+                        <div style="font-size: 8.5px; color: #64748b; font-style: italic; margin-bottom: 4px;">{{ $company->slogan }}</div>
+                    @endif
                 @else
                     <div class="company-logo-text">{{ $company?->company_name ?? config('app.name') }}</div>
-                    <div class="company-name-subtitle">{{ $company?->company_name ?? 'BHAGYASHREE SANITARYWARE' }}</div>
+                    @if(!empty($company?->slogan))
+                        <div class="company-name-subtitle">{{ $company->slogan }}</div>
+                    @else
+                        <div class="company-name-subtitle">{{ $company?->company_name ?? 'BHAGYASHREE SANITARYWARE' }}</div>
+                    @endif
                 @endif
                 <div class="company-details">
                     {{ $company?->address }}{{ $company?->city ? ', '.$company?->city : '' }}{{ $company?->state ? ', '.$company?->state : '' }}{{ $company?->zip_code ? ' - '.$company?->zip_code : '' }}

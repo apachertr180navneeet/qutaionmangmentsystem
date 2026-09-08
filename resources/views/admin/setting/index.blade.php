@@ -22,6 +22,11 @@
                         @error('company_name') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-md-6">
+                        <label class="form-label table-dark-text">Slogan / Tagline</label>
+                        <input type="text" name="slogan" class="custom-input no-icon @error('slogan') is-invalid @enderror" value="{{ old('slogan', $setting->slogan ?? '') }}" placeholder="e.g. Quality Sanitaryware & Bath Fittings">
+                        @error('slogan') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
+                    <div class="col-md-6">
                         <label class="form-label table-dark-text">Email</label>
                         <input type="email" name="email" class="custom-input no-icon @error('email') is-invalid @enderror" value="{{ old('email', $setting->email ?? '') }}">
                         @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
@@ -57,6 +62,11 @@
                         @error('country') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-md-6">
+                        <label class="form-label table-dark-text">Discount Amount</label>
+                        <input type="number" step="any" min="0" name="discount_amount" class="custom-input no-icon @error('discount_amount') is-invalid @enderror" value="{{ old('discount_amount', $setting->discount_amount ?? '') }}" placeholder="0.00">
+                        @error('discount_amount') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
+                    <div class="col-md-6">
                         <label class="form-label table-dark-text">GST Number</label>
                         <input type="text" name="gst_number" class="custom-input no-icon @error('gst_number') is-invalid @enderror" value="{{ old('gst_number', $setting->gst_number ?? '') }}">
                         @error('gst_number') <div class="invalid-feedback">{{ $message }}</div> @enderror
@@ -68,12 +78,22 @@
                     </div>
                     <div class="col-md-6">
                         <label class="form-label table-dark-text">Company Logo</label>
-                        <input type="file" name="logo" class="custom-input no-icon @error('logo') is-invalid @enderror" accept="image/*" onchange="document.getElementById('logoPreview').src = window.URL.createObjectURL(this.files[0])">
+                        <input type="file" name="logo" class="custom-input no-icon @error('logo') is-invalid @enderror" accept="image/*" onchange="document.getElementById('logoPreview').src = window.URL.createObjectURL(this.files[0]); document.getElementById('logoPreview').style.display = 'block';">
                         @error('logo') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         @if(!empty($setting->logo))
                             <img src="{{ asset($setting->logo) }}" class="logo-preview mt-2" id="logoPreview" style="border-radius: 8px;">
                         @else
                             <img src="" class="logo-preview mt-2" id="logoPreview" style="display:none; border-radius: 8px;">
+                        @endif
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label table-dark-text">JG Logo</label>
+                        <input type="file" name="jg_logo" class="custom-input no-icon @error('jg_logo') is-invalid @enderror" accept="image/*" onchange="document.getElementById('jgLogoPreview').src = window.URL.createObjectURL(this.files[0]); document.getElementById('jgLogoPreview').style.display = 'block';">
+                        @error('jg_logo') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        @if(!empty($setting->jg_logo))
+                            <img src="{{ asset($setting->jg_logo) }}" class="logo-preview mt-2" id="jgLogoPreview" style="border-radius: 8px;">
+                        @else
+                            <img src="" class="logo-preview mt-2" id="jgLogoPreview" style="display:none; border-radius: 8px;">
                         @endif
                     </div>
                     <div class="col-md-12">
