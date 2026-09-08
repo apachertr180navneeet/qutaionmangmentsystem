@@ -652,4 +652,112 @@ body {
     }
 }
 
+/* ═══════════════════════════════════════════════
+   PRINT STYLES FOR REPORTS & DOCUMENTS
+   ═══════════════════════════════════════════════ */
+.print-only {
+    display: none !important;
+}
+
+@media print {
+    /* Hide layout chrome and non-printable elements */
+    .layout-menu,
+    .layout-navbar,
+    .footer,
+    .content-backdrop,
+    .no-print,
+    .btn,
+    .btn-group,
+    .pagination,
+    .page-link,
+    form,
+    .filter-card,
+    .menu-toggle,
+    .navbar-nav,
+    .app-brand {
+        display: none !important;
+    }
+
+    body,
+    .layout-wrapper,
+    .layout-container,
+    .layout-page,
+    .content-wrapper,
+    .container-fluid,
+    .container-p-y {
+        background: #ffffff !important;
+        background-image: none !important;
+        color: #000000 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        font-size: 11pt !important;
+    }
+
+    .card {
+        border: none !important;
+        box-shadow: none !important;
+        background: transparent !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .card-header,
+    .card-body {
+        padding: 0 !important;
+        background: transparent !important;
+    }
+
+    .print-only {
+        display: block !important;
+        margin-bottom: 20px !important;
+    }
+
+    .table-responsive {
+        overflow: visible !important;
+    }
+
+    .table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        margin-top: 10px !important;
+    }
+
+    .table th,
+    .table td {
+        border: 1px solid #333333 !important;
+        color: #000000 !important;
+        padding: 6px 8px !important;
+        font-size: 10pt !important;
+        background: transparent !important;
+    }
+
+    .table-light,
+    .table-light th,
+    .table-light td {
+        background-color: #f0f0f0 !important;
+        color: #000000 !important;
+        font-weight: bold !important;
+    }
+
+    .badge {
+        border: 1px solid #666666 !important;
+        color: #000000 !important;
+        background: transparent !important;
+        font-weight: 600 !important;
+        padding: 2px 6px !important;
+    }
+
+    tr {
+        page-break-inside: avoid !important;
+    }
+
+    @page {
+        size: auto;
+        margin: 15mm;
+    }
+}
+
+
 
