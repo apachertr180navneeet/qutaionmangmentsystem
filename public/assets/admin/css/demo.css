@@ -218,7 +218,11 @@
 }
 
 .card-header i, .card-title i, h5 i {
-  color: #8E2DE2 !important;
+  color: #8E2DE2;
+}
+
+.card-header .btn i, .card-title .btn i, h5 .btn i, .btn i, .btn-action i {
+  color: inherit !important;
 }
 
 .btn-secondary {

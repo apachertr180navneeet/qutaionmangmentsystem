@@ -40,15 +40,18 @@
                 </h5>
                 <small class="text-muted">Found {{ $quotations->total() }} quotation(s)</small>
             </div>
-            <div class="d-flex gap-2 no-print">
-                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="window.print()">
-                    <i class="bx bx-printer me-1"></i> Print
+            <div class="report-actions no-print">
+                <button type="button" class="btn-action btn-report-print" onclick="window.print()">
+                    <i class="bx bx-printer"></i>
+                    <span>Print</span>
                 </button>
-                <a href="{{ route('admin.reports.export.pdf', ['report_type' => 'date_wise', 'from_date' => request('from_date'), 'to_date' => request('to_date')]) }}" class="btn btn-danger btn-sm" target="_blank">
-                    <i class="bx bxs-file-pdf me-1"></i> PDF
+                <a href="{{ route('admin.reports.export.pdf', ['report_type' => 'date_wise', 'from_date' => request('from_date'), 'to_date' => request('to_date')]) }}" class="btn-action btn-report-pdf" target="_blank">
+                    <i class="bx bxs-file-pdf"></i>
+                    <span>PDF</span>
                 </a>
-                <a href="{{ route('admin.reports.export.excel', ['report_type' => 'date_wise', 'from_date' => request('from_date'), 'to_date' => request('to_date')]) }}" class="btn btn-success btn-sm">
-                    <i class="bx bx-file me-1"></i> Excel
+                <a href="{{ route('admin.reports.export.excel', ['report_type' => 'date_wise', 'from_date' => request('from_date'), 'to_date' => request('to_date')]) }}" class="btn-action btn-report-excel">
+                    <i class="bx bx-spreadsheet"></i>
+                    <span>Excel</span>
                 </a>
             </div>
         </div>
