@@ -145,6 +145,20 @@ $showMrp = isset($show_mrp) ? (bool)$show_mrp : (isset($quotation->show_mrp) ? (
             display: inline-block;
             min-width: 200px;
         }
+        .main-heading-center {
+            text-align: center;
+            margin: 6px 0 16px 0;
+        }
+        .main-heading-center .heading-text {
+            font-size: 15px;
+            font-weight: bold;
+            color: #0e7490;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: inline-block;
+            padding: 2px 14px;
+            border-bottom: 2px solid #0e7490;
+        }
         .quote-title {
             font-size: 16px;
             font-weight: bold;
@@ -470,26 +484,12 @@ $showMrp = isset($show_mrp) ? (bool)$show_mrp : (isset($quotation->show_mrp) ? (
     <table class="header-table">
         <tr>
             <td style="width: 58%;">
-                @if($watermarkImg || $jgLogoImg)
+                @if($logoImg)
                     <div style="margin-bottom: 4px;">
-                        @if($watermarkImg)
-                            <img src="{{ $watermarkImg }}" alt="Logo" class="company-logo-img" style="vertical-align: middle;">
-                        @endif
-                        @if($jgLogoImg)
-                            <img src="{{ $jgLogoImg }}" alt="JG Logo" class="company-logo-img" style="vertical-align: middle; margin-left: 12px; max-height: 48px;">
-                        @endif
+                        <img src="{{ $logoImg }}" alt="Logo" class="company-logo-img">
                     </div>
-                    @if(!empty($company?->slogan))
-                        <div style="font-size: 8.5px; color: #64748b; font-style: italic; margin-bottom: 4px;">{{ $company->slogan }}</div>
-                    @endif
-                @else
-                    <div class="company-logo-text">{{ $company?->company_name ?? config('app.name') }}</div>
-                    @if(!empty($company?->slogan))
-                        <div class="company-name-subtitle">{{ $company->slogan }}</div>
-                    @else
-                        <div class="company-name-subtitle">{{ $company?->company_name ?? 'BHAGYASHREE SANITARYWARE' }}</div>
-                    @endif
                 @endif
+                <div class="company-logo-text">{{ $company?->company_name ?? config('app.name') }}</div>
                 <div class="company-details">
                     {{ $company?->address }}{{ $company?->city ? ', '.$company?->city : '' }}{{ $company?->state ? ', '.$company?->state : '' }}{{ $company?->zip_code ? ' - '.$company?->zip_code : '' }}
                     @if($company?->email)<br><span class="detail-label">Email:</span> {{ $company?->email }}@endif
@@ -499,7 +499,14 @@ $showMrp = isset($show_mrp) ? (bool)$show_mrp : (isset($quotation->show_mrp) ? (
             </td>
             <td style="width: 42%; text-align: right;">
                 <div class="quote-title-box">
-                    <div class="quote-title">PRICE QUOTATION</div>
+                    @if($jgLogoImg)
+                        <div style="margin-bottom: 4px;">
+                            <img src="{{ $jgLogoImg }}" alt="JG Logo" style="max-height: 48px; max-width: 160px; vertical-align: middle;">
+                        </div>
+                    @endif
+                    @if(!empty($company?->slogan))
+                        <div style="font-size: 9.5px; color: #0e7490; font-weight: 600; font-style: italic; margin-bottom: 5px;">{{ $company->slogan }}</div>
+                    @endif
                     <div class="quote-number-badge"># {{ $quotation->quotation_number }}</div>
                     
                     <table class="quote-meta-table">
@@ -512,6 +519,11 @@ $showMrp = isset($show_mrp) ? (bool)$show_mrp : (isset($quotation->show_mrp) ? (
             </td>
         </tr>
     </table>
+
+    <!-- Centered Heading -->
+    <div class="main-heading-center">
+        <span class="heading-text">PRICE QUOTATION</span>
+    </div>
 
     <!-- Client Info Card -->
     <div class="client-card">
