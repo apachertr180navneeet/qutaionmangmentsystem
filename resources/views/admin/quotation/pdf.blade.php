@@ -88,6 +88,8 @@ $jgLogoPath = $company?->jg_logo ?: '';
 $jgLogoImg = $jgLogoPath ? getLocalImagePath($jgLogoPath) : '';
 
 $showMrp = isset($show_mrp) ? (bool)$show_mrp : (isset($quotation->show_mrp) ? (bool)$quotation->show_mrp : true);
+$itemCount = count($quotation->items ?? []);
+$isCompact = $itemCount > 6;
 @endphp
 <head>
     <meta charset="utf-8">
@@ -95,18 +97,18 @@ $showMrp = isset($show_mrp) ? (bool)$show_mrp : (isset($quotation->show_mrp) ? (
     <style>
         @page {
             size: A4 portrait;
-            margin: 24px 28px 36px 28px;
+            margin: 14px 20px 20px 20px;
         }
         * {
             box-sizing: border-box;
         }
         body {
             font-family: 'DejaVu Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 9.5px;
+            font-size: {{ $isCompact ? '8px' : '9px' }};
             color: #1e293b;
             margin: 0;
             padding: 0;
-            line-height: 1.4;
+            line-height: 1.25;
             background-color: #ffffff;
         }
         
@@ -115,25 +117,25 @@ $showMrp = isset($show_mrp) ? (bool)$show_mrp : (isset($quotation->show_mrp) ? (
         /* Top Accent Bar */
         .top-accent-bar {
             width: 100%;
-            height: 4px;
+            height: 3.5px;
             background-color: #0284c7;
-            margin-bottom: 16px;
+            margin-bottom: 8px;
             border-radius: 2px;
         }
 
         /* Watermark */
         .watermark {
             position: fixed;
-            top: 30%;
-            left: 22%;
-            width: 56%;
+            top: 28%;
+            left: 25%;
+            width: 50%;
             text-align: center;
-            opacity: 0.045;
+            opacity: 0.04;
             z-index: -1000;
         }
         .watermark img {
-            max-width: 320px;
-            max-height: 320px;
+            max-width: 280px;
+            max-height: 280px;
         }
 
         /* Layout Tables */
@@ -149,27 +151,27 @@ $showMrp = isset($show_mrp) ? (bool)$show_mrp : (isset($quotation->show_mrp) ? (
 
         /* Header Section */
         .header-section {
-            margin-bottom: 14px;
-            padding-bottom: 12px;
-            border-bottom: 1.5px solid #e2e8f0;
+            margin-bottom: 6px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #e2e8f0;
         }
         .company-logo-img {
-            max-height: 55px;
-            max-width: 170px;
-            margin-bottom: 6px;
+            max-height: {{ $isCompact ? '38px' : '45px' }};
+            max-width: 140px;
+            margin-bottom: 2px;
         }
         .company-name {
-            font-size: 15px;
+            font-size: {{ $isCompact ? '12px' : '13.5px' }};
             font-weight: bold;
             color: #0f172a;
-            letter-spacing: 0.4px;
+            letter-spacing: 0.3px;
             text-transform: uppercase;
-            margin-bottom: 3px;
+            margin-bottom: 1.5px;
         }
         .company-meta {
-            font-size: 8.5px;
+            font-size: {{ $isCompact ? '7.5px' : '8px' }};
             color: #475569;
-            line-height: 1.45;
+            line-height: 1.35;
         }
         .company-meta strong {
             color: #0f172a;
@@ -180,12 +182,12 @@ $showMrp = isset($show_mrp) ? (bool)$show_mrp : (isset($quotation->show_mrp) ? (
             text-align: right;
         }
         .quote-doc-title {
-            font-size: 20px;
+            font-size: {{ $isCompact ? '16px' : '18px' }};
             font-weight: 800;
             color: #0284c7;
-            letter-spacing: 1.5px;
+            letter-spacing: 1.2px;
             text-transform: uppercase;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
         .quote-badge {
             display: inline-block;
@@ -193,10 +195,10 @@ $showMrp = isset($show_mrp) ? (bool)$show_mrp : (isset($quotation->show_mrp) ? (
             border: 1px solid #bae6fd;
             color: #0369a1;
             font-weight: bold;
-            font-size: 10px;
-            padding: 2px 10px;
-            border-radius: 12px;
-            margin-bottom: 6px;
+            font-size: 8.5px;
+            padding: 1px 8px;
+            border-radius: 10px;
+            margin-bottom: 3px;
         }
         .quote-meta-mini {
             width: auto;
@@ -204,8 +206,8 @@ $showMrp = isset($show_mrp) ? (bool)$show_mrp : (isset($quotation->show_mrp) ? (
             border-collapse: collapse;
         }
         .quote-meta-mini td {
-            padding: 1.5px 0 1.5px 8px;
-            font-size: 8.5px;
+            padding: 1px 0 1px 6px;
+            font-size: {{ $isCompact ? '7.5px' : '8px' }};
         }
         .quote-meta-label {
             color: #64748b;
@@ -220,33 +222,33 @@ $showMrp = isset($show_mrp) ? (bool)$show_mrp : (isset($quotation->show_mrp) ? (
 
         /* Customer Box / Info Card */
         .info-cards-table {
-            margin-bottom: 14px;
+            margin-bottom: 6px;
         }
         .client-box {
             background-color: #f8fafc;
             border: 1px solid #e2e8f0;
-            border-left: 3.5px solid #0284c7;
-            border-radius: 4px;
-            padding: 8px 12px;
+            border-left: 3px solid #0284c7;
+            border-radius: 3px;
+            padding: 4px 8px;
         }
         .card-label {
-            font-size: 8px;
+            font-size: 7px;
             font-weight: 700;
             color: #0284c7;
             text-transform: uppercase;
-            letter-spacing: 0.8px;
-            margin-bottom: 4px;
-        }
-        .client-name {
-            font-size: 12px;
-            font-weight: bold;
-            color: #0f172a;
+            letter-spacing: 0.6px;
             margin-bottom: 2px;
         }
+        .client-name {
+            font-size: {{ $isCompact ? '10px' : '11px' }};
+            font-weight: bold;
+            color: #0f172a;
+            margin-bottom: 1px;
+        }
         .client-info-text {
-            font-size: 8.5px;
+            font-size: {{ $isCompact ? '7.5px' : '8px' }};
             color: #475569;
-            line-height: 1.4;
+            line-height: 1.3;
         }
         .gst-pill {
             display: inline-block;
@@ -254,17 +256,17 @@ $showMrp = isset($show_mrp) ? (bool)$show_mrp : (isset($quotation->show_mrp) ? (
             border: 1px solid #cbd5e1;
             color: #1e293b;
             font-weight: 700;
-            font-size: 8px;
-            padding: 1px 6px;
+            font-size: 7.5px;
+            padding: 0.5px 5px;
             border-radius: 3px;
-            margin-top: 3px;
+            margin-top: 1px;
         }
 
         /* Items Table */
         .items-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 14px;
+            margin-bottom: 6px;
         }
         .items-table thead {
             display: table-header-group;
@@ -276,10 +278,10 @@ $showMrp = isset($show_mrp) ? (bool)$show_mrp : (isset($quotation->show_mrp) ? (
             background-color: #0f172a;
             color: #ffffff;
             font-weight: 700;
-            font-size: 8.5px;
+            font-size: {{ $isCompact ? '7.5px' : '8px' }};
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: 6px 8px;
+            letter-spacing: 0.4px;
+            padding: {{ $isCompact ? '3px 5px' : '5px 6px' }};
             border-top: 1px solid #0f172a;
             border-bottom: 1px solid #0f172a;
         }
@@ -294,57 +296,57 @@ $showMrp = isset($show_mrp) ? (bool)$show_mrp : (isset($quotation->show_mrp) ? (
             background-color: #fbfcfe;
         }
         .items-table td {
-            padding: 6px 8px;
+            padding: {{ $isCompact ? '2px 5px' : '4px 6px' }};
             vertical-align: middle;
             color: #334155;
-            font-size: 9px;
+            font-size: {{ $isCompact ? '7.8px' : '8.5px' }};
         }
         .items-table td.left { text-align: left; }
         .items-table td.center { text-align: center; }
         .items-table td.right { text-align: right; }
         
         .item-thumb {
-            width: 36px;
-            height: 36px;
-            border-radius: 3px;
+            width: {{ $isCompact ? '24px' : '30px' }};
+            height: {{ $isCompact ? '24px' : '30px' }};
+            border-radius: 2px;
             border: 1px solid #e2e8f0;
             background-color: #ffffff;
             object-fit: cover;
         }
         .item-thumb-placeholder {
-            width: 36px;
-            height: 36px;
-            border-radius: 3px;
+            width: {{ $isCompact ? '24px' : '30px' }};
+            height: {{ $isCompact ? '24px' : '30px' }};
+            border-radius: 2px;
             border: 1px solid #e2e8f0;
             background-color: #f1f5f9;
             text-align: center;
-            line-height: 36px;
+            line-height: {{ $isCompact ? '24px' : '30px' }};
             color: #94a3b8;
-            font-size: 13px;
+            font-size: 10px;
         }
         
         .item-title {
-            font-size: 9.5px;
+            font-size: {{ $isCompact ? '8px' : '9px' }};
             font-weight: 700;
             color: #0f172a;
-            line-height: 1.3;
+            line-height: 1.2;
         }
         .item-sku {
             display: inline-block;
-            font-size: 7.5px;
+            font-size: 7px;
             color: #0369a1;
             background-color: #e0f2fe;
             border: 1px solid #bae6fd;
             font-weight: 700;
-            padding: 0.5px 4px;
-            border-radius: 3px;
-            margin-left: 3px;
+            padding: 0px 3px;
+            border-radius: 2px;
+            margin-left: 2px;
         }
         .item-desc {
-            font-size: 8px;
+            font-size: 7px;
             color: #64748b;
-            margin-top: 1.5px;
-            line-height: 1.3;
+            margin-top: 1px;
+            line-height: 1.2;
         }
         .item-total-col {
             font-weight: 700;
@@ -356,7 +358,7 @@ $showMrp = isset($show_mrp) ? (bool)$show_mrp : (isset($quotation->show_mrp) ? (
             width: 100%;
             border-collapse: collapse;
             page-break-inside: avoid;
-            margin-bottom: 14px;
+            margin-bottom: 6px;
         }
         .summary-wrapper td {
             vertical-align: top;
@@ -366,36 +368,36 @@ $showMrp = isset($show_mrp) ? (bool)$show_mrp : (isset($quotation->show_mrp) ? (
         .amount-words-box {
             background-color: #f8fafc;
             border: 1px solid #e2e8f0;
-            border-radius: 4px;
-            padding: 8px 10px;
-            margin-right: 14px;
+            border-radius: 3px;
+            padding: 4px 8px;
+            margin-right: 10px;
         }
         .amount-words-title {
-            font-size: 7.5px;
+            font-size: 7px;
             font-weight: 700;
             color: #64748b;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 2px;
+            margin-bottom: 1.5px;
         }
         .amount-words-val {
-            font-size: 9px;
+            font-size: {{ $isCompact ? '7.5px' : '8px' }};
             font-weight: 700;
             color: #0f172a;
             font-style: italic;
-            line-height: 1.35;
+            line-height: 1.25;
         }
 
         .totals-table {
             width: 100%;
             border-collapse: collapse;
             border: 1px solid #e2e8f0;
-            border-radius: 4px;
+            border-radius: 3px;
             overflow: hidden;
         }
         .totals-table td {
-            padding: 4px 10px;
-            font-size: 9px;
+            padding: {{ $isCompact ? '1.5px 6px' : '3px 8px' }};
+            font-size: {{ $isCompact ? '7.5px' : '8px' }};
             border-bottom: 1px solid #f1f5f9;
         }
         .totals-table .t-label {
@@ -412,12 +414,12 @@ $showMrp = isset($show_mrp) ? (bool)$show_mrp : (isset($quotation->show_mrp) ? (
             font-weight: 700;
         }
         .totals-table .grand-row td {
-            font-size: 11.5px;
+            font-size: {{ $isCompact ? '9.5px' : '10.5px' }};
             font-weight: 800;
             background-color: #0f172a;
             color: #ffffff;
             border: none;
-            padding: 7px 10px;
+            padding: {{ $isCompact ? '3.5px 6px' : '5px 8px' }};
         }
         .totals-table .grand-row .t-label {
             color: #ffffff;
@@ -433,7 +435,7 @@ $showMrp = isset($show_mrp) ? (bool)$show_mrp : (isset($quotation->show_mrp) ? (
             width: 100%;
             border-collapse: collapse;
             page-break-inside: avoid;
-            margin-top: 10px;
+            margin-top: 4px;
         }
         .bottom-section td {
             vertical-align: top;
@@ -443,59 +445,59 @@ $showMrp = isset($show_mrp) ? (bool)$show_mrp : (isset($quotation->show_mrp) ? (
         .terms-card {
             background-color: #ffffff;
             border: 1px solid #e2e8f0;
-            border-radius: 4px;
-            padding: 8px 10px;
-            margin-right: 14px;
+            border-radius: 3px;
+            padding: 4px 6px;
+            margin-right: 10px;
         }
         .terms-heading {
-            font-size: 8px;
+            font-size: 7px;
             font-weight: 700;
             color: #0f172a;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
-            padding-bottom: 3px;
+            letter-spacing: 0.4px;
+            margin-bottom: 2px;
+            padding-bottom: 1.5px;
             border-bottom: 1px solid #f1f5f9;
         }
         .terms-body {
-            font-size: 8px;
+            font-size: {{ $isCompact ? '6.8px' : '7.5px' }};
             color: #475569;
-            line-height: 1.45;
+            line-height: 1.3;
         }
         .terms-body ol {
             margin: 0;
-            padding-left: 12px;
+            padding-left: 10px;
         }
         .terms-body ol li {
-            margin-bottom: 1.5px;
+            margin-bottom: 1px;
         }
 
         .signatory-box {
             text-align: right;
-            padding-top: 4px;
+            padding-top: 2px;
         }
         .signature-img {
-            max-height: 42px;
-            margin-bottom: 2px;
+            max-height: {{ $isCompact ? '26px' : '32px' }};
+            margin-bottom: 1px;
         }
         .sign-line {
-            border-top: 1.5px solid #0f172a;
-            width: 140px;
+            border-top: 1px solid #0f172a;
+            width: 110px;
             display: inline-block;
-            margin-top: 4px;
+            margin-top: 2px;
         }
         .sign-label {
-            font-size: 8px;
+            font-size: 7px;
             color: #0f172a;
-            margin-top: 3px;
+            margin-top: 2px;
             text-transform: uppercase;
             font-weight: 800;
-            letter-spacing: 0.4px;
+            letter-spacing: 0.3px;
         }
         .sign-company {
-            font-size: 7.5px;
+            font-size: 6.5px;
             color: #64748b;
-            margin-top: 1px;
+            margin-top: 0.5px;
             font-weight: 600;
         }
     </style>
@@ -518,7 +520,7 @@ $showMrp = isset($show_mrp) ? (bool)$show_mrp : (isset($quotation->show_mrp) ? (
             <!-- Company Info (Left) -->
             <td style="width: 56%;">
                 @if($logoImg)
-                    <div style="margin-bottom: 4px;">
+                    <div style="margin-bottom: 2px;">
                         <img src="{{ $logoImg }}" alt="Logo" class="company-logo-img">
                     </div>
                 @endif
@@ -542,12 +544,12 @@ $showMrp = isset($show_mrp) ? (bool)$show_mrp : (isset($quotation->show_mrp) ? (
             <!-- Quotation Info (Right) -->
             <td style="width: 44%;" class="quote-header-right">
                 @if($jgLogoImg)
-                    <div style="margin-bottom: 6px;">
-                        <img src="{{ $jgLogoImg }}" alt="Logo" style="max-height: 40px; max-width: 140px; vertical-align: middle;">
+                    <div style="margin-bottom: 3px;">
+                        <img src="{{ $jgLogoImg }}" alt="Logo" style="max-height: {{ $isCompact ? '28px' : '34px' }}; max-width: 120px; vertical-align: middle;">
                     </div>
                 @endif
                 @if(!empty($company?->slogan))
-                    <div style="font-size: 8.5px; color: #0284c7; font-weight: 700; font-style: italic; margin-bottom: 4px;">{{ $company->slogan }}</div>
+                    <div style="font-size: 7.5px; color: #0284c7; font-weight: 700; font-style: italic; margin-bottom: 2px;">{{ $company->slogan }}</div>
                 @endif
                 
                 <div class="quote-doc-title">QUOTATION</div>
@@ -607,13 +609,13 @@ $showMrp = isset($show_mrp) ? (bool)$show_mrp : (isset($quotation->show_mrp) ? (
         <thead>
             <tr>
                 <th class="center" style="width: 4%;">#</th>
-                <th class="left" style="width: 8%;">Image</th>
-                <th class="left" style="width: {{ $showMrp ? '38%' : '48%' }};">Item & Description</th>
-                <th class="center" style="width: 7%;">Qty</th>
+                <th class="left" style="width: 7%;">Image</th>
+                <th class="left" style="width: {{ $showMrp ? '41%' : '51%' }};">Item & Description</th>
+                <th class="center" style="width: 6%;">Qty</th>
                 @if($showMrp)
                     <th class="right" style="width: 13%;">MRP (Rs.)</th>
                 @endif
-                <th class="right" style="width: 14%;">Rate (Rs.)</th>
+                <th class="right" style="width: 13%;">Rate (Rs.)</th>
                 <th class="right" style="width: 16%;">Total (Rs.)</th>
             </tr>
         </thead>
@@ -646,7 +648,7 @@ $showMrp = isset($show_mrp) ? (bool)$show_mrp : (isset($quotation->show_mrp) ? (
             </tr>
             @empty
             <tr>
-                <td colspan="{{ $showMrp ? 7 : 6 }}" class="center" style="color: #64748b; padding: 20px;">No items found in this quotation.</td>
+                <td colspan="{{ $showMrp ? 7 : 6 }}" class="center" style="color: #64748b; padding: 10px;">No items found in this quotation.</td>
             </tr>
             @endforelse
         </tbody>
@@ -655,7 +657,7 @@ $showMrp = isset($show_mrp) ? (bool)$show_mrp : (isset($quotation->show_mrp) ? (
     <!-- Calculation & Summary Section -->
     <table class="summary-wrapper">
         <tr>
-            <!-- Left: Amount in Words & Notes -->
+            <!-- Left: Amount in Words -->
             <td style="width: 54%;">
                 <div class="amount-words-box">
                     <div class="amount-words-title">Amount Chargeable (in words)</div>
@@ -744,9 +746,9 @@ $showMrp = isset($show_mrp) ? (bool)$show_mrp : (isset($quotation->show_mrp) ? (
                             </ol>
                         @else
                             <ol>
-                                <li>Quotation is valid for 30 days from the date of issue.</li>
+                                <li>Quotation is valid for 30 days from date of issue.</li>
                                 <li>Payment terms as mutually agreed.</li>
-                                <li>Delivery timeline will be communicated upon order confirmation.</li>
+                                <li>Delivery schedule confirmed upon order.</li>
                             </ol>
                         @endif
                     </div>
@@ -760,7 +762,7 @@ $showMrp = isset($show_mrp) ? (bool)$show_mrp : (isset($quotation->show_mrp) ? (
                         <img src="{{ getLocalImagePath($company?->signature) }}" alt="Signature" class="signature-img">
                         <br>
                     @else
-                        <div style="height: 40px;"></div>
+                        <div style="height: 24px;"></div>
                     @endif
                     <div class="sign-line"></div>
                     <div class="sign-label">AUTHORISED SIGNATORY</div>
@@ -774,16 +776,16 @@ $showMrp = isset($show_mrp) ? (bool)$show_mrp : (isset($quotation->show_mrp) ? (
     <script type="text/php">
         if (isset($pdf)) {
             $font = $fontMetrics->getFont("DejaVu Sans", "normal");
-            $size = 7.5;
+            $size = 7;
             $color = array(0.58, 0.64, 0.72); // slate-400
             
             // Left company footer note
-            $pdf->page_text(28, 818, "{{ $company?->company_name ?? 'Bhagyashree Sanitary' }} — Computer Generated Quotation", $font, $size, $color);
+            $pdf->page_text(20, 824, "{{ $company?->company_name ?? 'Bhagyashree Sanitary' }} — Computer Generated Quotation", $font, $size, $color);
             
             // Right page count
             $pageText = "Page {PAGE_NUM} of {PAGE_COUNT}";
             $width = $fontMetrics->getTextWidth($pageText, $font, $size);
-            $pdf->page_text(595 - 28 - $width, 818, $pageText, $font, $size, $color);
+            $pdf->page_text(595 - 20 - $width, 824, $pageText, $font, $size, $color);
         }
     </script>
 </body>

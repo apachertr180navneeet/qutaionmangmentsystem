@@ -333,6 +333,7 @@ class QuotationController extends Controller
                 : (isset($quotation->show_mrp) ? (bool)$quotation->show_mrp : true);
 
             $pdf = Pdf::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])
+                ->setPaper('a4', 'portrait')
                 ->loadView('admin.quotation.pdf', compact('quotation', 'company', 'show_mrp'));
 
             $data = [
@@ -375,6 +376,7 @@ class QuotationController extends Controller
                 : (isset($quotation->show_mrp) ? (bool)$quotation->show_mrp : true);
 
             $pdf = Pdf::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])
+                ->setPaper('a4', 'portrait')
                 ->loadView('admin.quotation.pdf', compact('quotation', 'company', 'show_mrp'));
 
             $filename = 'quotation-' . $quotation->quotation_number . ($show_mrp ? '' : '-no-mrp') . '.pdf';
